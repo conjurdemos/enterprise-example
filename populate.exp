@@ -1,0 +1,28 @@
+#!//usr/bin/env expect
+
+exp_internal 0
+log_user 1
+
+set password "password"
+
+spawn bash
+
+set users [list  \
+  mindy.fredricks \
+  dave.bartell \
+  carlos.vicente \
+  jill.blair \
+  russ.reed \
+  jason.knight \
+]
+
+foreach u $users {
+  set cmd "conjur user create --as-group security_admin -p $u"
+  send -- "${cmd}\r"
+  expect -ex "${cmd}\r\n"
+  expect -ex "Enter the password (it will not be echoed):"
+  send -- "${password}\r"
+  expect -ex "Confirm the password:"
+  send -- "${password}\r"
+  expect -ex "\$ "
+}
