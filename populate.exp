@@ -6,12 +6,22 @@ match_max 100000
 exp_internal 0
 log_user 1
 
-set password "password"
-
-set prompt "\$ "
-
 spawn bash
 
+# Set prompt per root or non-root bash user
+set prompt "\$ "
+send_user -- "# Determining if you are running as 'root'...\n"
+set cmd "id"
+send -- "${cmd}\r"
+expect -ex "${cmd}\r\n"
+expect {
+  -ex "uid=0(root)" { set prompt "\# " }
+  -ex "uid=" {}
+}
+expect -ex ${prompt}
+
+# Add users
+send_user -- "# Adding users...\n"
 set users [list  \
   mindy.fredricks \
   dave.bartell \
@@ -27,7 +37,7 @@ set users [list  \
   sharon.foster \
   dick.evans \
 ]
-
+set password "password"
 foreach u $users {
   set cmd "conjur user create --as-group security_admin -p $u"
   send -- "${cmd}\r"
@@ -36,5 +46,5 @@ foreach u $users {
   send -- "${password}\r"
   expect -ex "Confirm the password:"
   send -- "${password}\r"
-  expect -ex "\$ "
+  expect -ex ${prompt}
 }
