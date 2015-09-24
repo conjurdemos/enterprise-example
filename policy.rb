@@ -33,3 +33,8 @@ layer('hcm-biz') do |l|
     v.permit %w(execute), l
   end
 end
+layer('hcm-db') do |l|
+  variables.each do |v|
+    v.permit %w(execute), l
+  end
+end
