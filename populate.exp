@@ -1,9 +1,14 @@
 #!//usr/bin/env expect
 
+set timeout -1
+match_max 100000
+
 exp_internal 0
 log_user 1
 
 set password "password"
+
+set prompt "\$ "
 
 spawn bash
 
@@ -14,6 +19,13 @@ set users [list  \
   jill.blair \
   russ.reed \
   jason.knight \
+  jim.harper \
+  cyndi.bruens \
+  barbara.lazar \
+  sam.goodman \
+  jeff.slater \
+  sharon.foster \
+  dick.evans \
 ]
 
 foreach u $users {
