@@ -1,5 +1,4 @@
-#!/usr/bin/env bash -e
-#
+#!/bin/bash -e
 
 conjur script execute --as-group security_admin secrets.rb
 
