@@ -12,17 +12,18 @@ group '/operations' do
 end
 
 group '/employees' do |employees|
-    variable('certs/myorg.com/hrapp1').permit %w(read execute), employees
-  end
+  variable('certs/myorg.com/hrapp1').permit %w(read execute), employees
 end
 
 group('/hradmins') do |hradmins|
-    global_secrets.each do |secret|
-        secret.permit %w(read execute), hradmins
+  global_secrets.each do |secret|
+    secret.permit %w(read execute), hradmins
+  end
 end
 
 group('/operations') do |operations|
-    global_secrets.each do |secret|
-        secret.permit %w(read execute), operations
+  global_secrets.each do |secret|
+    secret.permit %w(read execute), operations
+  end
 end
 
