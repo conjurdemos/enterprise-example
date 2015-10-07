@@ -1,5 +1,6 @@
-# fantasy-football-demo
-A fantasy football application protected with Conjur
+# Human Resources Department Demo
+
+An HR ops team at a large enterprise is authenticating and authorizing apps against external apis for insurance and payroll. They are also doing this for internal api for reporting... some users have visibility into this activity (via their role in conjur) and some don't.
 
 ## Policy as Code
 
