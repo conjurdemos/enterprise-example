@@ -1,0 +1,70 @@
+#!/usr/bin/env ruby
+
+require 'methadone'
+require 'methadone/cli_logger'
+require 'open-uri'
+require 'json'
+
+class String
+  def capitalized
+    self[0].upcase + self[1..-1].gsub(/\s(\S)/){|m| m[0] + m[1].upcase}
+  end
+
+  def replace_spaces replace='_'
+    gsub /\s+/, replace
+  end
+end
+
+class Generator
+  def initialize count
+    @count = count || 100
+  end
+
+  def self.run count
+    new(count).run
+  end
+
+  def run
+    fetch_users(@count){ |fn,un| write_user(fn, un) }
+  end
+
+
+  protected
+
+  def write_user full_name, user_name
+    puts "user: #{full_name} @ #{user_name}"
+  end
+
+  # Return a list of 'User objects'
+  def fetch_users n, &blk
+    response = JSON.parse(open("http://api.randomuser.me/?results=#{n}").read)
+    response['results'].each do |res|
+      name = res['user']['name'].values_at 'first', 'last'
+      blk.call name.map(&:capitalize).join(' '), name.map(&:replace_spaces).join('.')
+    end
+    $stderr.puts "random seed: #{response['seed']}"
+  end
+
+end
+
+class App
+
+  include Methadone::Main
+  include Methadone::CLILogging
+  
+  
+  version '1.0.0'
+  description 'Generates an LDIF files containing a bunch of random posixAccounts'
+  use_log_level_option
+
+  options[:count] = 100
+
+  on '-c COUNT', '--count COUNT', Integer, 'How many user records to generate'
+
+  main do
+    Generator.run options[:count]
+  end
+  
+  go!
+
+end
