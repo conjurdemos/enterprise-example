@@ -1,0 +1,17 @@
+dn: uid=alice,dc=conjur,dc=net
+cn: Alice
+uid: alice
+uidNumber: 1234
+gidNumber: 8
+homeDirectory: /home/alice
+objectClass: posixAccount
+objectClass: top
+
+dn: uid=bob,dc=conjur,dc=net
+cn: Bob
+uid: bob
+uidNumber: 5678
+gidNumber: 8
+homeDirectory: /home/bob
+objectClass: posixAccount
+objectClass: top

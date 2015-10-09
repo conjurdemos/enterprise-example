@@ -1,0 +1,60 @@
+#!/usr/bin/env ruby
+
+require 'tempfile'
+
+require 'methadone'
+require 'methadone/cli_logger'
+
+require 'ladle'
+
+include Methadone::Main
+include Methadone::CLILogging
+
+version '1.0.0'
+description 'Starts a Ladle LDAP server with the given schemas and LDIFS'
+
+options[:ldif_dir] = File.join(File.dirname(__FILE__),'..','ldif')
+options[:domain]  = 'dc=conjur,dc=net'
+
+on('--ldif-dir PATH', 'Directory with ldif files to load.'){|v| options[:ldif_dir] = v}
+on '--domain DOMAIN', 'The base domain for LDAP'
+
+# Cats together multiple ldif files and writes the result to a tempfile.
+# You can't just use `cat`, because you need to ensure a blank line separating
+# each file.
+#
+# Returns the Tempfile object, because they are deleted when GC'd
+def cat_ldifs dir
+  ldifs = Dir["#{dir}/*.ldif"]
+  all = ldifs.map{|path| File.read(path) + "\n\n"}.join
+  Tempfile.new(%w(ldif .ldif)).tap do |tmp|
+    tmp.write(all)
+    tmp.close
+  end
+end
+
+main do
+  tmp = cat_ldifs options[:ldif_dir]
+  port = (ENV['LDAP_PORT'] || 3897).to_i
+
+  info "using ldif in #{tmp.path}"
+
+  # start server
+  server = Ladle::Server.new(
+      port: port,
+      ldif: tmp.path,
+      domain: options[:domain],
+      tmpdir: '/tmp',
+      # custom_schemas: %w(org.apache.directory.server.core.schema.bootstrap.NisSchema)
+  )
+  server.start
+
+
+  info "Started LDAP server on port #{port} with domain #{options[:domain]}"
+
+  sleep # forever
+end
+
+
+go!
+

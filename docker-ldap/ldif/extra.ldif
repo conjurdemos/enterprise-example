@@ -1,0 +1,12 @@
+dn: cn=users,dc=conjur,dc=net
+cn: users
+gidNumber: 8
+objectClass: posixGroup
+objectClass: top
+
+dn: cn=admins,dc=conjur,dc=net
+cn: admins
+gidNumber: 9
+objectClass: posixGroup
+objectClass: top
+memberUid: bob
