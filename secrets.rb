@@ -42,48 +42,48 @@ group '/operations' do
       host('scope.myorg.com')
     ]
   end
-end
 
-group '/employees' do |employees|
-  variable('certs/myorg.com/hrapp1').permit %w(read execute), employees
-end
-
-group('/hradmins') do |hradmins|
-  hr_secrets.each do |secret|
-    secret.permit %w(read execute), hradmins
+  group '/employees' do |employees|
+    variable('certs/myorg.com/hrapp1').permit %w(read execute), employees
   end
-end
 
-group('/developers') do |developers|
-  dev_secrets.each do |secret|
-    secret.permit %w(read execute), developers
-  end
-end
-
-group('/researchers') do |researchers|
-  research_secrets.each do |secret|
-    secret.permit %w(read execute), researchers
-  end
-end
-
-group '/operations' do
-  owns do
-    layer 'hr-hosts' do |layer|
-      hr_secrets.each { |secret| can 'execute', secret }
-      add_member "use_host", group('/hradmins')
-      hr_hosts.each { |host| add_host host }
+  group('/hradmins') do |hradmins|
+    hr_secrets.each do |secret|
+      secret.permit %w(read execute), hradmins
     end
+  end
 
-    layer 'development-hosts' do |layer|
-      dev_secrets.each { |secret| can 'execute', secret }
-      add_member "use_host", group('/developers')
-      dev_hosts.each { |host| add_host host }
+  group('/developers') do |developers|
+    dev_secrets.each do |secret|
+      secret.permit %w(read execute), developers
     end
+  end
 
-    layer 'research-hosts' do |layer|
-      research_secrets.each { |secret| can 'execute', secret }
-      add_member "use_host", group('/researchers')
-      research_hosts.each { |host| add_host host }
+  group('/researchers') do |researchers|
+    research_secrets.each do |secret|
+      secret.permit %w(read execute), researchers
+    end
+  end
+
+  group '/operations' do
+    owns do
+      layer 'hr-hosts' do |layer|
+        hr_secrets.each { |secret| can 'execute', secret }
+        add_member "use_host", group('/hradmins')
+        hr_hosts.each { |host| add_host host }
+      end
+
+      layer 'development-hosts' do |layer|
+        dev_secrets.each { |secret| can 'execute', secret }
+        add_member "use_host", group('/developers')
+        dev_hosts.each { |host| add_host host }
+      end
+
+      layer 'research-hosts' do |layer|
+        research_secrets.each { |secret| can 'execute', secret }
+        add_member "use_host", group('/researchers')
+        research_hosts.each { |host| add_host host }
+      end
     end
   end
 end
