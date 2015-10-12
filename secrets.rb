@@ -17,8 +17,8 @@ group '/operations' do
     ]
 
     research_secrets = [
-      variable('services/researchtoday.com/api-key'),
-      variable('services/innovation.com/api-key'),
+      resource('webservice', 'researchtoday.com/api-key'),
+      resource('webservice', 'innovation.com/api-key'),
       variable('licenses/modeler')
     ]
 
