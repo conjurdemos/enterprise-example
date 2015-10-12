@@ -7,6 +7,7 @@ hradmin_logins = logins[0..1]
 operation_logins = logins[2..11]
 developer_logins = logins[12..42]
 research_logins = logins[43..73]
+qa_logins = logins[73..93]
 
 logins.each do |login|
   user login, ownerid: api.group('security_admin').roleid, password: "password"
@@ -30,4 +31,8 @@ end
 
 group '/researchers' do
   research_logins.each { |login| add_member user(login) }
+end
+
+group '/qa' do
+  qa_logins.each { |login| add_member user(login) }
 end

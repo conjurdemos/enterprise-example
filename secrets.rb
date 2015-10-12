@@ -1,5 +1,6 @@
-hr_secrets = dev_secrets = research_secrets = nil
-hr_hosts = dev_hosts = research_hosts = nil
+hr_secrets = dev_secrets = research_secrets = qa_secrets = nil
+hr_hosts = dev_hosts = research_hosts = qa_hosts = nil
+qa_report_key = nil
 
 group '/operations' do
   owns do
@@ -22,6 +23,11 @@ group '/operations' do
       variable('licenses/modeler')
     ]
 
+    qa_secrets = [
+      resource('webservice', 'myorg.com/qa/ci_tool/api-key'),
+      qa_report_key = resource('webservice', 'myorg.com/qa/ci_tool/report-api-key')
+    ]
+
     hr_hosts = [
       host('hr1.myorg.com'),
       host('hr2.myorg.com'),
@@ -41,6 +47,8 @@ group '/operations' do
       host('modeling4.myorg.com'),
       host('scope.myorg.com')
     ]
+
+    qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
   end
 
   group '/employees' do |employees|
@@ -57,11 +65,18 @@ group '/operations' do
     dev_secrets.each do |secret|
       secret.permit %w(read execute), developers
     end
+    qa_report_key.permit %w(execute), developers
   end
 
   group('/researchers') do |researchers|
     research_secrets.each do |secret|
       secret.permit %w(read execute), researchers
+    end
+  end
+
+  group('/qa') do |qa|
+    qa_secrets.each do |secret|
+      secret.permit %w(read update execute), qa
     end
   end
 
@@ -83,6 +98,12 @@ group '/operations' do
         research_secrets.each { |secret| can 'execute', secret }
         add_member "use_host", group('/researchers')
         research_hosts.each { |host| add_host host }
+      end
+
+      layer 'qa-hosts' do |layer|
+        qa_secrets.each { |secret| can 'execute', secret }
+        add_member "use_host", group('/qa')
+        qa_hosts.each { |host| add_host host }
       end
     end
   end
