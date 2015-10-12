@@ -1,16 +1,19 @@
+# coding: utf-8
 cwd = File.dirname(__FILE__)
 logins = File.open("#{cwd}/names.txt", "r:UTF-8").readlines.map! { |x| x.chomp! }
+logins.select! { |x| !x.empty? }
+
+hradmin_logins = logins[0..1]
+operation_logins = logins[2..11]
+developer_logins = logins[12..42]
+research_logins = logins[43..73]
 
 logins.each do |login|
-  login.chomp!
-  if !login.empty? then
-    user login, ownerid: api.group('security_admin').roleid, password: "password"
-  end   
+  user login, ownerid: api.group('security_admin').roleid, password: "password"
 end
 
 group '/hradmins' do
-  add_member user('june.riley'), admin_option: true
-  add_member user('riekje.tieman'), admin_option: true
+  hradmin_logins.each { |login| add_member user(login), admin_option: true }
 end
 
 group '/employees' do
@@ -18,13 +21,13 @@ group '/employees' do
 end
 
 group '/operations' do
-  add_member user('russ.reed'), admin_option: true
-  add_member user('jason.knight'), admin_option: true
-  add_member user('kyle.wheeler'), admin_option: true
-  add_member user('marin.dubois'), admin_option: true
-  add_member user('carol.rodriquez'), admin_option: true
-  add_member user('karen.wood'), admin_option: true
-  add_member user('caroline.mccoy'), admin_option: true
-  add_member user('june.riley'), admin_option: true
-  add_member user('riekje.tieman'), admin_option: true
+  operation_logins.each { |login| add_member user(login), admin_option: true }
+end
+
+group '/developers' do
+  developer_logins.each { |login| add_member user(login) }
+end
+
+group '/researchers' do
+  research_logins.each { |login| add_member user(login) }
 end
