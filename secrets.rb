@@ -108,3 +108,5 @@ group '/operations' do
     end
   end
 end
+
+hr_hosts.each { |host| host.resource.annotations['host_type'] = 'SOX' }
