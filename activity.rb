@@ -83,6 +83,6 @@ if hire_chance.check? then
 end
 
 if fire_chance.check? then
-  fire_random_from_group conjur, 'employees'
+  who = fire_random_from_group conjur, 'employees'
   puts "Terminated #{who}"
 end
