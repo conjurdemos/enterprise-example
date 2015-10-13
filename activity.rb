@@ -18,7 +18,7 @@ end
   
 # Load configuration file
 Conjur::Config.load
-conjur = Conjur::Authn.connect nil
+conjur = Conjur::Authn.connect nil, noask: true
 
 user_api = login_random_from_group conjur, 'developers'
 puts "Logged in as #{user_api.username}"
