@@ -4,6 +4,10 @@ require 'conjur-api'
 require 'open-uri'
 require 'active_support/inflector'
 
+INTERVAL = 60
+DAY = 86400
+DAILY_SAMPLES = DAY / INTERVAL
+
 class Chance
   def initialize chance, sample_size
     @chance = chance
@@ -15,18 +19,39 @@ class Chance
   end
 end
 
-INTERVAL = 60
-DAY = 86400
-DAILY_SAMPLES = DAY / INTERVAL
+# Vary a baseline value between a min and max cyclically over a given time period.
+class CyclicValue
+  def initialize baseline, min_value, max_value, time_period, interval
+    @baseline = baseline
+    @min_value = min_value
+    @max_value = max_value
+    @time_period = time_period
+    @chance = Chance.new(2*(max_value - min_value), time_period / interval)
+  end
 
-hire_chance = Chance.new(3, DAILY_SAMPLES)
-fire_chance = Chance.new(3, DAILY_SAMPLES)
+  def delta current_value, time: nil
+    return 0 unless @chance.check?
+    
+    time ||= Time.now
+    day_offset = time.to_i % @time_period
+    delta = (day_offset < @time_period / 2) ? -1 : 1
+
+    if (((current_value >= @max_value) and delta > 0) or
+        ((current_value <= @min_value) and delta < 0))
+      delta = 0
+    end
+
+    return delta
+  end
+end
+
+user_cycle = CyclicValue.new 400, 360, 440, 2 * DAY, INTERVAL
 
 def random_user_from_group conjur, group_name
   group = conjur.group group_name
   group.role.members.sample.member.id
 end
-  
+
 def login_random_from_group conjur, group_name
   loop do
     who = random_user_from_group conjur, group_name
@@ -87,24 +112,29 @@ def fire_random_from_group conjur, group_name
   return system(*%W(conjur user retire), "#{who}") ? who : nil
 end
 
-# Load configuration file
-Conjur::Config.load
-conjur = Conjur::Authn.connect nil, noask: true
+def main
+  # Load configuration file
+  Conjur::Config.load
+  conjur = Conjur::Authn.connect nil, noask: true
 
-user_api = login_random_from_group conjur, 'developers'
-puts "Logged in as #{user_api.username}"
+  user_api = login_random_from_group conjur, 'developers'
+  puts "Logged in as #{user_api.username}"
 
-secrets = %w(licenses/compiler licenses/profiler licenses/coverity)
-secret = user_api.variable secrets.sample
-secret.value
-puts "Read secret #{secret.id}"
+  secrets = %w(licenses/compiler licenses/profiler licenses/coverity)
+  secret = user_api.variable secrets.sample
+  secret.value
+  puts "Read secret #{secret.id}"
 
-if hire_chance.check? then
-  who = hire_random_to_group conjur, 'employees'
-  puts "Hired #{who}"
+  user_delta = user_cycle.delta
+  if user_delta > 0
+    who = hire_random_to_group conjur, 'employees'
+    puts "Hired #{who}"
+  elsif user_delta < 0
+    who = fire_random_from_group conjur, 'employees'
+    puts "Terminated #{who}"
+  end
 end
 
-if fire_chance.check? then
-  who = fire_random_from_group conjur, 'employees'
-  puts "Terminated #{who}"
+if __FILE__ == $0
+  main
 end
