@@ -60,9 +60,31 @@ def hire_random_to_group conjur, group_name
   return who
 end
 
+def member_of_group? conjur, who, group_name
+  conjur.group(group_name).role.members.any? { |m| m.member.id == who }
+end
+
+# A member of one of these groups cannot be fired. This is necessary
+# until the hiring/firing logic is made smarter to keep the groups
+# populated.
+GROUPS_PROTECTED_FROM_FIRE = %w(developers hradmins operations qa researchers security_admin)
+
+def protected_from_fire? conjur, who
+  return true if who == "testuser"
+
+  GROUPS_PROTECTED_FROM_FIRE.any? do |g|
+    member_of_group? conjur, who, g
+  end
+end
+
 def fire_random_from_group conjur, group_name
-  who = random_user_from_group conjur, group_name
-  return system(*%W(conjur user retire #{who})) ? who : nil;
+  who = nil
+  loop do
+    who = random_user_from_group conjur, group_name
+    break unless protected_from_fire? conjur, who
+  end
+
+  return system(*%W(conjur user retire), "#{who}") ? who : nil
 end
 
 # Load configuration file
