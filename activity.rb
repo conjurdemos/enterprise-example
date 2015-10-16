@@ -45,7 +45,7 @@ class CyclicValue
   end
 end
 
-user_cycle = CyclicValue.new 400, 360, 440, 2 * DAY, INTERVAL
+USER_CYCLE = CyclicValue.new 400, 360, 440, 2 * DAY, INTERVAL
 
 def random_user_from_group conjur, group_name
   group = conjur.group group_name
@@ -125,7 +125,8 @@ def main
   secret.value
   puts "Read secret #{secret.id}"
 
-  user_delta = user_cycle.delta
+  employee_count = conjur.group('employees').role.members.count
+  user_delta = USER_CYCLE.delta employee_count
   if user_delta > 0
     who = hire_random_to_group conjur, 'employees'
     puts "Hired #{who}"
