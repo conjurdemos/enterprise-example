@@ -45,7 +45,7 @@ class CyclicValue
   end
 end
 
-USER_CYCLE = CyclicValue.new 400, 390, 410, 2 * DAY, INTERVAL
+USER_CYCLE = CyclicValue.new 400, 398, 402, 2 * DAY, INTERVAL
 
 def random_user_from_group conjur, group_name
   group = conjur.group group_name
