@@ -36,8 +36,8 @@ class CyclicValue
     day_offset = time.to_i % @time_period
     delta = (day_offset < @time_period / 2) ? -1 : 1
 
-    if (((current_value >= @max_value) and delta > 0) or
-        ((current_value <= @min_value) and delta < 0))
+    if (((current_value >= @max_value) && delta > 0) ||
+        ((current_value <= @min_value) && delta < 0))
       delta = 0
     end
 
