@@ -112,6 +112,12 @@ def fire_random_from_group conjur, group_name
   return system(*%W(conjur user retire), "#{who}") ? who : nil
 end
 
+def connect_as_current_user
+  # Load configuration file
+  Conjur::Config.load
+  return Conjur::Authn.connect nil, noask: true
+end
+
 def main
   # Load configuration file
   Conjur::Config.load
