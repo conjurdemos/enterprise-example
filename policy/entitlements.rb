@@ -1,6 +1,8 @@
-api.group("v1/hr/admins").add_member api.group('hr')
+version = "v2"
 
-api.group("v1/development/admins").add_member api.group('developers')
+api.group("#{version}/hr/admins").add_member api.group('hr')
+
+api.group("#{version}/app-1/admins").add_member api.group('developers')
 
 [
   host('hr1.myorg.com'),
@@ -9,15 +11,15 @@ api.group("v1/development/admins").add_member api.group('developers')
 ].each do |host|
   host.resource.annotations['host_type'] = 'SOX'
     
-  api.layer("v1/hr").add_host host
+  api.layer("#{version}/hr").add_host host
 end
 
 [
-  host('db-dev.myorg.com'),
-  host('build1.myorg.com'),
-  host('build2.myorg.com')
+  host('app-1-db.dev.myorg.com'),
+  host('app-1-frontend.dev.myorg.com'),
+  host('app-1-ws.dev.myorg.com')
 ].each do |host|
-  api.layer("v1/development").add_host host
+  api.layer("#{version}/app-1").add_host host
 end
 
 [
@@ -27,13 +29,14 @@ end
   host('modeling4.myorg.com'),
   host('scope.myorg.com')
 ].each do |host|
-  api.layer("v1/research").add_host host
+  api.layer("#{version}/research").add_host host
 end
 
 qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
 
-api.variable('v1/qa/ci_tool/report-api-key').permit %w(execute), api.group('developers')
+api.variable("#{version}/qa/ci_tool/report-api-key").permit %w(execute), api.group('developers')
 
 %w(team-a team-b).each do |team|
-  api.host("v1/jenkins/#{team}").role.grant_to layer("v1/jenkins")
+  api.host("#{version}/jenkins/#{team}").role.grant_to layer("#{version}/jenkins")
 end
+

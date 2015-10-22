@@ -5,7 +5,8 @@ policy "jenkins/team-b" do
     variable('cloud-2/secret_access_key')
   ]
 
-  host do
+  host do |host|
+    host.resource.annotations['kind'] = "Jenkins folder"
     variables.each {|var| 
       can 'read', var 
       can 'execute', var

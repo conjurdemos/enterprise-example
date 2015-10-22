@@ -1,37 +1,49 @@
-group 'employees'
+employees = group 'employees'
 
 group 'hr-admin' do
   owns do
-    group 'hr'
+    group 'hr' do |g|
+      employees.add_member g
+    end
   end
 end
 
 group 'developers-admin' do
   owns do
-    group 'developers'
+    group 'developers' do |g|
+      employees.add_member g
+    end
   end
 end
 
 group 'researchers-admin' do
   owns do
-    group 'researchers'
+    group 'researchers' do |g|
+      employees.add_member g
+    end
   end
 end
 
 group 'qa-admin' do
   owns do
-    group 'qa'
+    group 'qa' do |g|
+      employees.add_member g
+    end
   end
 end
 
 group 'operations-admin' do
   owns do
-    group 'operations'
+    group 'operations' do |g|
+      employees.add_member g
+    end
   end
 end
 
 group 'ci-admin' do
   owns do
-    group 'ci'
+    group 'ci' do |g|
+      employees.add_member g
+    end
   end
 end
