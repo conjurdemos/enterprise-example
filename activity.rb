@@ -19,33 +19,9 @@ class Chance
   end
 end
 
-# Vary a baseline value between a min and max cyclically over a given time period.
-class CyclicValue
-  def initialize baseline, min_value, max_value, time_period, interval
-    @baseline = baseline
-    @min_value = min_value
-    @max_value = max_value
-    @time_period = time_period
-    @chance = Chance.new(2*(max_value - min_value), time_period / interval)
-  end
-
-  def delta current_value, time: nil
-    return 0 unless @chance.check?
-    
-    time ||= Time.now
-    day_offset = time.to_i % @time_period
-    delta = (day_offset < @time_period / 2) ? -1 : 1
-
-    if (((current_value >= @max_value) && delta > 0) ||
-        ((current_value <= @min_value) && delta < 0))
-      delta = 0
-    end
-
-    return delta
-  end
-end
-
-USER_CYCLE = CyclicValue.new 400, 398, 402, 2 * DAY, INTERVAL
+USER_CHURN_CHANCE = Chance.new(1, DAY)
+MIN_USERS = 396
+MAX_USERS = 404
 
 def random_user_from_group conjur, group_name
   group = conjur.group group_name
@@ -109,7 +85,31 @@ def fire_random_from_group conjur, group_name
     break unless protected_from_fire? conjur, who
   end
 
+  puts "Attempting to terminate #{who}"
   return system(*%W(conjur user retire), "#{who}") ? who : nil
+end
+
+def hire_or_fire conjur
+  employee_count = conjur.resources(kind: "user").count
+  begin
+    user_delta = Random.rand(MIN_USERS..MAX_USERS) - employee_count
+  end until user_delta != 0;
+  
+  puts "Adjust employee count #{employee_count} to #{employee_count + user_delta}"
+  if user_delta > 0
+    user_delta.times do
+      who = hire_random_to_group conjur, 'employees'
+      puts "Hired #{who}"
+    end
+  elsif user_delta < 0
+    (-user_delta).times do
+      begin
+        who = fire_random_from_group conjur, 'employees'
+      end until who != nil
+      
+      puts "Terminated #{who}"
+    end
+  end
 end
 
 def connect_as_current_user
@@ -131,14 +131,8 @@ def main
   secret.value
   puts "Read secret #{secret.id}"
 
-  employee_count = conjur.group('employees').role.members.count
-  user_delta = USER_CYCLE.delta employee_count
-  if user_delta > 0
-    who = hire_random_to_group conjur, 'employees'
-    puts "Hired #{who}"
-  elsif user_delta < 0
-    who = fire_random_from_group conjur, 'employees'
-    puts "Terminated #{who}"
+  if USER_CHURN_CHANCE.check?
+    hire_or_fire conjur
   end
 end
 
