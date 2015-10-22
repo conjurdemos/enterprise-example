@@ -3,6 +3,7 @@ require 'conjur/cli'
 require 'conjur-api'
 require 'open-uri'
 require 'active_support/inflector'
+require 'set'
 
 INTERVAL = 60
 DAY = 86400
@@ -23,9 +24,30 @@ USER_CHURN_CHANCE = Chance.new(1, DAY)
 MIN_USERS = 396
 MAX_USERS = 404
 
-def random_user_from_group conjur, group_name
+def random_user_set_from_group conjur, group_name, count: 1
   group = conjur.group group_name
-  group.role.members.sample.member.id
+  grants = group.role.members
+  user_grants = grants.select { |g| g.member.kind == 'user' }
+
+  results = Set.new
+  begin
+    role = user_grants.sample.member
+    if !results.include? role.id
+      # Workaround for #106344362. The code will fail with
+      # Forbidden if user is already retired.
+      conjur.user(role.id).uidnumber
+
+      results.add(role.id)
+    end
+  rescue RestClient::Forbidden
+    # Ignore
+  end while results.size < count
+
+  results.to_a
+end
+
+def random_user_from_group conjur, group_name
+  random_user_set_from_group(conjur, group_name, count: 1)[0]
 end
 
 def login_random_from_group conjur, group_name
@@ -54,11 +76,13 @@ def fetch_unique_user_name conjur
   end
 end
 
-def hire_random_to_group conjur, group_name
-  who = fetch_unique_user_name conjur
-  conjur.create_user who, ownerid: conjur.group('security_admin').roleid, password: 'password'
-  conjur.group(group_name).add_member conjur.user(who)
-  return who
+def hire_random_to_group conjur, group_name, count: 1
+  count.times do
+    who = fetch_unique_user_name conjur
+    conjur.create_user who, ownerid: conjur.group('security_admin').roleid, password: 'password'
+    conjur.group(group_name).add_member conjur.user(who)
+    puts "Hired #{who}"
+  end
 end
 
 def member_of_group? conjur, who, group_name
@@ -78,15 +102,25 @@ def protected_from_fire? conjur, who
   end
 end
 
-def fire_random_from_group conjur, group_name
-  who = nil
-  loop do
-    who = random_user_from_group conjur, group_name
-    break unless protected_from_fire? conjur, who
-  end
 
+def fire_user conjur, who
   puts "Attempting to terminate #{who}"
-  return system(*%W(conjur user retire), "#{who}") ? who : nil
+  if system(*%W(conjur user retire), "#{who}")
+    puts "Terminated #{who}"
+  end
+end
+
+def fire_random_from_group conjur, group_name, count: 1
+  fire_list = []
+  while fire_list.size < count
+    users = random_user_set_from_group conjur, group_name, count: count - fire_list.size
+    users.each do |who|
+      if !fire_list.include? who
+        fire_user conjur, who
+        fire_list.push who
+      end
+    end
+  end
 end
 
 def hire_or_fire conjur
@@ -97,18 +131,9 @@ def hire_or_fire conjur
   
   puts "Adjust employee count #{employee_count} to #{employee_count + user_delta}"
   if user_delta > 0
-    user_delta.times do
-      who = hire_random_to_group conjur, 'employees'
-      puts "Hired #{who}"
-    end
+    hire_random_to_group conjur, 'employees', count: user_delta
   elsif user_delta < 0
-    (-user_delta).times do
-      begin
-        who = fire_random_from_group conjur, 'employees'
-      end until who != nil
-      
-      puts "Terminated #{who}"
-    end
+    fire_random_from_group conjur, 'employees', count: -user_delta
   end
 end
 
