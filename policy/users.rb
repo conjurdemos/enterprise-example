@@ -13,26 +13,26 @@ logins.each do |login|
   user login, ownerid: api.group('security_admin').roleid, password: "password"
 end
 
-group '/hradmins' do
+api.group 'hr-admin' do
   hradmin_logins.each { |login| add_member user(login), admin_option: true }
 end
 
-group '/employees' do
+api.group 'employees' do
   logins.each { |login| add_member user(login) }
 end
 
-group '/operations' do
-  operation_logins.each { |login| add_member user(login), admin_option: true }
+api.group 'operations' do
+  operation_logins.each { |login| add_member user(login)}
 end
 
-group '/developers' do
+api.group 'developers' do
   developer_logins.each { |login| add_member user(login) }
 end
 
-group '/researchers' do
+api.group 'researchers' do
   research_logins.each { |login| add_member user(login) }
 end
 
-group '/qa' do
+api.group 'qa' do
   qa_logins.each { |login| add_member user(login) }
 end
