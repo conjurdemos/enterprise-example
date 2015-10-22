@@ -20,7 +20,7 @@ class Chance
   end
 end
 
-USER_CHURN_CHANCE = Chance.new(1, DAY)
+USER_CHURN_CHANCE = Chance.new(1, DAILY_SAMPLES)
 MIN_USERS = 396
 MAX_USERS = 404
 
