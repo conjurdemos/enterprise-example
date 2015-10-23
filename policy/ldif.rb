@@ -113,6 +113,10 @@ end
 include Methadone::Main
 include Methadone::CLILogging
 
+version '0.0.1'
+description 'Generate an LDIF file from a YAML file containing users'
+arg :input_file, :required
+arg :output_file, :required
 
 
 main do |input, output|
