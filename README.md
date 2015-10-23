@@ -8,7 +8,7 @@ YouTube video walkthrough (5 minutes):
 
 # Running the demo
 
-* Request a Conjur demo appliance at https://info.conjur.net/demo
+* Request a Conjur demo appliance at https://demo-factory-conjur.herokuapp.com/request/secrets
 * Once you receive the email, `ssh` to the demo machine using the information provided
 * Clone the repository and load the data:
 
