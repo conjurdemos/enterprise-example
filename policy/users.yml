@@ -1,0 +1,178 @@
+---
+kyle.wheeler:
+  groups:
+  - hr-admin
+marin.dubois:
+  groups:
+  - hr-admin
+carol.rodriquez:
+  groups:
+  - hr
+karen.wood:
+  groups:
+  - hr
+caroline.mccoy:
+  groups:
+  - hr
+wayne.walker:
+  groups:
+  - developers-admin
+constance.bourgeois:
+  groups:
+  - developers-admin
+noélie.garnier:
+  groups:
+  - developers-admin
+faiz.rooker:
+  groups:
+  - developers
+soledad.reyes:
+  groups:
+  - developers
+sofia.tikkanen:
+  groups:
+  - developers
+alfredo.coleman:
+  groups:
+  - developers
+gabin.dupont:
+  groups:
+  - developers
+belen.cano:
+  groups:
+  - developers
+emmi.korpela:
+  groups:
+  - developers
+annie.diaz:
+  groups:
+  - developers
+ted.holland:
+  groups:
+  - developers
+jimmy.knight:
+  groups:
+  - developers
+alberto.morgan:
+  groups:
+  - developers
+benjamin.garnier:
+  groups:
+  - developers
+lotta.aho:
+  groups:
+  - developers
+amber.fitzgerald:
+  groups:
+  - researchers-admin
+frederick.curtis:
+  groups:
+  - researchers-admin
+brian.scott:
+  groups:
+  - researchers-admin
+paula.guerrero:
+  groups:
+  - researchers
+jalila.eerland:
+  groups:
+  - researchers
+alicia.montgomery:
+  groups:
+  - researchers
+renatus.broersma:
+  groups:
+  - researchers
+elsa.takala:
+  groups:
+  - researchers
+elena.montero:
+  groups:
+  - researchers
+vicky.johnson:
+  groups:
+  - researchers
+adèle.dupuis:
+  groups:
+  - researchers
+maria.pastor:
+  groups:
+  - researchers
+dustin.bailey:
+  groups:
+  - researchers
+steve.peterson:
+  groups:
+  - qa-admin
+rosie.pearson:
+  groups:
+  - qa-admin
+emilia.calvo:
+  groups:
+  - qa
+rafael.peña:
+  groups:
+  - qa
+mia.caldwell:
+  groups:
+  - qa
+encarnacion.lorenzo:
+  groups:
+  - qa
+konsta.lampi:
+  groups:
+  - qa
+jamie.martin:
+  groups:
+  - qa
+manuel.flores:
+  groups:
+  - qa
+alex.mills:
+  groups:
+  - qa
+méline.lopez:
+  groups:
+  - operations-admin
+hector.jackson:
+  groups:
+  - operations-admin
+anton.honkala:
+  groups:
+  - operations-admin
+isabel.hidalgo:
+  groups:
+  - operations
+alvin.bennett:
+  groups:
+  - operations
+calvin.castillo:
+  groups:
+  - operations
+aada.heikkila:
+  groups:
+  - operations
+sam.davies:
+  groups:
+  - operations
+caitlin.nichols:
+  groups:
+  - operations
+sara.tucker:
+  groups:
+  - operations
+travis.owens:
+  groups:
+  - operations
+lis.houwer:
+  groups:
+  - operations
+mike.thomas:
+  groups:
+  - operations
+raquel.caballero:
+  groups:
+  - operations
+ricky.martin:
+  groups:
+  - operations
