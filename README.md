@@ -2,6 +2,8 @@
 
 This repository models an example enterprise using Conjur. It includes user groups for development, operations, QA, research, HR, etc, along with the related infrastructure systems such as Jenkins.
 
+YouTube video walkthrough (5 minutes):
+
 [![Video Walkthrough (YouTube)](http://img.youtube.com/vi/vpZQNjns0Ks/0.jpg)](http://www.youtube.com/watch?v=vpZQNjns0Ks)
 
 # Running the demo
