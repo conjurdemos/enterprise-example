@@ -1,6 +1,4 @@
-# coding: utf-8
-
-users = YAML.load(File.read(File.expand_path('users.yml', File.dirname(__FILE__))))
+users = YAML.load(File.read(File.expand_path('users.yml', File.dirname(__FILE__)), encoding: "UTF-8"))
 logins = users.keys
 
 logins.each do |login|

@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 # Policy ownership is broken; the policy resource should be owned by the policy role
 # The policy role should be granted to the owning group with admin option
 
