@@ -1,34 +1,59 @@
 # Enterprise Example Demo
 
-An HR ops team at a large enterprise is authenticating and authorizing apps against external APIs for insurance and payroll. They are also doing this for internal API for reporting... some users have visibility into this activity (via their role in Conjur) and some don't.
+This repository models an example enterprise using Conjur. It includes user groups for development, operations, QA, research, HR, etc, along with the related infrastructure systems such as Jenkins.
+
+# Running the demo
+
+* Request a Conjur demo appliance at https://info.conjur.net/demo
+* Once you receive the email, `ssh` to the demo machine using the information provided
+* Clone the repository and load the data:
+
+```sh-session
+$ git clone git@github.com:conjurdemos/enterprise-example.git
+$ cd enterprise-example
+$ ./populate.sh
+```
+
+If the `./populate.sh` script quits with an error `error: "\xC3" from ASCII-8BIT to UTF-8`, simply run it again.
+
+Once the demo data is loaded, you can open the Conjur UI at `http://ec2-your-machine-name.amazonaws.com/ui/`. Your login credentials are `demo / demo`.
 
 # System Components
 
+## Global organization
+
+The organization groups are loaded from the Conjur DSL script  [groups.rb](https://github.com/conjurdemos/enterprise-example/blob/master/policy/groups.rb). 
+
+Some example groups:
+
+* **employees** a group of which every user is a member
+* **operations-admin** a group of HR administrators
+* **operations** a group of HR employees, which is administered by the `hr-admin` group.
+
+The rest of the groups follow the same pattern, e.g. `developers` and `developers-admin`. The members of the "admin" group correspond to the team managers. They can add and remove members of the managed group. 
+
+## Policies
+
+The [policy](https://github.com/conjurdemos/enterprise-example/tree/master/policy) folder contains sub-folders, for example `ci-admin`, `developers-admin`. Each of these folders contains Conjur DSL policies that are owned by the group corresponding to the folder name. 
+
+For example, the [ci-admin](https://github.com/conjurdemos/enterprise-example/tree/master/policy/ci-admin) folder contains policies which govern the Jenkins system. The [jenkins](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/jenkins.rb) policy governs the Conjur layer which holds the Jenkins master and slave machines. [Jenkins team](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/team-a.rb) policies declare secrets (via Conjur variables) which are available to Jenkins jobs located within the corresponding Jenkins Folder. This integration is performed by the Conjur plugin for Jenkins, which is not part of this repository.
+
+## Entitlements
+
+The entitlements DSL script assigns membership in application policy roles to groups from the global organization.
+
+For example, when a declares a Layer, it typically also declares two user groups: `admins` and `users`. The `admins` have admin SSH access to the machines in the layer. The `users` have non-admin SSH access.
+
+An "entitlement" grants membership in one of these policy-specific groups to a user or group from the global organization. For example, the `hr` group is added to the group `v2/hr/admins`, and as a result the `hr` team can SSH admin the machines in the `v2/hr` layer.
+
+# Future direction
+
 ## LDAP
 
-The global organization groups and users are provided by an LDAP directory. Conjur can be configured to sync this directory into Conjur Users and Groups. Conjur can also be configured to authenticate users via LDAP password. The combination of these two features makes Conjur an extension of the enterprise IAM system into infrastructure management.
+The global organization groups and users will be  provided by an LDAP directory. Conjur can be configured to sync this directory into Conjur Users and Groups. Conjur can also be configured to authenticate users via LDAP password. The combination of these two features makes Conjur an extension of the enterprise IAM system into infrastructure management.
 
 References:
 
 * [LDAP Sync](https://github.com/conjurinc/ldap-sync)
 * [LDAP Authn](https://github.com/conjurinc/authn-ldap)
-
-## Policies
-
-* **[optional] Global organization** If the global organization (groups and users) are not available in a directory, they can be loaded by a "users" policy.
-* **Application policies** Application behavior are specified by individual Policy files. Each Policy defines the roles, secrets, and layers for the application. 
-* **Mapping policy** A global "mapping" policy assigns membership in application policy roles to groups from the global organization. For example, an application role `production/hr-app/key-managers` might be granted to organization group `operations`.
-
-To load a policy:
-
-```
-conjur policy load --as-group security_admin --collection prod policy.rb
-```
-
-`collection` is the environment your application runs it (ci, prod, sox, etc). All variables will be namespaced
-with the collection name like so: '<collection>/<variable_name>'.
-
-# System Details
-
-TODO Describe details of the system components such as LDAP server operation, LDAP sync and LDAP authn configuration, policy files and specific policy loading instructions.
 
