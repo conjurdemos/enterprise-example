@@ -101,7 +101,7 @@ objectClass: top
   end
 
   def next_id
-    @counter ||= 0
+    @counter ||= 1100
     @counter += 1
   end
 
