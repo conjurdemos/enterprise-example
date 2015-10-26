@@ -35,7 +35,7 @@ CLI_CONF
 
 docker exec $conjur_cid cat /opt/conjur/etc/ssl/ca.pem > tmp/conjur.pem
 
-sleep 30
+sleep 60
 
 docker run --rm \
 		-e CONJUR_AUTHN_LOGIN=admin \
