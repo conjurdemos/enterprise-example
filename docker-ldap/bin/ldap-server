@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+require 'tempfile'
+require 'ladle'
+
+# Return the directory below the one we're in
+def root
+  "#{File.dirname(__FILE__)}/.."
+end
+
+# Load LDIFS and cat then together
+def ldif_text
+  path = "#{root}/ldif"
+  Dir["#{path}/*.ldif"].map{|p| File.read(p)}.join("\n\n")
+end
+
+def ldif_file
+  # Return the tempfile so it doesn't get deleted when it's GC'd
+  Tempfile.new(%w(ldif .ldif)).tap do |tmp|
+    File.write(tmp.path, ldif_text)
+  end
+end
+
+def jar_path
+  "#{root}/schema/ssh-public-keys-schema.jar"
+end
+
+def serve_ldap
+  tmp = ldif_file
+  server = Ladle::Server.new(
+      ldif: tmp.path,
+      domain: 'dc=example,dc=com',
+      tmpdir: './tmp',
+      custom_schemas: %w(
+          net.conjur.SshPublicKeysSchema
+          org.apache.directory.server.core.schema.bootstrap.NisSchema
+        ),
+      additional_classpath: [jar_path]
+  )
+
+  server.start
+
+  sleep 1 while true
+end
+
+serve_ldap
