@@ -1,0 +1,14 @@
+FROM ruby:2.0
+
+WORKDIR /src
+
+ADD tmp/Gemfile ./
+ADD tmp/Gemfile.lock ./
+
+RUN bundle
+
+ADD tmp ./
+
+ADD test.sh ./
+
+CMD [ "./test.sh" ]

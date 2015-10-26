@@ -12,4 +12,3 @@ for script in $(find policy/* -name "*.rb"); do
 done        	
 
 conjur script execute --as-group security_admin policy/entitlements.rb
-conjur script execute --as-group security_admin policy/fix_policy_ownership.rb
