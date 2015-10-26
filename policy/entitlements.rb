@@ -1,5 +1,17 @@
 version = "v2"
 
+employees = group "employees"
+
+# Grant all top-level groups to the employees group
+# Grant groups to admin groups
+api.groups.each do |group|
+  next if group.resource.annotations[:'ldap-sync/source'].nil?
+  employees.add_member group
+  if group.id =~ /(.*)-admin$/
+    api.group($1).add_member group, admin_option: true
+  end
+end
+
 api.group("#{version}/hr/admins").add_member api.group('hr')
 
 api.group("#{version}/app-1/admins").add_member api.group('developers')

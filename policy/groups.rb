@@ -1,49 +1,13 @@
-employees = group 'employees'
+group 'employees'
 
-group 'hr-admin' do
-  owns do
-    group 'hr' do |g|
-      employees.add_member g
-    end
-  end
-end
+users = YAML.load(File.read(File.expand_path('users.yml', File.dirname(__FILE__)), encoding: "UTF-8"))
 
-group 'developers-admin' do
-  owns do
-    group 'developers' do |g|
-      employees.add_member g
-    end
-  end
-end
+groups = users.values.map do |u|
+  u['groups']
+end.flatten.compact.uniq
 
-group 'researchers-admin' do
-  owns do
-    group 'researchers' do |g|
-      employees.add_member g
-    end
-  end
-end
-
-group 'qa-admin' do
-  owns do
-    group 'qa' do |g|
-      employees.add_member g
-    end
-  end
-end
-
-group 'operations-admin' do
-  owns do
-    group 'operations' do |g|
-      employees.add_member g
-    end
-  end
-end
-
-group 'ci-admin' do
-  owns do
-    group 'ci' do |g|
-      employees.add_member g
-    end
+groups.each do |gname|
+  group gname do |g|
+    g.resource.annotations['ldap-sync/source'] = 'Group creation script'
   end
 end
