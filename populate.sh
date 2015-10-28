@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+mkdir -p tmp
+
 conjur script execute --as-group security_admin policy/groups.rb
 conjur script execute --as-group security_admin policy/users.rb
 
@@ -11,4 +13,4 @@ for script in $(find policy/* -name "*.rb"); do
 	fi
 done        	
 
-conjur script execute --as-group security_admin policy/entitlements.rb
+conjur script execute --as-group security_admin -c tmp/identity-info.json policy/entitlements.rb

@@ -52,3 +52,7 @@ api.variable("#{version}/qa/ci_tool/report-api-key").permit %w(execute), api.gro
   api.host("#{version}/jenkins/#{team}").role.grant_to layer("#{version}/jenkins")
 end
 
+resource "webservice", "authn-tv"
+
+api.layer("#{version}/jenkins").add_host host("jenkins-master")
+api.resource("webservice:authn-tv").permit "execute", api.layer("#{version}/jenkins")
