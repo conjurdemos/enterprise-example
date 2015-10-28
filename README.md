@@ -50,14 +50,22 @@ For example, when a declares a Layer, it typically also declares two user groups
 
 An "entitlement" grants membership in one of these policy-specific groups to a user or group from the global organization. For example, the `hr` group is added to the group `v2/hr/admins`, and as a result the `hr` team can SSH admin the machines in the `v2/hr` layer.
 
-# Future direction
+# LDAP
 
-## LDAP
-
-The global organization groups and users will be  provided by an LDAP directory. Conjur can be configured to sync this directory into Conjur Users and Groups. Conjur can also be configured to authenticate users via LDAP password. The combination of these two features makes Conjur an extension of the enterprise IAM system into infrastructure management.
+The global organization groups and users can be  provided by an LDAP directory. Conjur can be configured to sync this directory into Conjur Users and Groups. Conjur can also be configured to authenticate users via LDAP password. The combination of these two features makes Conjur an extension of the enterprise IAM system into infrastructure management.
 
 References:
 
 * [LDAP Sync](https://github.com/conjurinc/ldap-sync)
 * [LDAP Authn](https://github.com/conjurinc/authn-ldap)
 
+```
+$ ruby policy/ldif.rb policy/users.yml docker-ldap/ldif/users.ldif
+$ docker build -t enterprise-example-ldap docker-ldap
+$ docker run --name ldap --rm -i -P enterprise-example-ldap
+$ $port=$(docker port ldap 3897 | tail -c 6)
+$ ldapsearch -h $DOCKER_HOST -p $port -x -b dc=example,dc=com
+...
+prints out lots of LDIF
+...
+```
