@@ -30,6 +30,7 @@ conjur_cid=$(cat $conjur_cid_file)
 cat << CLI_CONF > tmp/conjur.conf
 appliance_url: https://conjur/api
 account: cucumber
+plugins: [ host-factory ]
 cert_file: /etc/conjur.pem
 CLI_CONF
 

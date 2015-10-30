@@ -1,4 +1,4 @@
-policy "hr" do
+policy "hr/v1" do
   variables = [
     variable('app1'),
     variable('reporting-api-key'),

@@ -1,4 +1,4 @@
-policy "qa" do
+policy "qa/v1" do
   variables = [
     variable('ci_tool/api-key'),
     variable('ci_tool/report-api-key')

@@ -1,4 +1,4 @@
-policy "jenkins" do
+policy "jenkins/v1" do
   admins = group "admins"
   users  = group "users"
 

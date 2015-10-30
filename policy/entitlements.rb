@@ -1,5 +1,3 @@
-version = "v2"
-
 employees = group "employees"
 
 # Grant all top-level groups to the employees group
@@ -12,9 +10,10 @@ api.groups.each do |group|
   end
 end
 
-api.group("#{version}/hr/admins").add_member api.group('hr')
+api.group("prod/bastion/v1/admins").add_member api.group('operations')
+api.group("prod/bastion/v1/users").add_member api.group('developers')
 
-api.group("#{version}/app-1/admins").add_member api.group('developers')
+api.group("prod/starcluster/v1/cluster-users").add_member api.group('researchers')
 
 [
   host('hr1.myorg.com'),
@@ -23,7 +22,7 @@ api.group("#{version}/app-1/admins").add_member api.group('developers')
 ].each do |host|
   host.resource.annotations['host_type'] = 'SOX'
     
-  api.layer("#{version}/hr").add_host host
+  api.layer("prod/hr/v1").add_host host
 end
 
 [
@@ -31,28 +30,33 @@ end
   host('app-1-frontend.dev.myorg.com'),
   host('app-1-ws.dev.myorg.com')
 ].each do |host|
-  api.layer("#{version}/app-1").add_host host
+  api.layer("prod/app-1/v1").add_host host
+end
+
+[
+  host('starcluster.myorg.com'),
+].each do |host|
+  api.layer("prod/starcluster/v1/master").add_host host
 end
 
 [
   host('modeling1.myorg.com'),
   host('modeling2.myorg.com'),
   host('modeling3.myorg.com'),
-  host('modeling4.myorg.com'),
-  host('scope.myorg.com')
+  host('modeling4.myorg.com')
 ].each do |host|
-  api.layer("#{version}/research").add_host host
+  api.layer("prod/starcluster/v1/cluster").add_host host
 end
 
 qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
 
-api.variable("#{version}/qa/ci_tool/report-api-key").permit %w(execute), api.group('developers')
+api.variable("prod/qa/v1/ci_tool/report-api-key").permit %w(execute), api.group('developers')
 
 %w(team-a team-b).each do |team|
-  api.host("#{version}/jenkins/#{team}").role.grant_to layer("#{version}/jenkins")
+  api.host("prod/jenkins/#{team}").role.grant_to layer("prod/jenkins/v1")
 end
 
 resource "webservice", "authn-tv"
 
-api.layer("#{version}/jenkins").add_host host("jenkins-master")
-api.resource("webservice:authn-tv").permit "execute", api.layer("#{version}/jenkins")
+api.layer("prod/jenkins/v1").add_host host("jenkins-master")
+api.resource("webservice:authn-tv").permit "execute", api.layer("prod/jenkins/v1")

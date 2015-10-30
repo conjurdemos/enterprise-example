@@ -1,4 +1,4 @@
-policy "app-1" do
+policy "app-1/v1" do
   variables = [
     variable('licenses/compiler'),
     variable('licenses/profiler'),

@@ -9,7 +9,7 @@ for script in $(find policy/* -name "*.rb"); do
 	read folder group file <<< $(echo $script | tr "/" " ")
 	if [ ! -z "$file" ]; then
 		echo Loading policy $file as group $group
-		conjur policy load --collection v2 --as-group $group $folder/$group/$file
+		conjur policy load --collection prod --as-group $group $folder/$group/$file
 	fi
 done        	
 

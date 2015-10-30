@@ -12,6 +12,8 @@ GEM
     conjur-api (4.19.1)
       activesupport
       rest-client (~> 1.7, >= 1.7.3)
+    conjur-asset-host-factory (1.1.3)
+      conjur-api (>= 4.9.2)
     conjur-cli (4.28.0)
       activesupport
       cas_rest_client
@@ -52,5 +54,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  conjur-asset-host-factory
   conjur-cli
   methadone
