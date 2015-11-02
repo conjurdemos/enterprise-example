@@ -56,8 +56,8 @@ The global organization groups and users can be  provided by an LDAP directory. 
 
 References:
 
-* [LDAP Sync](https://github.com/conjurinc/ldap-sync)
-* [LDAP Authn](https://github.com/conjurinc/authn-ldap)
+* [LDAP Sync](https://developer.conjur.net/server_setup/tools/ldap_sync.html)
+* [LDAP Authn](https://developer.conjur.net/server_setup/tools/authn_ldap.html)
 
 ```
 $ ruby policy/ldif.rb policy/users.yml docker-ldap/ldif/users.ldif
