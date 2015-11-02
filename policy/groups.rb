@@ -8,6 +8,6 @@ end.flatten.compact.uniq
 
 groups.each do |gname|
   group gname do |g|
-    g.resource.annotations['ldap-sync/source'] = 'Group creation script'
+    g.resource.annotations['ldap-sync/source'] = 'ldaps://active-directory'
   end
 end
