@@ -8,11 +8,11 @@ policy "subscriptions" do
   ]
 
   users  = group "users" do
-    users.resource.annotations['description'] = "users group has access to research subscription API keys and licenses to grant users access to subscription web apps"
     variables.each {|var| 
       can 'read', var[0]
       can 'execute', var[0]
       var[0].resource.annotations['description'] = var[1]
     }
   end
+  users.resource.annotations['description'] = "users group has access to research subscription API keys and licenses to grant users access to subscription web apps"
 end
