@@ -6,6 +6,8 @@ policy "app-1/v1" do
     [variable('licenses/coverity'), "License for Coverity"]
   ]
 
+  webservice = resource "webservice"
+
   admins = group "admins"
   admins.resource.annotations['description'] = "This group has elevated ssh access privilege to hosts in the prod/app-1/v1 layer"
   users  = group "users"
