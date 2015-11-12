@@ -66,6 +66,15 @@ bash 'conjur bootstrap' do
   not_if "#{cli_env} test -f /root/bootstrap"
 end
 
+bash 'install hostfactory plugin' do
+  code <<-EOH
+    #{cli_env} conjur plugin install host-factory
+    touch /root/hostfactory
+  EOH
+
+  not_if "#{cli_env} test -f /root/hostfactory"
+end
+
 service 'conjur-ui' do
   action :restart
   supports :restart => true
