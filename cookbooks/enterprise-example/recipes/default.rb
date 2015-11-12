@@ -25,10 +25,19 @@ bash 'configure appliance' do
     set -x
     docker exec -i conjur-appliance \
       evoke configure master -h $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) \
-      -p #{password} #{orgaccount}
+      -p #{password} #{orgaccount} 
     EOH
 
   not_if 'docker exec conjur-appliance test -f /opt/conjur/etc/ssl/conjur.pem'
+end
+
+bash 'generate UI seed file' do
+  code <<-EOH
+    set -x
+    docker exec -i conjur-appliance \
+      evoke seed auditor conjur-ui > /root/conjur-ui-seed.tar
+    EOH
+  not_if { ::File.exists?('/root/conjur-ui-seed.tar') }
 end
 
 file '/root/.netrc' do
@@ -42,7 +51,7 @@ bash 'root home' do
   not_if "expr $(docker  ps -q -a -f name=root-home | wc -c) '>' 0"
 end
 
-cli_image='apotterri/conjur-cli'
+cli_image='conjurinc/conjur-cli'
 bash 'conjur init' do
   code <<-EOH
     #{cli_env} conjur init -h conjur <<< "yes"
