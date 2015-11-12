@@ -6,6 +6,8 @@ policy "app-1/v1" do
     [variable('licenses/coverity'), "Coverity license"]
   ]
 
+  webservice = resource "webservice"
+
   admins = group "admins"
   admins.resource.annotations['description'] = "admins group has ssh access with elevated privilege"
   users  = group "users"
@@ -13,6 +15,7 @@ policy "app-1/v1" do
   
   layer do
     layer.resource.annotations['description'] = "hosts will be added to this layer to grant those hosts access to app-1"
+    can 'update', webservice
     variables.each {|var| 
       can 'read', var[0] 
       can 'execute', var[0]

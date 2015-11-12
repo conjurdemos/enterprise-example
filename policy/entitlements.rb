@@ -48,6 +48,9 @@ end
   api.layer("prod/starcluster/v1/cluster").add_host host
 end
 
+app_1_ws = api.resource("webservice:/prod/app-1/v1")
+app_1_ws.permit "read", api.layer("prod/starcluster/v1/cluster")
+
 qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
 
 api.variable("prod/qa/v1/ci_tool/report-api-key").permit %w(execute), api.group('developers')
