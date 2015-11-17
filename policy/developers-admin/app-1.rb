@@ -3,16 +3,16 @@ policy "app-1/v1" do
   variables = [
     [variable('licenses/compiler'), "License for the app-1 compiler"],
     [variable('licenses/profiler'), "License for the app-1 profiler"],
-    [variable('licenses/coverity'), "Coverity license"]
+    [variable('licenses/coverity'), "License for Coverity"]
   ]
 
   admins = group "admins"
-  admins.resource.annotations['description'] = "admins group has ssh access with elevated privilege"
+  admins.resource.annotations['description'] = "This group has elevated ssh access privilege to hosts in the prod/app-1/v1 layer"
   users  = group "users"
-  users.resource.annotations['description'] = "users group has ssh access with user privilege"
+  users.resource.annotations['description'] = "This group has user-level ssh access privilege to hosts in the prod/app-1/v1 layer"
   
   layer do
-    layer.resource.annotations['description'] = "hosts will be added to this layer to grant those hosts access to app-1"
+    layer.resource.annotations['description'] = "Hosts in this layer are granted access privilege to app-1"
     variables.each {|var| 
       can 'read', var[0] 
       can 'execute', var[0]
