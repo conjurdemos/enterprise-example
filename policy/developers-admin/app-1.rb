@@ -28,7 +28,7 @@ policy "app-1/v1" do
       can 'update', webservice[0]
       can 'read', webservice[0]
       can 'execute', webservice[0]
-      webservice[0].resource.annotations['description'] = webservice[1]
+      webservice[0].annotations['description'] = webservice[1]
     }
 
     add_member "admin_host", admins
