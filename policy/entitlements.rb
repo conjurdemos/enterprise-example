@@ -12,6 +12,8 @@ end
 
 api.group("prod/bastion/v1/admins").add_member api.group('operations')
 api.group("prod/bastion/v1/users").add_member api.group('developers')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/app-1/v1/admins')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/app-1/v1/users')
 
 api.group("prod/starcluster/v1/cluster-users").add_member api.group('researchers')
 
