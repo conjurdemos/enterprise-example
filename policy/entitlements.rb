@@ -48,8 +48,8 @@ end
   api.layer("prod/starcluster/v1/cluster").add_host host
 end
 
-app_1_ws = api.resource("webservice:/prod/app-1/v1")
-app_1_ws.permit "read", api.layer("prod/starcluster/v1/cluster")
+app_1_ws_analytics = api.resource("webservice:/prod/app-1/v1/analytics")
+app_1_ws_analytics.permit "read", api.layer("prod/starcluster/v1/cluster")
 
 qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
 

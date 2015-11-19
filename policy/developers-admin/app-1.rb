@@ -6,7 +6,9 @@ policy "app-1/v1" do
     [variable('licenses/coverity'), "License for Coverity"]
   ]
 
-  webservice = resource "webservice"
+  webservices = [
+    [resource('webservice', 'analytics'), "Webservice for advanced application data analysis"]
+  ]
 
   admins = group "admins"
   admins.resource.annotations['description'] = "This group has elevated ssh access privilege to hosts in the prod/app-1/v1 layer"
@@ -15,11 +17,20 @@ policy "app-1/v1" do
   
   layer do
     layer.resource.annotations['description'] = "Hosts in this layer are granted access privilege to app-1"
+
     variables.each {|var| 
       can 'read', var[0] 
       can 'execute', var[0]
       var[0].resource.annotations['description'] = var[1]
     }
+
+    webservices.each {|webservice|
+      can 'update', webservice[0]
+      can 'read', webservice[0]
+      can 'execute', webservice[0]
+      webservice[0].resource.annotations['description'] = webservice[1]
+    }
+
     add_member "admin_host", admins
     add_member "use_host",   users
   end
