@@ -3,6 +3,8 @@ You can use the Vagrantfile in this directory to start an EC2 instance running a
 
 Start by making sure you have the `vagrant-berkshelf` and `vagrant-aws` plugins installed.
 
+You'll need summon installed and the summon-conjurcli provider (conjurcli.sh) in /usr/libexec/summon.
+You should be logged into conjurops with the conjur cli to access the aws account info.
 You'll need access to either the ci or dev account. Use the corresponding secrets YAML file. If you use the dev account, you'll also need to provide a keypair name and a private key file.
 
 You'll need to pick an admin password, e.g.
