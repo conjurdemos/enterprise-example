@@ -1,4 +1,4 @@
-policy "qa/v1" do
+policy "testers/v1" do
   policy_resource.annotations['description'] = 'QA team policy to restrict access to API keys for web services needed by QA apps'
   variables = [
     [variable('ci_tool/api-key'),"key for access to Continuous Integration (CI) web service"],

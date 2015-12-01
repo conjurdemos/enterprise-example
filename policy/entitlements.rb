@@ -24,14 +24,15 @@ api.group("prod/starcluster/v1/cluster-users").add_member api.group('researchers
 ].each do |host|
   host.resource.annotations['host_type'] = 'SOX'
     
-  api.layer("prod/hr/v1").add_host host
+  api.layer("dev/hr/v1").add_host host
 end
 
 [
-  host('app-1-db.dev.myorg.com'),
-  host('app-1-frontend.dev.myorg.com'),
-  host('app-1-ws.dev.myorg.com')
+  host('app-1-db.myorg.com'),
+  host('app-1-frontend.myorg.com'),
+  host('app-1-ws.myorg.com')
 ].each do |host|
+  api.layer("dev/app-1/v1").add_host host
   api.layer("prod/app-1/v1").add_host host
 end
 
@@ -55,13 +56,13 @@ app_1_ws_analytics.permit "read", api.layer("prod/starcluster/v1/cluster")
 
 qa_hosts = (1..10).map { |i| host("qa#{i}.myorg.com") }
 
-api.variable("prod/qa/v1/ci_tool/report-api-key").permit %w(execute), api.group('developers')
+api.variable("dev/testers/v1/ci_tool/report-api-key").permit %w(execute), api.group('developers')
 
 %w(team-a team-b).each do |team|
-  api.host("prod/jenkins/#{team}").role.grant_to layer("prod/jenkins/v1")
+  api.host("dev/jenkins/#{team}").role.grant_to layer("dev/jenkins/v1")
 end
 
 resource "webservice", "authn-tv"
 
-api.layer("prod/jenkins/v1").add_host host("jenkins-master")
-api.resource("webservice:authn-tv").permit "execute", api.layer("prod/jenkins/v1")
+api.layer("dev/jenkins/v1").add_host host("jenkins-master")
+api.resource("webservice:authn-tv").permit "execute", api.layer("dev/jenkins/v1")

@@ -38,3 +38,5 @@ build/
 
 .vagrant
 
+# OS generated files
+.DS_Store
