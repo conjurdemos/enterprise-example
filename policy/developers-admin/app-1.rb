@@ -15,6 +15,15 @@ policy "app-1/v1" do
   users  = group "users"
   users.resource.annotations['description'] = "This group has user-level ssh access privilege to hosts in the prod/app-1/v1 layer"
   
+  group "secret_managers" do |group|
+    variables.each {|var| 
+      can 'read', var[0]
+      can 'execute', var[0]
+      can 'update', var[0]
+      var[0].resource.annotations['description'] = var[1]
+    }
+  end
+  
   layer do
     layer.resource.annotations['description'] = "Hosts in this layer are granted access privilege to app-1"
 
