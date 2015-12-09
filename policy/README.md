@@ -1,8 +1,8 @@
 ## Conjur Policies
 
-Policies define the structure of your automation environment. Policies scope access to apps, workflows, jobs, services, hosts, layers, or any other unit you may want to define.
+Policies define the access structure of your automation environment. Policies scope access to apps, workflows, jobs, services, hosts, layers, or any other unit you may want to define.
 
-Here we have a list of sample policies designed to secure SSH access to common tools such as Oracle, Salt Stack, and Jenkins. We also have policies designed to support specific use cases, like mapping groups to Jenkins jobs.
+Here we have sample policies designed to secure SSH access to common tools such as Oracle, Salt Stack, and Jenkins. We also have policies designed to support specific use cases, like controlling access to Jenkins jobs.
 
 Conjur policies are written in a Ruby DSL. The Conjur Developer's site has [detailed instructions] (https://developer.conjur.net/tutorials/custom_permissions/dsl.html) on how to modify these files.
 
