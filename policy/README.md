@@ -1,18 +1,19 @@
-##Policy Repo Structure
+##Organizing Policies
 
+<<<<<<< HEAD
 ![policy info arch](https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-info-arch_v3.png)
+=======
+1. Put all policies in the 'policy' directory
+2. Organize policies into workflow folders.
+3. Policies can be scoped to just about anything -- use cases, applications, jobs, services, hosts, layers, etc.
+>>>>>>> 9b603c79b3429defbc174ed2615cc72232d4508d
 
-1. All policies live in the 'policies' directory
-2. Workflows are a collection of policies.
-3. Policies can be scoped to just about anything -- use cases, applications, jobs, services, hosts, workflows, layers, etc.
+<img src="https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-ia.png" width="300px"/>
 
 ##Policy Naming Conventions
 
-1. Avoid extra long folder names and complex hierarchical structures but use information-rich filenames instead.
-2. Put sufficient elements in the structure for easy retrieval and identification but do not overdo it.
-3. Use the underscore ( _ ) as element delimiter. Do not use spaces or other characters such as: ! # $ % & ' @ ^ ` ~ + , . ; = ) (
-4. Use the hyphen ( - ) to delimit words within an element or capitalize the first letter of each word within an element.
-5. Elements should be ordered from general to specific detail of importance as much as possible.
-6. The order of importance rule holds true when elements include date and time stamps. Dates should be ordered: YEAR, MONTH, DAY. (e.g. YYYYMMDD, YYYYMMDD, YYYYMM). Time should be ordered: HOUR, MINUTES, SECONDS (HHMMSS).
-7. Personal names within an element should have family name first followed by first names or initials.
-8. Abbreviate the content of elements whenever possible.
+1. Avoid extra long folder names and complex hierarchical structures.
+2. Use the underscore ( _ ) as element delimiter.
+3. Elements should be ordered from general to specific detail of importance as much as possible.
+4. Dates should be ordered: YEAR, MONTH, DAY. (e.g. YYYYMMDD, YYYYMMDD, YYYYMM).
+5. Keep it clean. No need for capitalization. 
