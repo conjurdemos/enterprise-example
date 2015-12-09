@@ -1,6 +1,6 @@
 ##Policy Repo Structure
 
-![policy info arch](https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-ia.png)
+![policy info arch](https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-info-arch_v3.png)
 
 1. All policies live in the 'policies' directory
 2. Workflows are a collection of policies.
