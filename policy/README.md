@@ -5,7 +5,7 @@
 3. Policies can be scoped to just about anything -- use cases, applications, jobs, services, hosts, layers, etc.
 ![policy info arch](https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-info-arch_v3.png)
 
-<img src="https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-ia.png" width="300px"/>
+<img src="https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-info-arch_v3.png" width="300px"/>
 
 ##Policy Naming Conventions
 
