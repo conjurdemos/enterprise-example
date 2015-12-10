@@ -1,4 +1,4 @@
-policy "v1/postgres" do
+policy "postgres/v1" do
   admins = group "admins"
   users  = group "users"
 

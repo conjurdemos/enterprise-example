@@ -1,5 +1,5 @@
 # The host role in this policy will be used by the jobs in a folder called "".
-policy "jenkins/v1/front_end" do
+policy "jenkins/front_end/v1" do
   policy_resource.annotations['description'] = 'This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the front_end Jenkins Folder.'
   
   variables = [

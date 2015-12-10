@@ -1,4 +1,4 @@
-policy "v1/analytics-app" do
+policy "analytics-app/v1" do
   policy_resource.annotations['description'] = 'Manages permissions within the data analysis webservice'
 
   variables = [
@@ -15,8 +15,8 @@ policy "v1/analytics-app" do
   admins = group "admins"
   users  = group "users"
 
-  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'v1/analytics-app' layer"
-  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'v1/analytics-app' layer"
+  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'analytics-app/v1' layer"
+  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'analytics-app/v1' layer"
   
   group "secrets_managers" do
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"

@@ -1,4 +1,4 @@
-policy "v1/admin-ui" do
+policy "admin-ui/v1" do
   policy_resource.annotations['description'] = 'Manages permissions within the Front-end web application'
 
   variables = [
@@ -8,8 +8,8 @@ policy "v1/admin-ui" do
   admins = group "admins"
   users  = group "users"
 
-  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'v1/admin-ui' layer"
-  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'v1/admin-ui' layer"
+  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'admin-ui/v1' layer"
+  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'admin-ui/v1' layer"
   
   group "secrets_managers" do
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
@@ -25,7 +25,7 @@ policy "v1/admin-ui" do
   end
 
   layer do
-    layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'v1/admin-ui' variables"
+    layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'admin-ui/v1' variables"
 
     variables.each {|var| 
       can 'read',    var[0] 

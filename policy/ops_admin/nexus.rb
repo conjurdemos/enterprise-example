@@ -1,4 +1,4 @@
-policy "v1/nexus" do
+policy "nexus/v1" do
   admins = group "admins"
   users  = group "users"
 

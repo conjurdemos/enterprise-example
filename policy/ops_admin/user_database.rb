@@ -1,4 +1,4 @@
-policy "v1/user-database" do
+policy "user-database/v1" do
   policy_resource.annotations['description'] = 'Manages permissions within the user database'
 
   variables = [
@@ -11,8 +11,8 @@ policy "v1/user-database" do
   admins = group "admins"
   users  = group "users"
 
-  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'v1/user-database' layer"
-  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'v1/user-database' layer"
+  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'user-database/v1' layer"
+  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'user-database/v1' layer"
   
   group "secrets_managers" do
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
@@ -28,7 +28,7 @@ policy "v1/user-database" do
   end
 
   layer do
-    layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'v1/user-database' variables"
+    layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'user-database/v1' variables"
 
     variables.each {|var| 
       can 'read',    var[0] 

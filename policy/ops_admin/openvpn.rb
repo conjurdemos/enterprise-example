@@ -1,4 +1,4 @@
-policy "v1/openvpn" do
+policy "openvpn/v1" do
   admins = group "admins"
   users  = group "users"
 
