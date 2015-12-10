@@ -1,4 +1,4 @@
-policy "v1/nexus" do
+policy "v1/jenkins-slaves" do
   admins = group "admins"
   users  = group "users"
 

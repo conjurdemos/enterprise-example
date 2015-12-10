@@ -1,5 +1,5 @@
 # Defines the bastion layer along with users and admins
-policy "bastion/v1" do
+policy "v1/bastion" do
   users  = group "users"
   admins = group "admins"
   

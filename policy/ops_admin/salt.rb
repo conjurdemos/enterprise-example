@@ -1,5 +1,5 @@
 # Defines the Salt master layer along with an admin group
-policy "salt/v1" do
+policy "v1/salt" do
   admin = group "admins"
   
   layer "master" do
