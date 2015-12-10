@@ -17,12 +17,12 @@ policy "user-database/v1" do
   group "secrets_managers" do
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
 
-    variables.each {|var| 
+    variables.each do |var| 
       can 'read',    var[0]
       can 'execute', var[0]
       can 'update',  var[0]
       var[0].resource.annotations['description'] = var[1]
-    }
+    end
 
     group.add_member admins, admin_option: true
   end
@@ -30,10 +30,10 @@ policy "user-database/v1" do
   layer do
     layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'user-database/v1' variables"
 
-    variables.each {|var| 
+    variables.each do |var| 
       can 'read',    var[0] 
       can 'execute', var[0]
-    }
+    end
 
     add_member "admin_host", admins
     add_member "use_host",   users

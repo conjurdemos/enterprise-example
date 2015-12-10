@@ -9,20 +9,20 @@ policy "jenkins/front_end/v1" do
   ]
 
   group "secret_managers" do |group|
-    variables.each {|var| 
-      can 'read', var[0]
+    variables.each do |var| 
+      can 'read',    var[0]
       can 'execute', var[0]
-      can 'update', var[0]
+      can 'update',  var[0]
       var[0].resource.annotations['description'] = var[1]
-    }
+    do
   end
 
   host do |host|    
     host.resource.annotations['kind'] = "Jenkins folder"
     host.resource.annotations['description'] = "Host identity for running Jenkins jobs in front_end folder - can access front_end API keys"    
-    variables.each {|var| 
-      can 'read', var[0]
+    variables.each do |var| 
+      can 'read',    var[0]
       can 'execute', var[0]
-    }
+    do
   end  
 end
