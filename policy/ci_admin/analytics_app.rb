@@ -1,14 +1,17 @@
-# The host role in this policy will be used by the jobs in a folder called "team-a".
-policy "jenkins/team-a" do
-  policy_resource.annotations['description'] = 'This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the team-a Jenkins Folder.'
+# This policy scopes privileges of jobs in the "Application Build" Jenkins folder.
+# The "Application Build" Jenkins folder itself is given a host identity in Conjur.
+# Two variables with secret values are created.
+# Privileges of the jobs in the "Application Build" folder on those variables are defined here.
+policy "jenkins/analytics_app" do
+  policy_resource.annotations['description'] = "This policy scopes privileges to Jenkins jobs in the 'Application Build' Jenkins Folder."
   variables = [
-    [variable('cloud/access_key_id'), "team-a Jenkins job api key to cloud service"],
-    [variable('cloud/secret_access_key'),"team-a Jenkins job secret access key"]
+    [variable('cloud/access_key_id'), "Application Build jobs use this api key to access a cloud service"],
+    [variable('cloud/secret_access_key'),"Application Build jobs use this cloud access key"]
   ]
 
   host do |host|    
     host.resource.annotations['kind'] = "Jenkins folder"
-    host.resource.annotations['description'] = "Host identity for running Jenkins jobs in team-a folder - can access team-a API keys"    
+    host.resource.annotations['description'] = "This host is the Conjur identity of the 'Application Build' Jenkins folder - can access api key."      
     variables.each {|var| 
       can 'read', var[0]
       can 'execute', var[0]
