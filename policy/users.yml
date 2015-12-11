@@ -1,19 +1,19 @@
 ---
 kyle.wheeler:
   groups:
-  - hr-admin
+  - field-admin
 marin.dubois:
   groups:
-  - hr-admin
+  - field-admin
 carol.rodriquez:
   groups:
-  - hr
+  - field
 karen.wood:
   groups:
-  - hr
+  - field
 caroline.mccoy:
   groups:
-  - hr
+  - field
 wayne.walker:
   groups:
   - developers-admin
