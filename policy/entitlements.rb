@@ -15,39 +15,54 @@ api.group("prod/bastion/v1/users").add_member api.group('developers')
 api.layer("prod/bastion/v1").permit "execute", api.group('prod/app-1/v1/admins')
 api.layer("prod/bastion/v1").permit "execute", api.group('prod/app-1/v1/users')
 
-api.group("prod/starcluster/v1/cluster-users").add_member api.group('researchers')
+[
+  host('analytics.myorg.com-001'),
+  host('analytics.myorg.com-002'),
+  host('analytics.myorg.com-003')
+].each do |host|
+  api.layer("prod/analytics/v1").add_host host
+end
 
 [
-  host('hr1.myorg.com'),
-  host('hr2.myorg.com'),
-  host('hr3.myorg.com')
+  host('user-db.dev.myorg.com-001'),
+  host('user-db.dev.myorg.com-002'),
 ].each do |host|
   host.resource.annotations['host_type'] = 'SOX'
-    
-  api.layer("prod/hr/v1").add_host host
+
+  api.layer("prod/user-database/v1").add_host host
 end
 
 [
-  host('app-1-db.dev.myorg.com'),
-  host('app-1-frontend.dev.myorg.com'),
-  host('app-1-ws.dev.myorg.com')
+  host('admin.myorg.com')
 ].each do |host|
-  api.layer("prod/app-1/v1").add_host host
+  api.layer("prod/admin-ui/v1").add_host host
 end
 
 [
-  host('starcluster.myorg.com'),
+  host('app.myorg.com-001'),
+  host('app.myorg.com-002'),
+  host('app.myorg.com-003'),
+  host('app.myorg.com-004'),
+  host('app.myorg.com-005'),
 ].each do |host|
-  api.layer("prod/starcluster/v1/master").add_host host
+  api.layer("prod/frontend/v1").add_host host
+end
+
+api.layer("prod/analytics/v1/data-producers").add_member api.layer("prod/frontend/v1")
+
+[
+  host('bastion.myorg.com')
+].each do |host|
+  api.layer("prod/bastion/v1").add_host host
 end
 
 [
-  host('modeling1.myorg.com'),
-  host('modeling2.myorg.com'),
-  host('modeling3.myorg.com'),
-  host('modeling4.myorg.com')
+  host('ubuntu-1'),
+  host('ubuntu-2'),
+  host('osx-1'),
+  host('windows-1')
 ].each do |host|
-  api.layer("prod/starcluster/v1/cluster").add_host host
+  api.layer("prod/jenkins-slaves/v1").add_host host
 end
 
 app_1_ws_analytics = api.resource("webservice:/prod/app-1/v1/analytics")
