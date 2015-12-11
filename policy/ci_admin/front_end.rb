@@ -14,7 +14,7 @@ policy "jenkins/front_end/v1" do
       can 'execute', var[0]
       can 'update',  var[0]
       var[0].resource.annotations['description'] = var[1]
-    do
+    end
   end
 
   host do |host|    
@@ -23,6 +23,6 @@ policy "jenkins/front_end/v1" do
     variables.each do |var| 
       can 'read',    var[0]
       can 'execute', var[0]
-    do
+    end
   end  
 end

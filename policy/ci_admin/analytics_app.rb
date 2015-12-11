@@ -2,7 +2,7 @@
 # The "Application Build" Jenkins folder itself is given a host identity in Conjur.
 # Two variables with secret values are created.
 # Privileges of the jobs in the "Application Build" folder on those variables are defined here.
-policy "jenkins/analytics_app/v1" do
+policy "jenkins/analytics-app/v1" do
   policy_resource.annotations['description'] = 'This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the analytics-app Jenkins Folder.'
   
   variables = [

@@ -1,37 +1,23 @@
-policy "admin-ui/v1" do
-  policy_resource.annotations['description'] = 'Manages permissions within the Front-end web application'
-
+policy "app-1/v1" do
+  policy_resource.annotations['description'] = 'Generic template policy to restrict access to app-1'
   variables = [
-    [variable('ssl/private-key'), "Private key for communication over SSL"]
+    [variable('licenses/compiler'), "License for the app-1 compiler"],
+    [variable('licenses/profiler'), "License for the app-1 profiler"],
+    [variable('licenses/coverity'), "License for Coverity"]
   ]
 
   admins = group "admins"
+  admins.resource.annotations['description'] = "This group has elevated ssh access privilege to hosts in the prod/app-1/v1 layer"
   users  = group "users"
-
-  admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'admin-ui/v1' layer"
-  users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'admin-ui/v1' layer"
+  users.resource.annotations['description'] = "This group has user-level ssh access privilege to hosts in the prod/app-1/v1 layer"
   
-  group "secrets_managers" do
-    group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
-
-    variables.each do |var| 
-      can 'read',    var[0]
-      can 'execute', var[0]
-      can 'update',  var[0]
-      var[0].resource.annotations['description'] = var[1]
-    end
-
-    group.add_member admins, admin_option: true
-  end
-
   layer do
-    layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'admin-ui/v1' variables"
-
-    variables.each do |var| 
-      can 'read',    var[0] 
+    layer.resource.annotations['description'] = "Hosts in this layer are granted access privilege to app-1"
+    variables.each {|var| 
+      can 'read', var[0] 
       can 'execute', var[0]
-    end
-
+      var[0].resource.annotations['description'] = var[1]
+    }
     add_member "admin_host", admins
     add_member "use_host",   users
   end
