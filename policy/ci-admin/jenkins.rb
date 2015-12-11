@@ -1,4 +1,4 @@
-policy "jenkins-master/v1" do
+policy "jenkins/v1" do
   policy_resource.annotations['description'] = 'This policy governs the Conjur layer which holds the Jenkins master'
 
   admins = group "admins"

@@ -3,7 +3,7 @@ policy "nexus/v1" do
   users  = group "users"
 
   layer do
-    add_member "admin_host", admin
+    add_member "admin_host", admins
     add_member "use_host", users
   end
 end

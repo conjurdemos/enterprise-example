@@ -1,10 +1,10 @@
 # The host role in this policy will be used by the jobs in a folder called "".
-policy "jenkins/user_database/v1" do
-  policy_resource.annotations['description'] = 'This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the user_database Jenkins Folder.'
+policy "jenkins/frontend/v1" do
+  policy_resource.annotations['description'] = 'This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the frontend Jenkins Folder.'
   
   variables = [
-    [variable('cloud/access_key_id'), "user_database Jenkins job api key to cloud service"],
-    [variable('cloud/secret_access_key'),"user_database Jenkins job secret access key"],
+    [variable('cloud/access_key_id'), "frontend Jenkins job api key to cloud service"],
+    [variable('cloud/secret_access_key'),"frontend Jenkins job secret access key"],
     [variable('rsa_key'),"RSA key to authenticate with an external service"]
   ]
 
@@ -19,7 +19,7 @@ policy "jenkins/user_database/v1" do
 
   host do |host|    
     host.resource.annotations['kind'] = "Jenkins folder"
-    host.resource.annotations['description'] = "Host identity for running Jenkins jobs in user_database folder - can access user_database API keys"    
+    host.resource.annotations['description'] = "Host identity for running Jenkins jobs in frontend folder - can access frontend API keys"    
     variables.each do |var| 
       can 'read',    var[0]
       can 'execute', var[0]
