@@ -13,7 +13,7 @@ YouTube video walkthrough (5 minutes):
 * Clone the repository and load the data:
 
 ```sh-session
-$ git clone git@github.com:conjurdemos/enterprise-example.git
+$ git clone https://github.com/conjurdemos/enterprise-example.git
 $ cd enterprise-example
 $ ./populate.sh
 ```
