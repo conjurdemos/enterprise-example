@@ -31,7 +31,7 @@ policy "analytics/v1" do
     group.add_member admins, admin_option: true
   end
 
-  layer do
+  layer do |layer|
     layer.resource.annotations['description'] = "Analytic webservice hosts"
 
     variables.each do |var| 
@@ -50,7 +50,8 @@ policy "analytics/v1" do
     add_member "use_host",   users
   end
 
-  layer "data-producers" do
+  layer "data-producers" do |layer|
+    layer.resource.annotations['description'] = "Hosts which produce analytical data"
     webservices.each do |webservice|
       can 'create', webservice[0]
     end
