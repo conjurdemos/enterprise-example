@@ -10,15 +10,6 @@ api.groups.each do |group|
   end
 end
 
-api.group("prod/bastion/v1/admins").add_member api.group('operations')
-api.group("prod/bastion/v1/users").add_member api.group('developers')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/analytics/v1/admins')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/analytics/v1/users')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/user-database/v1/admins')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/user-database/v1/users')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/postgres/v1/admins')
-api.layer("prod/bastion/v1").permit "execute", api.group('prod/postgres/v1/users')
-
 [
   host('analytics.myorg.com-001'),
   host('analytics.myorg.com-002'),
@@ -29,6 +20,7 @@ end
 
 api.group("prod/analytics/v1/admins").add_member api.group('developers-admin')
 api.group("prod/analytics/v1/users").add_member api.group('developers')
+api.group("prod/bastion/v1/users").add_member api.group("prod/analytics/v1/users")
 
 [
   host('admin.myorg.com')
@@ -39,6 +31,7 @@ end
 api.group("prod/admin-ui/v1/admins").add_member api.group('developers-admin')
 api.group("prod/admin-ui/v1/users").add_member api.group('developers')
 api.group("prod/admin-ui/v1/users").add_member api.group('researchers')
+api.group("prod/bastion/v1/users").add_member api.group("prod/admin-ui/v1/users")
 
 [
   host('app.myorg.com-001'),
@@ -87,6 +80,7 @@ api.group("prod/openvpn/v1/admins").add_member api.group('operations')
 end
 
 api.group("prod/postgres/v1/admins").add_member api.group('operations')
+api.group("prod/bastion/v1/users").add_member api.group("prod/postgres/v1/users")
 
 [
   host('salt-master.myorg.com')
@@ -107,6 +101,7 @@ end
 
 api.group("prod/user-database/v1/admins").add_member api.group('developers-admin')
 api.group("prod/user-database/v1/users").add_member api.group('developers')
+api.group("prod/bastion/v1/users").add_member api.group("prod/user-database/v1/users")
 
 [
   host('ubuntu-1'),
