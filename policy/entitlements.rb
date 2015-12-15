@@ -14,6 +14,10 @@ api.group("prod/bastion/v1/admins").add_member api.group('operations')
 api.group("prod/bastion/v1/users").add_member api.group('developers')
 api.layer("prod/bastion/v1").permit "execute", api.group('prod/analytics/v1/admins')
 api.layer("prod/bastion/v1").permit "execute", api.group('prod/analytics/v1/users')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/user-database/v1/admins')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/user-database/v1/users')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/postgres/v1/admins')
+api.layer("prod/bastion/v1").permit "execute", api.group('prod/postgres/v1/users')
 
 [
   host('analytics.myorg.com-001'),
@@ -23,20 +27,18 @@ api.layer("prod/bastion/v1").permit "execute", api.group('prod/analytics/v1/user
   api.layer("prod/analytics/v1").add_host host
 end
 
-[
-  host('user-db.dev.myorg.com-001'),
-  host('user-db.dev.myorg.com-002'),
-].each do |host|
-  host.resource.annotations['host_type'] = 'SOX'
-
-  api.layer("prod/user-database/v1").add_host host
-end
+api.group("prod/analytics/v1/admins").add_member api.group('developers-admin')
+api.group("prod/analytics/v1/users").add_member api.group('developers')
 
 [
   host('admin.myorg.com')
 ].each do |host|
   api.layer("prod/admin-ui/v1").add_host host
 end
+
+api.group("prod/admin-ui/v1/admins").add_member api.group('developers-admin')
+api.group("prod/admin-ui/v1/users").add_member api.group('developers')
+api.group("prod/admin-ui/v1/users").add_member api.group('researchers')
 
 [
   host('app.myorg.com-001'),
@@ -48,6 +50,8 @@ end
   api.layer("prod/frontend/v1").add_host host
 end
 
+api.group("prod/frontend/v1/admins").add_member api.group('developers-admin')
+api.group("prod/frontend/v1/users").add_member api.group('developers')
 api.layer("prod/analytics/v1/data-producers").role.grant_to api.layer("prod/frontend/v1")
 
 [
@@ -55,6 +59,54 @@ api.layer("prod/analytics/v1/data-producers").role.grant_to api.layer("prod/fron
 ].each do |host|
   api.layer("prod/bastion/v1").add_host host
 end
+
+[
+  host('repo.myorg.com-001'),
+  host('repo.myorg.com-002')
+].each do |host|
+  api.layer("prod/nexus/v1").add_host host
+end
+
+api.group("prod/nexus/v1/admins").add_member api.group('operations')
+
+[
+  host('cloud.myorg.com'),
+  host('office.myorg.com')
+].each do |host|
+  api.layer("prod/openvpn/v1").add_host host
+end
+
+api.group("prod/openvpn/v1/admins").add_member api.group('operations')
+
+[
+  host('db.myorg.com-001'),
+  host('db.myorg.com-002'),
+  host('db.myorg.com-003')
+].each do |host|
+  api.layer("prod/postgres/v1").add_host host
+end
+
+api.group("prod/postgres/v1/admins").add_member api.group('operations')
+
+[
+  host('salt-master.myorg.com')
+].each do |host|
+  api.layer("prod/salt/v1/master").add_host host
+end
+
+api.group("prod/salt/v1/admins").add_member api.group('operations')
+
+[
+  host('users.myorg.com-001'),
+  host('users.myorg.com-002')
+].each do |host|
+  host.resource.annotations['host_type'] = 'SOX'
+
+  api.layer("prod/user-database/v1").add_host host
+end
+
+api.group("prod/user-database/v1/admins").add_member api.group('developers-admin')
+api.group("prod/user-database/v1/users").add_member api.group('developers')
 
 [
   host('ubuntu-1'),
