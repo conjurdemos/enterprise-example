@@ -117,6 +117,8 @@ api.group("prod/user-database/v1/users").add_member api.group('developers')
   api.layer("prod/jenkins-slaves/v1").add_host host
 end
 
+api.group("prod/jenkins-slaves/v1/admins").add_member api.group('ci')
+
 %w(admin-ui/v1 analytics/v1 frontend/v1 user-database/v1).each do |team|
   api.host("prod/jenkins/#{team}").role.grant_to layer("prod/jenkins/v1")
 end
