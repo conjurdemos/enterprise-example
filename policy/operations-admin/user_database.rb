@@ -14,7 +14,7 @@ policy "user-database/v1" do
   admins.resource.annotations['description'] = "Members have elevated SSH access privilege to hosts in the 'user-database/v1' layer"
   users.resource.annotations['description']  = "Members have user-level SSH access privilege to hosts in the 'user-database/v1' layer"
   
-  group "secrets_managers" do
+  group "secrets_managers" do |group|
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
 
     variables.each do |var| 

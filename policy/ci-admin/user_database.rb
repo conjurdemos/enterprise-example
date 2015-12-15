@@ -9,6 +9,8 @@ policy "jenkins/user-database/v1" do
   ]
 
   group "secret_managers" do |group|
+    group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
+
     variables.each do |var| 
       can 'read',    var[0]
       can 'execute', var[0]
