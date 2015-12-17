@@ -2,7 +2,8 @@ policy "frontend/v1" do
   policy_resource.annotations['description'] = 'Manages permissions within the Front-end web application'
 
   variables = [
-    [variable('ssl/private-key'), "Private key for communication over SSL"]
+    [variable('ssl/private-key'), "Private key for communication over SSL"],
+    [variable('ssl/certificate'), "SSL Certificate that needs to be rotated"]
   ]
 
   admins = group "admins"
