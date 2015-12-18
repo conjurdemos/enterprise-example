@@ -2,10 +2,23 @@ policy "user-database/v1" do
   policy_resource.annotations['description'] = 'Manages permissions within the user database'
 
   variables = [
-    [variable('postgres/master_user_name'),     "Name of the master user for the PostgreSQL database"],
-    [variable('postgres/master_user_password'), "Password of the master user for the PostgreSQL database"],
-    [variable('postgres/database_name'),        "Name of the database to connect to"],
-    [variable('postgres/database_url'),         "URL of the database to connect to"]
+    {
+      :record => variable('postgres/master_user_name'),     
+      :description => "Name of the master user for the PostgreSQL database"
+    },
+    {
+      :record => variable('postgres/master_user_password'),
+      :description => "Password of the master user for the PostgreSQL database",
+      :expiration => "P1D" 
+    },
+    {
+      :record => variable('postgres/database_name'),
+      :description => "Name of the database to connect to"
+    },
+    {
+      :record => variable('postgres/database_url'),
+      :description => "URL of the database to connect to"
+    }
   ]
 
   admins = group "admins"
@@ -18,10 +31,14 @@ policy "user-database/v1" do
     group.resource.annotations['description'] = "Members are able to update the value of all secrets within the policy"
 
     variables.each do |var| 
-      can 'read',    var[0]
-      can 'execute', var[0]
-      can 'update',  var[0]
-      var[0].resource.annotations['description'] = var[1]
+      can 'read',    var[:record]
+      can 'execute', var[:record]
+      can 'update',  var[:record]
+      var[:record].resource.annotations['description'] = var[:description]
+
+      if var.key?(:expiration) then
+        var[:record].resource.annotations['expiration/timestamp'] = var[:expiration]
+      end
     end
 
     group.add_member admins, admin_option: true
@@ -31,8 +48,8 @@ policy "user-database/v1" do
     layer.resource.annotations['description'] = "Hosts in this layer can fetch all 'user-database/v1' variables"
 
     variables.each do |var| 
-      can 'read',    var[0] 
-      can 'execute', var[0]
+      can 'read',    var[:record] 
+      can 'execute', var[:record]
     end
 
     add_member "admin_host", admins
