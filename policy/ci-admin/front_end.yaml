@@ -1,17 +1,17 @@
 ---
 - !policy 
-  id: jenkins/analytics/v1
+  id: jenkins/frontend/v1
   annotations:
-    description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the analytics Jenkins Folder.
+    description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the frontend Jenkins Folder.
   body:
     - !variable &access_key_id 
       - id: cloud/access_key_id
       - annotations:
-          description: Analytics Jenkins job api key to cloud service
+          description: Frontend Jenkins job api key to cloud service
     - !variable &secret_access_key 
       id: cloud/secret_access_key
       annotations:
-        description: Analytics Jenkins job secret access key
+        description: Frontend Jenkins job secret access key
     - !variable &rsa_key 
       id: rsa_key
       annotations:
@@ -22,7 +22,7 @@
         description: Members are able to update the value of all secrets within the policy
     - !host &job
       annotations:
-        description: Host identity for running Jenkins jobs in analytics folder - can access analytics API keys
+        description: Host identity for running Jenkins jobs in frontend folder - can access frontend API keys
     - !permit
       role: *secret-managers
       privilege:
