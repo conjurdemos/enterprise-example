@@ -122,3 +122,27 @@ authn_tv = resource "webservice", "authn-tv"
 
 api.layer("prod/jenkins/v1").add_host host("jenkins-master")
 authn_tv.permit "execute", api.layer("prod/jenkins/v1")
+
+# Generate a self signed certificate if needed
+`openssl genrsa -des3 -passout pass:x -out tmp/server.pass.key 2048`
+`openssl rsa -passin pass:x -in tmp/server.pass.key -out tmp/server.key`
+`rm tmp/server.pass.key`
+`openssl req -new -key tmp/server.key -out tmp/server.csr <<EOF 
+US
+Massachusetts
+Boston
+MyOrg
+IT
+*.myorg.com
+admin@myorg.com
+
+
+EOF`
+`openssl x509 -req -days 365 -in tmp/server.csr -signkey tmp/server.key -out tmp/server.crt`
+
+# Store the certificate/key as Conjur variables
+key = `cat tmp/server.key`
+certificate = `cat tmp/server.crt`
+
+api.variable("prod/frontend/v1/ssl/private-key").add_value key
+api.variable("prod/frontend/v1/ssl/certificate").add_value certificate
