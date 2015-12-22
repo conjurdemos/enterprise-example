@@ -1,0 +1,28 @@
+---
+- !policy jenkins/admin-ui/v1
+  body:
+  - !variable &access_key_id cloud/access_key_id
+  - !variable &secret_access_key cloud/secret_access_key
+  - !group &secret-managers secret-managers
+  - !host &job
+  - !permit
+    role: *secret-managers
+    privilege:
+    - execute 
+    - update
+    resource: *access_key_id
+  - !permit
+    role: *secret-managers
+    privilege: 
+    - execute
+    - update
+    resource: *secret_access_key
+  - !permit
+    role: *job
+    privilege: execute
+    resource: *access_key_id
+  - !permit
+    role: *job
+    privilege: execute
+    resource: *secret_access_key
+...
