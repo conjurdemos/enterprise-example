@@ -1,0 +1,31 @@
+---
+- !policy 
+  id: jenkins-slaves/v1
+  annotations:
+    description: Manages permissions within Jenkins slave machines
+  body:
+    - !group
+      id: admins
+      annotations:
+        description: Members have user-level SSH access privilege to hosts in the 'jenkins-slaves/v1' layer
+    - !group
+      id: users
+      annotations:
+        description: Members have elevated SSH access privilege to hosts in the 'jenkins-slaves/v1' layer
+    - !layer
+      annotations:
+        description: Reserved for Jenkins slave machines
+    - !grant
+      role: !group users
+      members:
+        - !group
+          id: admins
+          admin: true
+    - !grant
+      role: !layer
+      members:
+        - !group users
+        - !group
+          id: admins
+          admin: true
+...

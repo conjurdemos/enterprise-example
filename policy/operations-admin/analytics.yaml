@@ -1,0 +1,92 @@
+---
+- !policy 
+  id: analytics/v1
+  annotations:
+    description: Manages permissions within the data analysis webservice
+  body:
+    - !variable
+      - id: redshift/master_user_name
+      - annotations:
+          description: Name of the master user for the Redshift cluster
+    - !variable
+      - id: redshift/master_user_password
+      - annotations:
+          description: Password of the master user for the Redshift cluster
+    - !variable
+      - id: redshift/database_name
+      - annotations:
+          description: Name of the database to connect to
+    - !variable
+      - id: redshift/database_url
+      - annotations:
+          description: URL of the database to connect to
+    - !webservice
+      annotations:
+        description: HTTP traffic is controlled from permissions on this webservice
+    - !group
+      id: secret-managers
+      annotations:
+        description: Members are able to update the value of all secrets within the policy
+    - !group
+      id: admins
+      annotations:
+        description: Members have elevated SSH access privilege to hosts in the 'analytics/v1' layer
+    - !group
+      id: users
+      annotations:
+        description: Members have user-level SSH access privilege to hosts in the 'analytics/v1' layer
+    - !layer
+      annotations:
+        description: Hosts in this layer can fetch all 'analytics/v1' variables
+    - !layer
+      id: data-producers
+      annotations:
+        description: Hosts which produce analytical data
+    - !permit
+      role: !group secret-managers
+      privilege:
+        - execute 
+        - update
+      resource: !variable redshift/master_user_name
+      resource: !variable redshift/master_user_password
+      resource: !variable redshift/database_name
+      resource: !variable redshift/database_url
+    - !permit
+      role: !layer
+      privilege: execute
+      resource: !variable redshift/master_user_name
+      resource: !variable redshift/master_user_password
+      resource: !variable redshift/database_name
+      resource: !variable redshift/database_url
+    - !permit
+      role: !layer
+      privilege:
+        - post
+        - get
+        - put
+        - delete
+      resource: !webservice
+    - !permit
+      role: !layer data-producers
+      privilege: put
+      resource: !webservice
+    - !grant
+      role: !group users
+      member:
+        - !member
+          role: !group admins
+          admin: true
+    - !grant
+      role: !group secret-managers
+      members:
+        - !member
+          role: !group admins
+          admin: true
+    - !grant
+      role: !layer
+      members:
+        - !group user
+        - !member
+          role: !group admins
+          admin: true
+...

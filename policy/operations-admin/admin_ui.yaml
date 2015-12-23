@@ -1,0 +1,55 @@
+---
+- !policy 
+  id: admin-ui/v1
+  annotations:
+    description: Manages permissions within the admin UI web application
+  body:
+    - !variable
+      - id: ssl/private_key
+      - annotations:
+          description: Private key for communication over SSL
+    - !group
+      id: secret-managers
+      annotations:
+        description: Members are able to update the value of all secrets within the policy
+    - !group
+      id: admins
+      annotations:
+        description: Members have elevated SSH access privilege to hosts in the 'admin-ui/v1' layer
+    - !group
+      id: users
+      annotations:
+        description: Members have user-level SSH access privilege to hosts in the 'admin-ui/v1' layer
+    - !layer
+      annotations:
+        description: Hosts in this layer can fetch all 'admin-ui/v1' variables
+    - !permit
+      role: !group secret-managers
+      privilege:
+        - execute 
+        - update
+      resource: !variable ssl/private_key
+    - !permit
+      role: !layer
+      privilege: execute
+      resource: !variable ssl/private_key
+    - !grant
+      role: !group users
+      members:
+        - !group
+          id: admins
+          admin: true
+    - !grant
+      role: !group secret-managers
+      members:
+        - !group
+          role: !group admins
+          admin: true
+    - !grant
+      role: !layer
+      members:
+        - !group users
+        - !group
+          id: admins
+          admin: true
+...

@@ -4,39 +4,37 @@
   annotations:
       description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the admin-ui Jenkins Folder.
   body:
-    - !variable &access_key_id 
+    - !variable 
       id: cloud/access_key_id
       annotations:
         description: Admin UI Jenkins job api key to cloud service
-    - !variable &secret_access_key 
+    - !variable 
       id: cloud/secret_access_key
       annotations:
         description: Admin UI Jenkins job secret access key
-    - !group &secret-managers 
+    - !variable
+      id: rsa_key
+      annotations:
+        description: RSA key to authenticate with an external service
+    - !group
       id: secret-managers
       annotations:
         description: Members are able to update the value of all secrets within the policy
-    - !host &job
+    - !host
       annotations:
         description: Host identity for running Jenkins jobs in Admin UI folder - can access Admin UI API keys
     - !permit
-      role: *secret-managers
+      role: !group secret-managers
       privilege:
         - execute 
         - update
-      resource: *access_key_id
+      resource: !variable cloud/access_key_id
+      resource: !variable cloud/secret_access_key
+      resource: !variable cloud/rsa_key
     - !permit
-      role: *secret-managers
-      privilege: 
-        - execute
-        - update
-      resource: *secret_access_key
-    - !permit
-      role: *job
+      role: !host
       privilege: execute
-      resource: *access_key_id
-    - !permit
-      role: *job
-      privilege: execute
-      resource: *secret_access_key
+      resource: !variable cloud/access_key_id
+      resource: !variable cloud/secret_access_key
+      resource: !variable cloud/rsa_key
 ...
