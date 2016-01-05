@@ -4,16 +4,16 @@
   annotations:
     description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the frontend Jenkins Folder.
   body:
-    - !variable 
-      - id: cloud/access_key_id
-      - annotations:
-          description: Frontend Jenkins job api key to cloud service
-    - !variable 
+    - !variable
+      id: cloud/access_key_id
+      annotations:
+        description: Frontend Jenkins job api key to cloud service
+    - !variable
       id: cloud/secret_access_key
       annotations:
         description: Frontend Jenkins job secret access key
     - !variable
-      id: rsa_key
+      id: cloud/rsa_key
       annotations:
         description: RSA key to authenticate with an external service
     - !group 
@@ -21,6 +21,7 @@
       annotations:
         description: Members are able to update the value of all secrets within the policy
     - !host
+      id: jenkins-folder
       annotations:
         description: Host identity for running Jenkins jobs in frontend folder - can access frontend API keys
     - !permit
@@ -33,8 +34,8 @@
       resource: !variable cloud/rsa_key
     - !permit
       role: !host
+        id: jenkins-folder
       privilege: execute
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
       resource: !variable cloud/rsa_key
-...

@@ -2,29 +2,36 @@
 - !grant
   role: !group employees
   members:
-    - !group ci
-    - !group 
-      id: ci-admins
+    - !member
+      role: !group ci
+    - !member
+      role: !group
+        id: ci-admins
       admin: true
-    - !group developers
-    - !group 
-      id: developers-admins
+    - !member
+      role: !group developers
+    - !member
+      role: !group
+        id: developer-admins
       admin: true
-    - !group field
-    - !group
-      id: field-admins
+    - !member
+      role: !group field
+    - !member
+      role: !group
+        id: field-admins
       admin: true
     - !group operations
-    - !group
-      id: operations-admins
+    - !member
+      role: !group operations-admins
       admin: true
     - !group qa
-    - !group
-      id: qa-admins
+    - !member
+      role: !group qa-admins
       admin: true
-    - !group researchers
-    - !group
-      id: researchers-admins
+    - !member
+      role: !group researchers
+    - !member
+      role: !group researchers-admins
       admin: true
 - !grant
   role: !layer prod/analytics/v1
@@ -146,7 +153,8 @@
   role: prod/jenkins/v1
   member: !host jenkins-master
 - !permit
-  role: !webservice authn-tv
-  permission: execute
-  member: !layer prod/jenkins/v1
+  resource: !webservice authn-tv
+  privilege: execute
+  role: !member
+    role: !layer prod/jenkins/v1
 ...
