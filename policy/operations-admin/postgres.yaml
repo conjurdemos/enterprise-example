@@ -13,19 +13,20 @@
       annotations:
         description: Members have elevated SSH access privilege to hosts in the 'postgres/v1' layer
     - !layer
+      id: postgres-databases
       annotations:
         description: Reserved for PostgreSQL Database instances
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
-      role: !layer
+      role: !layer postgres-databases
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...

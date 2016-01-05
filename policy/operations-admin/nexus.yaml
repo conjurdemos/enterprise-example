@@ -13,19 +13,20 @@
       annotations:
         description: Members have elevated SSH access privilege to hosts in the 'nexus/v1' layer
     - !layer
+      id: repository-managers
       annotations:
         description: Reserved for Repository Manager hosts
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
-      role: !layer
+      role: !layer repository-managers
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...

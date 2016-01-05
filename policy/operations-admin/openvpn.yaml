@@ -13,19 +13,20 @@
       annotations:
         description: Members have elevated SSH access privilege to hosts in the 'openvpn/v1' layer
     - !layer
+      id: access-servers
       annotations:
         description: Reserved for Access Server hosts
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
-      role: !layer
+      role: !layer access-servers
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...

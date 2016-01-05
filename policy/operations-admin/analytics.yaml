@@ -5,22 +5,23 @@
     description: Manages permissions within the data analysis webservice
   body:
     - !variable
-      - id: redshift/master_user_name
-      - annotations:
-          description: Name of the master user for the Redshift cluster
+      id: redshift/master_user_name
+      annotations:
+        description: Name of the master user for the Redshift cluster
     - !variable
-      - id: redshift/master_user_password
-      - annotations:
-          description: Password of the master user for the Redshift cluster
+      id: redshift/master_user_password
+      annotations:
+        description: Password of the master user for the Redshift cluster
     - !variable
-      - id: redshift/database_name
-      - annotations:
-          description: Name of the database to connect to
+      id: redshift/database_name
+      annotations:
+        description: Name of the database to connect to
     - !variable
-      - id: redshift/database_url
-      - annotations:
-          description: URL of the database to connect to
+      id: redshift/database_url
+      annotations:
+        description: URL of the database to connect to
     - !webservice
+      id: traffic-auth
       annotations:
         description: HTTP traffic is controlled from permissions on this webservice
     - !group
@@ -36,6 +37,7 @@
       annotations:
         description: Members have user-level SSH access privilege to hosts in the 'analytics/v1' layer
     - !layer
+      id: hosts
       annotations:
         description: Hosts in this layer can fetch all 'analytics/v1' variables
     - !layer
@@ -52,24 +54,24 @@
       resource: !variable redshift/database_name
       resource: !variable redshift/database_url
     - !permit
-      role: !layer
+      role: !layer hosts
       privilege: execute
       resource: !variable redshift/master_user_name
       resource: !variable redshift/master_user_password
       resource: !variable redshift/database_name
       resource: !variable redshift/database_url
     - !permit
-      role: !layer
+      role: !layer hosts
       privilege:
         - post
         - get
         - put
         - delete
-      resource: !webservice
+      resource: !webservice traffic-auth
     - !permit
       role: !layer data-producers
       privilege: put
-      resource: !webservice
+      resource: !webservice traffic-auth
     - !grant
       role: !group users
       member:
@@ -83,9 +85,9 @@
           role: !group admins
           admin: true
     - !grant
-      role: !layer
+      role: !layer hosts
       members:
-        - !group user
+        - !group users
         - !member
           role: !group admins
           admin: true
