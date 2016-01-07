@@ -21,7 +21,6 @@
       annotations:
         description: Members have user-level SSH access privilege to hosts in the 'admin-ui/v1' layer
     - !layer
-      id: hosts
       annotations:
         description: Hosts in this layer can fetch all 'admin-ui/v1' variables
     - !permit
@@ -31,7 +30,7 @@
         - update
       resource: !variable ssl/private_key
     - !permit
-      role: !layer hosts
+      role: !layer
       privilege: execute
       resource: !variable ssl/private_key
     - !grant
@@ -46,7 +45,7 @@
           role: !group admins
           admin: true
     - !grant
-      role: !layer hosts
+      role: !layer
       members:
         - !group users
         - !member

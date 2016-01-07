@@ -21,7 +21,6 @@
       annotations:
         description: URL of the database to connect to
     - !webservice
-      id: traffic-auth
       annotations:
         description: HTTP traffic is controlled from permissions on this webservice
     - !group
@@ -37,7 +36,6 @@
       annotations:
         description: Members have user-level SSH access privilege to hosts in the 'analytics/v1' layer
     - !layer
-      id: hosts
       annotations:
         description: Hosts in this layer can fetch all 'analytics/v1' variables
     - !layer
@@ -54,24 +52,24 @@
       resource: !variable redshift/database_name
       resource: !variable redshift/database_url
     - !permit
-      role: !layer hosts
+      role: !layer
       privilege: execute
       resource: !variable redshift/master_user_name
       resource: !variable redshift/master_user_password
       resource: !variable redshift/database_name
       resource: !variable redshift/database_url
     - !permit
-      role: !layer hosts
+      role: !layer
       privilege:
         - post
         - get
         - put
         - delete
-      resource: !webservice traffic-auth
+      resource: !webservice
     - !permit
       role: !layer data-producers
       privilege: put
-      resource: !webservice traffic-auth
+      resource: !webservice
     - !grant
       role: !group users
       member:
@@ -85,7 +83,7 @@
           role: !group admins
           admin: true
     - !grant
-      role: !layer hosts
+      role: !layer
       members:
         - !group users
         - !member

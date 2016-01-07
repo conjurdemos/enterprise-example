@@ -13,7 +13,6 @@
       annotations:
         description: Members have elevated SSH access privilege to hosts in the 'bastion/v1' layer
     - !layer
-      id: bastion-hosts
       annotations:
         description: Reserved for bastion hosts
     - !grant
@@ -23,7 +22,7 @@
           role: !group admins
           admin: true
     - !grant
-      role: !layer bastion-hosts
+      role: !layer
       members:
         - !group users
         - !member

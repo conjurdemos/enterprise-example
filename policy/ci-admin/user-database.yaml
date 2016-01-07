@@ -21,7 +21,6 @@
       annotations:
         description: Members are able to update the value of all secrets within the policy
     - !host
-      id: jenkins-folder
       annotations:
         description: Host identity for running Jenkins jobs in user-database folder - can access user-database API keys
     - !permit
@@ -33,7 +32,7 @@
       resource: !variable cloud/secret_access_key
       resource: !variable chef/private_key
     - !permit
-      role: !host jenkins-folder
+      role: !host
       privilege: execute
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
