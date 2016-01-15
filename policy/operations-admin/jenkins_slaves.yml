@@ -1,5 +1,5 @@
 ---
-- !policy 
+- !policy
   id: jenkins-slaves/v1
   annotations:
     description: Manages permissions within Jenkins slave machines
