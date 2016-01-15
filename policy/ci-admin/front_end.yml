@@ -5,9 +5,9 @@
     description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the frontend Jenkins Folder.
   body:
     - !variable 
-      - id: cloud/access_key_id
-      - annotations:
-          description: Frontend Jenkins job api key to cloud service
+      id: cloud/access_key_id
+      annotations:
+        description: Frontend Jenkins job api key to cloud service
     - !variable 
       id: cloud/secret_access_key
       annotations:
@@ -30,11 +30,11 @@
         - update
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
-      resource: !variable cloud/rsa_key
+      resource: !variable rsa_key
     - !permit
       role: !host
       privilege: execute
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
-      resource: !variable cloud/rsa_key
+      resource: !variable rsa_key
 ...

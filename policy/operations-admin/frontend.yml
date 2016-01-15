@@ -5,13 +5,13 @@
     description: Manages permissions within the front end web application
   body:
     - !variable
-      - id: ssl/private_key
-      - annotations:
-          description: Private key for communication over SSL
+      id: ssl/private_key
+      annotations:
+        description: Private key for communication over SSL
     - !variable
-      - id: ssl/certificate
-      - annotations:
-          description: Certificate that needs to be rotated
+      id: ssl/certificate
+      annotations:
+        description: Certificate that needs to be rotated
     - !group
       id: secret-managers
       annotations:
@@ -42,20 +42,20 @@
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
       role: !group secret-managers
       members:
-        - !group
+        - !member
           role: !group admins
           admin: true
     - !grant
       role: !layer
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...

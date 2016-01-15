@@ -1,17 +1,17 @@
 ---
 - !policy 
-  id: jenkins/admin-ui/v1
+  id: jenkins/user-database/v1
   annotations:
-      description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the admin-ui Jenkins Folder.
+    description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the user-database Jenkins Folder.
   body:
-    - !variable 
+    - !variable
       id: cloud/access_key_id
       annotations:
-        description: Admin UI Jenkins job api key to cloud service
-    - !variable 
+        description: User database Jenkins job api key to cloud service
+    - !variable
       id: cloud/secret_access_key
       annotations:
-        description: Admin UI Jenkins job secret access key
+        description: User database Jenkins job secret access key
     - !variable
       id: rsa_key
       annotations:
@@ -22,7 +22,7 @@
         description: Members are able to update the value of all secrets within the policy
     - !host
       annotations:
-        description: Host identity for running Jenkins jobs in Admin UI folder - can access Admin UI API keys
+        description: Host identity for running Jenkins jobs in user-database folder - can access user-database API keys
     - !permit
       role: !group secret-managers
       privilege:
@@ -30,11 +30,11 @@
         - update
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
-      resource: !variable cloud/rsa_key
+      resource: !variable rsa_key
     - !permit
       role: !host
       privilege: execute
       resource: !variable cloud/access_key_id
       resource: !variable cloud/secret_access_key
-      resource: !variable cloud/rsa_key
+      resource: !variable rsa_key
 ...

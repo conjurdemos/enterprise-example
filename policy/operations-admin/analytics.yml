@@ -5,21 +5,21 @@
     description: Manages permissions within the data analysis webservice
   body:
     - !variable
-      - id: redshift/master_user_name
-      - annotations:
-          description: Name of the master user for the Redshift cluster
+      id: redshift/master_user_name
+      annotations:
+        description: Name of the master user for the Redshift cluster
     - !variable
-      - id: redshift/master_user_password
-      - annotations:
-          description: Password of the master user for the Redshift cluster
+      id: redshift/master_user_password
+      annotations:
+        description: Password of the master user for the Redshift cluster
     - !variable
-      - id: redshift/database_name
-      - annotations:
-          description: Name of the database to connect to
+      id: redshift/database_name
+      annotations:
+        description: Name of the database to connect to
     - !variable
-      - id: redshift/database_url
-      - annotations:
-          description: URL of the database to connect to
+      id: redshift/database_url
+      annotations:
+        description: URL of the database to connect to
     - !webservice
       annotations:
         description: HTTP traffic is controlled from permissions on this webservice
@@ -85,7 +85,7 @@
     - !grant
       role: !layer
       members:
-        - !group user
+        - !group users
         - !member
           role: !group admins
           admin: true

@@ -3,28 +3,28 @@
   role: !group employees
   members:
     - !group ci
-    - !group 
-      id: ci-admins
+    - !member 
+      role: !group ci-admin
       admin: true
     - !group developers
-    - !group 
-      id: developers-admins
+    - !member 
+      role: !group developers-admin
       admin: true
     - !group field
-    - !group
-      id: field-admins
+    - !member 
+      role: !group field-admin
       admin: true
     - !group operations
-    - !group
-      id: operations-admins
+    - !member 
+      role: !group operations-admin
       admin: true
     - !group qa
-    - !group
-      id: qa-admins
+    - !member 
+      role: !group qa-admin
       admin: true
     - !group researchers
-    - !group
-      id: researchers-admins
+    - !member 
+      role: !group researchers-admin
       admin: true
 - !grant
   role: !layer prod/analytics/v1
@@ -129,8 +129,8 @@
   members:
     - !host ubuntu-1
     - !host ubuntu-2
-    - !host centos-1
-    - !host darwin-1
+    # - !host centos-1
+    # - !host darwin-1
     - !host windows-1
 - !grant
   role: !group prod/jenkins-slaves/v1/admins
@@ -143,10 +143,10 @@
     - !host prod/jenkins/frontend/v1
     - !host prod/jenkins/user-database/v1
 - !grant 
-  role: prod/jenkins/v1
+  role: !layer prod/jenkins/v1
   member: !host jenkins-master
 - !permit
-  role: !webservice authn-tv
-  permission: execute
-  member: !layer prod/jenkins/v1
+  role: !layer prod/jenkins/v1
+  privilege: execute
+  resource: !webservice authn-tv
 ...

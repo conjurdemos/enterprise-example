@@ -18,14 +18,14 @@
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
       role: !layer
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...

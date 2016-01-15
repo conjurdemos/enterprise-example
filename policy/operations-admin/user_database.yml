@@ -5,22 +5,22 @@
     description: Manages permissions within the user database
   body:
     - !variable
-      - id: postgres/master_user_name
-      - annotations:
-          description: Name of the master user for the PostgreSQL database
+      id: postgres/master_user_name
+      annotations:
+        description: Name of the master user for the PostgreSQL database
     - !variable
-      - id: postgres/master_user_password
-      - annotations:
-          description: Password of the master user for the PostgreSQL database
-          expiration: P1D
+      id: postgres/master_user_password
+      annotations:
+        description: Password of the master user for the PostgreSQL database
+        expiration: P1D
     - !variable
-      - id: postgres/database_name
-      - annotations:
-          description: Name of the database to connect to
+      id: postgres/database_name
+      annotations:
+        description: Name of the database to connect to
     - !variable
-      - id: postgres/database_url
-      - annotations:
-          description: URL of the database to connect to
+      id: postgres/database_url
+      annotations:
+        description: URL of the database to connect to
     - !group
       id: secret-managers
       annotations:
@@ -55,20 +55,20 @@
     - !grant
       role: !group users
       members:
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
     - !grant
       role: !group secret-managers
       members:
-        - !group
+        - !member
           role: !group admins
           admin: true
     - !grant
       role: !layer
       members:
         - !group users
-        - !group
-          id: admins
+        - !member
+          role: !group admins
           admin: true
 ...
