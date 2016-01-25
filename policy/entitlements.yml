@@ -27,12 +27,6 @@
       role: !group researchers-admin
       admin: true
 - !grant
-  role: !layer prod/analytics/v1
-  members:
-    - !host analytics.myorg.com-001
-    - !host analytics.myorg.com-002
-    - !host analytics.myorg.com-003
-- !grant
   role: !layer prod/analytics/v1/data-producers
   member: !layer prod/frontend/v1
 - !grant
@@ -49,23 +43,12 @@
     - !group prod/postgres/v1/users
     - !group prod/user-database/v1/users
 - !grant
-  role: !layer prod/admin-ui/v1
-  member: !host admin.myorg.com
-- !grant
   role: !group prod/admin-ui/v1/admins
   member: !group developers-admin
 - !grant
   role: !group prod/admin-ui/v1/users
   member: !group developers
   member: !group researchers
-- !grant
-  role: !layer prod/frontend/v1
-  members:
-    - !host app.myorg.com-001
-    - !host app.myorg.com-002
-    - !host app.myorg.com-003
-    - !host app.myorg.com-004
-    - !host app.myorg.com-005
 - !grant
   role: !group prod/frontend/v1/admins
   member: !group developers-admin
@@ -74,50 +57,17 @@
   member: !group developers
   member: !group researchers
 - !grant
-  role: !layer prod/bastion/v1
-  member: !host bastion.myorg.com
-- !grant
-  role: !layer prod/nexus/v1
-  members:
-    - !host repo.myorg.com-001
-    - !host repo.myorg.com-002
-- !grant
   role: !group prod/nexus/v1/admins
   member: !group operations
-- !grant
-  role: !layer prod/openvpn/v1
-  members:
-    - !host cloud.myorg.com
-    - !host office.myorg.com
 - !grant
   role: !group prod/openvpn/v1/admins
   member: !group operations
 - !grant
-  role: !layer prod/postgres/v1
-  members:
-    - !host db.myorg.com-001
-    - !host db.myorg.com-002
-    - !host db.myorg.com-003
-- !grant
   role: !group prod/postgres/v1/admins
   member: !group operations
 - !grant
-  role: !layer prod/salt/v1/master
-  member: !host salt-master.myorg.com
-- !grant
   role: !group prod/salt/v1/admins
   member: !group operations
-- !grant
-  role: !layer prod/user-database/v1
-  members:
-    - !host 
-      id: users.myorg.com-001
-      annotations:
-        host_type: SOX
-    - !host 
-      id: users.myorg.com-002
-      annotations:
-        host_type: SOX
 - !grant
   role: !group prod/user-database/v1/admins
   member: !group developers-admin
@@ -125,26 +75,8 @@
   role: !group prod/user-database/v1/users
   member: !group developers
 - !grant
-  role: !layer prod/jenkins-slaves/v1
-  members:
-    - !host ubuntu-1
-    - !host ubuntu-2
-    # - !host centos-1
-    # - !host darwin-1
-    - !host windows-1
-- !grant
   role: !group prod/jenkins-slaves/v1/admins
   member: !group ci
-- !grant
-  role: !layer prod/jenkins/v1
-  members:
-    - !host prod/jenkins/admin-ui/v1
-    - !host prod/jenkins/analytics/v1
-    - !host prod/jenkins/frontend/v1
-    - !host prod/jenkins/user-database/v1
-- !grant 
-  role: !layer prod/jenkins/v1
-  member: !host jenkins-master
 - !permit
   role: !layer prod/jenkins/v1
   privilege: execute

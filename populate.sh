@@ -13,4 +13,5 @@ for script in $(find policy/* -name "*.yml"); do
 	fi
 done        	
 
+conjur policy2 load --as-group security_admin policy/global_records.yml
 conjur policy2 load --as-group security_admin policy/entitlements.yml
