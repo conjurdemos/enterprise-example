@@ -39,10 +39,5 @@
   "prod/admin-ui/v1": [ "admin.myorg.com" ],
   "prod/bastion/v1": [ "bastion.myorg.com" ],
   "prod/salt/v1": [ "salt-master.myorg.com" ],
-  "prod/jenkins/admin-ui/v1": [ "prod/jenkins/admin-ui/v1" ],
-  "prod/jenkins/admin-ui/v1" : [ "prod/jenkins/admin-ui/v1" ],
-  "prod/jenkins/analytics/v1": [ "prod/jenkins/analytics/v1" ],
-  "prod/jenkins/frontend/v1": [ "prod/jenkins/frontend/v1" ],
-  "prod/jenkins/user-database/v1": [ "prod/jenkins/user-database/v1" ],
   "prod/jenkins/v1": [ "jenkins-master" ]
 }
