@@ -7,6 +7,11 @@ cookbook_file '/etc/init/conjur-ui.conf' do
   mode '0644'
 end
 
+cookbook_file '/dhparam.pem' do
+  source 'default/dhparam.pem'
+  mode '0644'
+end
+
 cli_env = '/opt/conjur/bin/cli-env'
 cookbook_file cli_env do
   source 'default/cli-env'
@@ -23,6 +28,8 @@ end
 bash 'configure appliance' do
   code <<-EOH 
     set -x
+
+    docker cp /dhparam.pem conjur-appliance:/etc/ssl/
     docker exec -i conjur-appliance \
       evoke configure master -h $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) \
       -p #{password} #{orgaccount} 
