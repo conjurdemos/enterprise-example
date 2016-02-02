@@ -22,6 +22,6 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision :shell, :name => 'Populating appliance',
-    inline: "/opt/conjur/bin/cli-env /bin/bash -c 'cd /vagrant; ./populate.sh >/vagrant/populate.log 2>&1'"
+    inline: "/opt/conjur/bin/cli-env /bin/bash -c 'cd /vagrant; conjur plugin install dsl2; ./populate.sh >/vagrant/populate.log 2>&1'"
 
 end
