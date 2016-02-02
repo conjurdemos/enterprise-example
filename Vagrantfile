@@ -13,7 +13,7 @@ Vagrant.configure(2) do |config|
     override.ssh.private_key_path = ENV['SSH_PRIVATE_KEY_PATH']
     override.ssh.username = 'ubuntu'
 
-    override.vm.provision :shell, :inline => 'echo "http://$(curl -s http://169.254.169.254/latest/meta-data/public-hostname)/ui"'
+    override.vm.provision :shell, :inline => 'echo "https://$(curl -s http://169.254.169.254/latest/meta-data/public-hostname):8443/ui"'
   end
 
   config.vm.provision :chef_solo do |chef|
@@ -22,6 +22,6 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision :shell, :name => 'Populating appliance',
-    inline: "/opt/conjur/bin/cli-env /bin/bash -c 'cd /vagrant; ./populate.sh >/vagrant/populate.log 2>&1'"
+    inline: "/opt/conjur/bin/cli-env /bin/bash -c 'cd /vagrant; conjur plugin install dsl2; ./populate.sh >/vagrant/populate.log 2>&1'"
 
 end
