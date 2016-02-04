@@ -24,7 +24,7 @@ mkdir -p features/reports
 chmod 777 features/reports
 
 docker run -d --cidfile=$conjur_cid_file -P \
-		registry.tld:80/conjur-appliance-cuke-master:4.5-stable  
+		registry.tld:80/conjur-appliance-cuke-master:4.6-stable  
 conjur_cid=$(cat $conjur_cid_file)
 
 cat << CLI_CONF > tmp/conjur.conf
