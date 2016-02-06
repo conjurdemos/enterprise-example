@@ -11,4 +11,4 @@ export AWS_BASE_AMI=ami-35b6ca5f
 
 echo "Admin password is : $CONJUR_ADMIN_PASSWORD"
 
-vagrant up --provider aws --debug
+vagrant up --provider aws --debug 2> vargant.log
