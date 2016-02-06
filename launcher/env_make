@@ -1,0 +1,6 @@
+PORTS = -p 8080:80
+
+VOLUMES = -v ~/.aws:/root/.aws 
+
+ENV = \
+  -e SOME_KEY=SOME_VALUE
