@@ -29,3 +29,17 @@ env CONJUR_ADMIN_PASSWORD=$password \
   -D AWS_PRIVATE_KEY_PATH=$priv_key_path \
   vagrant up --provider aws
 ```
+
+After the Conjur appliance and Conjur UI setup is complete on the EC2 instance, you will see the hostname of
+the instance near the end of the output included in the URL to use to launch the Conjur UI, e.g.
+
+```INFO interface: info: ==> default: http://ec2-xx-xxx-xxx-xx.compute-1.amazonaws.com/ui```
+
+To ssh into the instance, use summon to pass the correct variables to vagrant ssh, e.g.
+
+```
+summon -f secrets.dev.yml \
+  -D AWS_KEYPAIR_NAME=$keypair_name \
+  -D AWS_PRIVATE_KEY_PATH=$priv_key_path \
+  vagrant ssh
+```
