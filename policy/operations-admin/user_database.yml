@@ -1,0 +1,74 @@
+---
+- !policy 
+  id: user-database/v1
+  annotations:
+    description: Manages permissions within the user database
+  body:
+    - !variable
+      id: postgres/master_user_name
+      annotations:
+        description: Name of the master user for the PostgreSQL database
+    - !variable
+      id: postgres/master_user_password
+      annotations:
+        description: Password of the master user for the PostgreSQL database
+        expiration: P1D
+    - !variable
+      id: postgres/database_name
+      annotations:
+        description: Name of the database to connect to
+    - !variable
+      id: postgres/database_url
+      annotations:
+        description: URL of the database to connect to
+    - !group
+      id: secret-managers
+      annotations:
+        description: Members are able to update the value of all secrets within the policy
+    - !group
+      id: admins
+      annotations:
+        description: Members have elevated SSH access privilege to hosts in the 'user-database/v1' layer
+    - !group
+      id: users
+      annotations:
+        description: Members have user-level SSH access privilege to hosts in the 'user-database/v1' layer
+    - !layer
+      annotations:
+        description: Hosts in this layer can fetch all 'user-database/v1' variables
+    - !permit
+      role: !group secret-managers
+      privilege:
+        - execute 
+        - update
+      resource: !variable postgres/master_user_name
+      resource: !variable postgres/master_user_password
+      resource: !variable postgres/database_name
+      resource: !variable postgres/database_url
+    - !permit
+      role: !layer
+      privilege: execute
+      resource: !variable postgres/master_user_name
+      resource: !variable postgres/master_user_password
+      resource: !variable postgres/database_name
+      resource: !variable postgres/database_url
+    - !grant
+      role: !group users
+      members:
+        - !member
+          role: !group admins
+          admin: true
+    - !grant
+      role: !group secret-managers
+      members:
+        - !member
+          role: !group admins
+          admin: true
+    - !grant
+      role: !layer
+      members:
+        - !group users
+        - !member
+          role: !group admins
+          admin: true
+...

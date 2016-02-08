@@ -1,0 +1,43 @@
+{
+  "prod/analytics/v1" : [
+    "analytics.myorg.com-001",
+    "analytics.myorg.com-002",
+    "analytics.myorg.com-003"
+  ],
+  "prod/frontend/v1": [
+    "app.myorg.com-001",
+    "app.myorg.com-002",
+    "app.myorg.com-003",
+    "app.myorg.com-004",
+    "app.myorg.com-005"
+  ],
+  "prod/nexus/v1": [
+    "repo.myorg.com-001",
+    "repo.myorg.com-002"
+  ],
+  "prod/openvpn/v1": [
+    "cloud.myorg.com",
+    "office.myorg.com"
+  ],
+  "prod/postgres/v1": [
+    "db.myorg.com-001",
+    "db.myorg.com-002",
+    "db.myorg.com-003"
+  ],
+  "prod/user-database/v1": [
+    "users.myorg.com-002",
+    "users.myorg.com-002"
+  ],
+  "prod/jenkins-slaves/v1": [
+    "ubuntu-1",
+    "ubuntu-2",
+    "centos-1",
+    "darwin-1",
+    "windows-1",
+    "testing"
+  ],
+  "prod/admin-ui/v1": [ "admin.myorg.com" ],
+  "prod/bastion/v1": [ "bastion.myorg.com" ],
+  "prod/salt/v1": [ "salt-master.myorg.com" ],
+  "prod/jenkins/v1": [ "jenkins-master" ]
+}

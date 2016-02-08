@@ -1,0 +1,40 @@
+---
+- !policy 
+  id: jenkins/analytics/v1
+  annotations:
+    description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the analytics Jenkins Folder.
+  body:
+    - !variable
+      id: cloud/access_key_id
+      annotations:
+        description: Analytics Jenkins job api key to cloud service
+    - !variable
+      id: cloud/secret_access_key
+      annotations:
+        description: Analytics Jenkins job secret access key
+    - !variable
+      id: chef/private_key
+      annotations:
+        description: Private key to authenticate with Chef
+    - !group
+      id: secret-managers
+      annotations:
+        description: Members are able to update the value of all secrets within the policy
+    - !host
+      annotations:
+        description: Host identity for running Jenkins jobs in analytics folder - can access analytics API keys
+    - !permit
+      role: !group secret-managers
+      privilege:
+        - execute 
+        - update
+      resource: !variable cloud/access_key_id
+      resource: !variable cloud/secret_access_key
+      resource: !variable chef/private_key
+    - !permit
+      role: !host
+      privilege: execute
+      resource: !variable cloud/access_key_id
+      resource: !variable cloud/secret_access_key
+      resource: !variable chef/private_key
+...

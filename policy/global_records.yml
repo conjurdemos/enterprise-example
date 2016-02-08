@@ -1,0 +1,4 @@
+---
+- !webservice
+  id: authn-tv
+...
