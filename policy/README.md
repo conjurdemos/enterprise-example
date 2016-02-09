@@ -12,7 +12,7 @@ Conjur policies are written in a Ruby DSL. The Conjur Developer's site has [deta
 2. Organize policies into workflow folders.
 3. Policies can be scoped to just about anything -- use cases, applications, jobs, services, hosts, layers, etc.
 
-<img src="https://raw.githubusercontent.com/conjurdemos/enterprise-example/ee-policy-tax/policy/policy-info-arch_v3.png" width="300px"/>
+<img src="https://raw.githubusercontent.com/conjurdemos/enterprise-example/master/policy/policy-info-arch_v3.png" width="300px"/>
 
 ##Policy Naming Conventions
 
