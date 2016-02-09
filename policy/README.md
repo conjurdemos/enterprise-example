@@ -4,7 +4,7 @@ Policies define the access structure of your automation environment. Policies sc
 
 Here we have sample policies designed to secure SSH access to common tools such as Oracle, Salt Stack, and Jenkins. We also have policies designed to support specific use cases, like controlling access to Jenkins jobs.
 
-Conjur policies are written in a Ruby DSL. The Conjur Developer's site has [detailed instructions] (https://developer.conjur.net/tutorials/custom_permissions/dsl.html) on how to modify policies.
+Conjur policies are written in Conjur's DSL2 syntax.
 
 ##Organizing Policies
 
