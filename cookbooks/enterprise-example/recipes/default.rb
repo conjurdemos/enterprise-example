@@ -23,6 +23,7 @@ end
 bash 'configure appliance' do
   code <<-EOH 
     set -x
+    docker exec -i conjur-appliance bash -c 'openssl dhparam 256 > /etc/ssl/dhparam.pem'
     docker exec -i conjur-appliance \
       evoke configure master -h $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) \
       -p #{password} #{orgaccount} 
