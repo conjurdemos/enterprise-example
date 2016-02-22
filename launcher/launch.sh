@@ -7,7 +7,7 @@ export SSH_PRIVATE_KEY_PATH=id_$AWS_KEYPAIR_NAME
 aws ec2 create-key-pair --key-name $AWS_KEYPAIR_NAME --query 'KeyMaterial' --output text> $SSH_PRIVATE_KEY_PATH
 chmod 400 $SSH_PRIVATE_KEY_PATH
 export CONJUR_ADMIN_PASSWORD=$(openssl rand -hex 8) 
-export AWS_BASE_AMI=ami-35b6ca5f
+export AWS_BASE_AMI=ami-4dd1e727
 
 echo "Admin password is : $CONJUR_ADMIN_PASSWORD"
 
