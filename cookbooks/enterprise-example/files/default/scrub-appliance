@@ -1,8 +1,0 @@
-#!/bin/bash
-
-stop conjur-ui
-stop conjur
-
-docker 
-docker rm root-home
-
