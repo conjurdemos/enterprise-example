@@ -1,40 +1,61 @@
 ---
 - !grant
+  replace: true
   role: !group employees
   members:
     - !group ci
-    - !member 
-      role: !group ci-admin
-      admin: true
-    - !group developers
-    - !member 
-      role: !group developers-admin
-      admin: true
     - !group field
-    - !member 
-      role: !group field-admin
-      admin: true
     - !group operations
-    - !member 
-      role: !group operations-admin
-      admin: true
+    - !group developers
     - !group qa
-    - !member 
-      role: !group qa-admin
-      admin: true
     - !group researchers
-    - !member 
-      role: !group researchers-admin
-      admin: true
+
+- !grant
+  replace: true
+  role: !group ci
+  member: !member 
+    role: !group ci-admin
+    admin: true
+  
+- !grant
+  replace: true
+  role: !group field
+  member: !member 
+    role: !group field-admin
+    admin: true
+
+- !grant
+  replace: true
+  role: !group operations
+  member: !member 
+    role: !group developers-admin
+    admin: true
+
+- !grant
+  replace: true
+  role: !group qa
+  member: !member 
+    role: !group qa-admin
+    admin: true
+
+- !grant
+  role: !group researchers
+  member: !member 
+    role: !group researchers-admin
+    admin: true
+
 - !grant
   role: !layer prod/analytics/v1/data-producers
   member: !layer prod/frontend/v1
+  
 - !grant
   role: !group prod/analytics/v1/admins
   member: !group developers-admin
+  
 - !grant
   role: !group prod/analytics/v1/users
   member: !group developers
+  
 - !grant
   role: !group prod/bastion/v1/users
   members: 
@@ -42,43 +63,57 @@
     - !group prod/admin-ui/v1/users
     - !group prod/postgres/v1/users
     - !group prod/user-database/v1/users
+    
 - !grant
   role: !group prod/admin-ui/v1/admins
   member: !group developers-admin
+  
 - !grant
   role: !group prod/admin-ui/v1/users
-  member: !group developers
-  member: !group researchers
+  member:
+  - !group developers
+  - !group researchers
+  
 - !grant
   role: !group prod/frontend/v1/admins
   member: !group developers-admin
+  
 - !grant
   role: !group prod/frontend/v1/users
-  member: !group developers
-  member: !group researchers
+  member: 
+  - !group developers
+  - !group researchers
+  
 - !grant
   role: !group prod/nexus/v1/admins
   member: !group operations
+
 - !grant
   role: !group prod/openvpn/v1/admins
   member: !group operations
+
 - !grant
   role: !group prod/postgres/v1/admins
   member: !group operations
+
 - !grant
   role: !group prod/salt/v1/admins
   member: !group operations
+
 - !grant
   role: !group prod/user-database/v1/admins
   member: !group developers-admin
+
 - !grant
   role: !group prod/user-database/v1/users
   member: !group developers
+
 - !grant
   role: !group prod/jenkins-slaves/v1/admins
   member: !group ci
+
 - !permit
   role: !layer prod/jenkins/v1
   privilege: execute
-  resource: !webservice authn-tv
+  resource: !webservice conjur/authn-tv
 ...
