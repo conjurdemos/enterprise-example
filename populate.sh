@@ -2,6 +2,16 @@
 
 mkdir -p tmp
 
+conjur bootstrap -q
+
+cat << USER_SCRIPT | ruby -rconjur-api -rconjur-cli -rconjur/authn
+Conjur::Config.load
+Conjur::Config.apply
+Conjur::Authn.connect(nil, noask: true).create_user 'alice', password: 'password'
+USER_SCRIPT
+conjur group members add security_admin alice
+conjur elevate resource give user:alice group:security_admin
+
 conjur script execute --context conjur.json --as-group security_admin policy/groups.rb
 conjur script execute --context conjur.json --as-group security_admin policy/users.rb
 
@@ -13,5 +23,8 @@ for script in $(find policy/* -name "*.yml"); do
 	fi
 done        	
 
-conjur policy2 load --context api-keys.json --as-group security_admin policy/global_records.yml
 conjur policy2 load --context api-keys.json --as-group security_admin policy/entitlements.yml
+
+cd demo
+./populate_hosts.rb hosts.json
+cd -

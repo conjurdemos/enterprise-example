@@ -1,48 +1,39 @@
 #!/bin/bash -e
 
-mkdir -p tmp
+CONJUR_VERSION=${CONJUR_VERSION:-"4.6"}
+DOCKER_IMAGE=${DOCKER_IMAGE:-"registry.tld/conjur-appliance-cuke-master:$CONJUR_VERSION-stable"}
+NOKILL=${NOKILL:-"0"}
+PULL=${PULL:-"1"}
 
-rsync -a --delete --exclude tmp --exclude ci . ci/docker/tmp
-
-cd ci/docker
-
-docker build -t enterprise-example-test -f Dockerfile.test .
-
-cd -
-
-conjur_cid_file=tmp/conjur.cid
-
-function finish {
-	rm -f $conjur_cid_file || true
-	docker rm -f $conjur_cid  || true
-}
-if [ -z "$KEEP_CONTAINERS" ]; then
+if [ -z "$CONJUR_CONTAINER" ]; then
+	if [ "$PULL" == "1" ]; then
+	    docker pull $DOCKER_IMAGE
+	fi
+	
+	cid=$(docker run -d -v ${PWD}:/src/enterprise-example $DOCKER_IMAGE)
+	function finish {
+    	if [ "$NOKILL" != "1" ]; then
+			docker rm -f ${cid}
+		fi
+	}
 	trap finish EXIT
+	
+	>&2 echo "Container id:"
+	>&2 echo $cid
+else
+	cid=${CONJUR_CONTAINER}
 fi
 
-mkdir -p features/reports
-chmod 777 features/reports
+docker exec $cid bash -c "echo '127.0.0.1 conjur' >> /etc/hosts"
+docker exec $cid /opt/conjur/evoke/bin/wait_for_conjur
 
-docker run -d --cidfile=$conjur_cid_file -P \
-		registry.tld:80/conjur-appliance-cuke-master:4.6-stable  
-conjur_cid=$(cat $conjur_cid_file)
+cat << "TEST" | docker exec -i $cid bash
+set -ex
 
-cat << CLI_CONF > tmp/conjur.conf
-appliance_url: https://conjur/api
-account: cucumber
-plugins: [ host-factory ]
-cert_file: /etc/conjur.pem
-CLI_CONF
+export CONJUR_AUTHN_LOGIN=admin CONJUR_AUTHN_API_KEY=secret
 
-docker exec $conjur_cid cat /opt/conjur/etc/ssl/ca.pem > tmp/conjur.pem
-
-sleep 60
-
-docker run --rm \
-		-e CONJUR_AUTHN_LOGIN=admin \
-		-e CONJUR_AUTHN_API_KEY=secret \
-		--link "$conjur_cid":conjur \
-        -v $PWD/features/reports:/tmp/features/reports \
-        -v $PWD/tmp/conjur.conf:/etc/conjur.conf \
-        -v $PWD/tmp/conjur.pem:/etc/conjur.pem \
-        enterprise-example-test
+cd /src/enterprise-example
+rm -rf features/reports
+bundle
+bundle exec ./populate.sh
+TEST

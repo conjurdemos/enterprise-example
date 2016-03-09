@@ -1,43 +1,43 @@
 {
   "prod/analytics/v1" : [
-    "analytics.myorg.com-001",
-    "analytics.myorg.com-002",
-    "analytics.myorg.com-003"
+    "analytics-001.itr.myorg.com",
+    "analytics-002.itr.myorg.com",
+    "analytics-003.itr.myorg.com"
   ],
   "prod/frontend/v1": [
-    "app.myorg.com-001",
-    "app.myorg.com-002",
-    "app.myorg.com-003",
-    "app.myorg.com-004",
-    "app.myorg.com-005"
+    "app-001.itp.myorg.com",
+    "app-002.itp.myorg.com",
+    "app-003.itp.myorg.com",
+    "app-004.itp.myorg.com",
+    "app-005.itp.myorg.com"
   ],
   "prod/nexus/v1": [
-    "repo.myorg.com-001",
-    "repo.myorg.com-002"
+    "nexus-001.itci.myorg.com",
+    "nexus-002.itci.myorg.com"
   ],
   "prod/openvpn/v1": [
-    "cloud.myorg.com",
-    "office.myorg.com"
+    "cloud.itp.myorg.com",
+    "office.itp.myorg.com"
   ],
   "prod/postgres/v1": [
-    "db.myorg.com-001",
-    "db.myorg.com-002",
-    "db.myorg.com-003"
+    "db-01.itp.myorg.com",
+    "db-02.itp.myorg.com",
+    "db-03.itp.myorg.com"
   ],
   "prod/user-database/v1": [
-    "users.myorg.com-002",
-    "users.myorg.com-002"
+    "userdb-01.itp.myorg.com",
+    "userdb-02.itp.myorg.com"
   ],
   "prod/jenkins-slaves/v1": [
-    "ubuntu-1",
-    "ubuntu-2",
-    "centos-1",
-    "darwin-1",
-    "windows-1",
-    "testing"
+    "executor-ubuntu-01.itci.myorg.com",
+    "executor-ubuntu-02.itci.myorg.com",
+    "executor-centos-01.itci.myorg.com",
+    "executor-darwin-01.itci.myorg.com",
+    "executor-windows-01.itci.myorg.com",
+    "executor-testing.itci.myorg.com"
   ],
-  "prod/admin-ui/v1": [ "admin.myorg.com" ],
-  "prod/bastion/v1": [ "bastion.myorg.com" ],
-  "prod/salt/v1": [ "salt-master.myorg.com" ],
-  "prod/jenkins/v1": [ "jenkins-master" ]
+  "prod/admin-ui/v1": [ "admin.itp.myorg.com" ],
+  "prod/bastion/v1": [ "bastion.itp.myorg.com" ],
+  "prod/salt/v1": [ "salt-master.itp.myorg.com" ],
+  "prod/jenkins/v1": [ "jenkins-master-01.itci.myorg.com" ]
 }

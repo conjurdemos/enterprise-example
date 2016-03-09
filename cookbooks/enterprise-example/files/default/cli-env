@@ -1,8 +1,0 @@
-#!/bin/bash
-
-stdout_tty=''
-if test -t 1; then
-  stdout_tty='-t'
-fi
-
-docker run -i $stdout_tty  --rm --volumes-from root-home --link conjur-appliance:conjur apotterri/conjur-cli "$@"
