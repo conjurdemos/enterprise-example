@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+#ruby=ruby-2.2.4
+#ruby-gemset=enterprise-example
+
 gem 'methadone'
 gem 'conjur-cli'
-gem 'conjur-asset-dsl2', '~> 0.4'
+gem 'conjur-asset-policy'

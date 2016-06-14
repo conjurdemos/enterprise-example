@@ -10,23 +10,22 @@ You'll need access to either the ci or dev account. Use the corresponding secret
 You'll need to pick an admin password, e.g.
 
 ```
-$ password=$(openssl rand -hex 8)
+$ export CONJUR_ADMIN_PASSWORD=$(openssl rand -hex 8)
 ```
 
 Then, to bring up an EC2 instance, you can do
 
 ```
-env CONJUR_ADMIN_PASSWORD=$password \
-  summon -f secrets.ci.yml vagrant up --provider aws
+$ summon -f secrets.ci.yml -D CONJUR_ADMIN_PASSWORD=$CONJUR_ADMIN_PASSWORD vagrant up --provider aws
 ```
 
 or
 
 ```
-env CONJUR_ADMIN_PASSWORD=$password \
-  summon -f secrets.dev.yml \
-  -D AWS_KEYPAIR_NAME=$keypair_name \
-  -D AWS_PRIVATE_KEY_PATH=$priv_key_path \
+$ summon -f secrets.dev.yml \
+  -D AWS_KEYPAIR_NAME=mykey \
+  -D AWS_PRIVATE_KEY_PATH=$HOME/.ssh/id_rsa \
+  -D CONJUR_ADMIN_PASSWORD=$CONJUR_ADMIN_PASSWORD \
   vagrant up --provider aws
 ```
 

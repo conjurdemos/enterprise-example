@@ -1,0 +1,36 @@
+---
+- name: Create EE demo {{ lookup('env','DEMO_NAME') }}
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Create security group enterprise_example_{{ lookup('env','DEMO_NAME') }}
+      ec2_group:
+        name: enterprise_example_{{ lookup('env','DEMO_NAME') }}
+        description: "Security group for Enterprise Example"
+        region: us-east-1
+        rules:
+          - proto: tcp
+            from_port: 22
+            to_port: 22
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 443
+            to_port: 443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
+            from_port: 636
+            to_port: 636
+            cidr_ip: 0.0.0.0/0
+      register: demo_sg
+      
+    - name: Launch instance for {{ lookup('env','DEMO_NAME') }}
+      ec2:
+        key_name: "{{ lookup('env','SSH_KEY_NAME') }}"
+        instance_type: m3.medium
+        region: us-east-1
+        image: "{{ lookup('env','AWS_BASE_AMI') }}"
+        wait: yes
+        count: 1
+        group_id: "{{demo_sg.group_id}}"
+      register: ec2
