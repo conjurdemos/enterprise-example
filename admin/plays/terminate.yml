@@ -4,7 +4,7 @@
   connection: local
   gather_facts: False
   tasks:
-    - name: Terminate instance {{ec2_id}}
+    - name: Terminate instances
       ec2:
         instance_ids: '{{ec2_id}}'
         state: absent
@@ -17,3 +17,5 @@
         description: "Security group for Enterprise Example"
         state: absent
         region: "us-east-1"
+      retries: 3
+      delay: 10

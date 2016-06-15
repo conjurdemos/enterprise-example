@@ -1,0 +1,15 @@
+#!/bin/sh -e
+
+/src/launch.sh
+
+# Sleeps forever.
+# Cf. http://stackoverflow.com/questions/9052847/implementing-infinite-wait-in-shell-scripting
+sleep_indefinitely() {
+  PIPE="$1"
+  rm -f "$PIPE"
+  mkfifo "$PIPE"
+  while true; do read; done < "$PIPE"
+}
+
+# Wait for TERM signal
+sleep_indefinitely "/run/ee.sv"
