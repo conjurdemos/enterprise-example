@@ -19,6 +19,7 @@ chmod 0600 /dev/shm/id_rsa
 password=$(openssl rand -hex 8)
 
 echo Launching Enterprise Example demo $DEMO_NAME
+echo Admin password: $password
 
 ansible-playbook --key-file /dev/shm/id_rsa  -u ubuntu --extra-vars "admin_password=$password" plays/launch.yml
 
