@@ -56,8 +56,6 @@ yes
 ...
 ```
 
-```
-
 ## Open the UI
 
 You will see the hostname of the server printed during the launch command output.
