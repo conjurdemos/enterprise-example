@@ -14,6 +14,7 @@ ADD admin/root /
 WORKDIR /opt/ee
 
 VOLUME /etc/conjur
+
 ENV TERM xterm
 
 # Enable a service to keep the container running.
