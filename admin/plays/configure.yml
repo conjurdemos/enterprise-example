@@ -12,9 +12,3 @@
     template: src=../templates/conjur.conf.j2 dest=/etc/conjur/conjur.conf
     vars:
       hostname: "{{ ec2_public_dns_name }}"
-    
-  - name: Create the Conjur identity file
-    connection: local
-    template: src=../templates/netrc.j2 dest=/etc/conjur/.conjurrc mode=0640
-    vars:
-      hostname: "{{ ec2_public_dns_name }}"

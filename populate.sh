@@ -26,6 +26,6 @@ done
 
 conjur policy load --context api-keys.json --as-group security_admin policy/entitlements.yml
 
-cd demo
+cd generate
 ./populate_hosts.rb hosts.json
 cd -

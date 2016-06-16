@@ -1,4 +1,5 @@
 # Creating a demo
+
 You can use the Vagrantfile in this directory to start an EC2 instance running a Conjur appliance, along with the Conjur UI. The `policy/populate.sh` script will be used to load some sample data. 
 
 Start by making sure you have the `vagrant-berkshelf` and `vagrant-aws` plugins installed.
