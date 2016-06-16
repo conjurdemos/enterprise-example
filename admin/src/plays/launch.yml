@@ -15,6 +15,10 @@
             to_port: 22
             cidr_ip: 0.0.0.0/0
           - proto: tcp
+            from_port: 8443
+            to_port: 8443
+            cidr_ip: 0.0.0.0/0
+          - proto: tcp
             from_port: 443
             to_port: 443
             cidr_ip: 0.0.0.0/0
@@ -27,7 +31,7 @@
     - name: Launch instance for {{ lookup('env','DEMO_NAME') }}
       ec2:
         key_name: "{{ lookup('env','AWS_KEYPAIR_NAME') }}"
-        instance_type: m3.medium
+        instance_type: m3.large
         region: us-east-1
         image: "{{ lookup('env','AWS_BASE_AMI') }}"
         wait: yes
@@ -44,6 +48,37 @@
           CONFIGURE
           
           docker cp conjur-appliance:/opt/conjur/etc/ssl/ca.pem /etc/conjur.pem
+          
+          cat << CONJUR_UI > /etc/init/conjur-ui.conf
+          description "Conjur UI"
+          author "Conjur, Inc."
+          start on filesystem and started docker
+          stop on runlevel [!2345]
+          respawn
+          
+          pre-start script
+            /usr/bin/docker pull conjurinc/conjur-ui
+            mkdir -p /etc/conjur-ui
+            /usr/bin/openssl dhparam 256 > /etc/conjur-ui/dhparam.pem
+          end script
+          
+          script
+            /usr/bin/docker run \
+              -p 8443:443 \
+              --link conjur-appliance:conjur \
+              -e DH_PARAM_PEM="$(cat /etc/conjur-ui/dhparam.pem)" \
+              -e CONJUR_APPLIANCE_URL=https://conjur \
+              --name conjur-ui \
+              conjurinc/conjur-ui
+          end script
+          
+          post-stop script
+            sleep 2
+            /usr/bin/docker rm conjur-ui
+          end script
+          CONJUR_UI
+          
+          service conjur-ui start
       register: ec2
       
     - name: Wait for SSH to come up
