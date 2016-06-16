@@ -2,16 +2,7 @@
 
 mkdir -p tmp
 
-conjur bootstrap -q
-
-cat << USER_SCRIPT | ruby -rconjur-api -rconjur-cli -rconjur/authn
-Conjur::Config.load
-Conjur::Config.apply
-api = Conjur::Authn.connect(nil, noask: true)
-api.create_user 'alice', password: 'password' unless api.user('alice').exists?
-USER_SCRIPT
-conjur group members add security_admin alice
-conjur elevate resource give user:alice group:security_admin
+conjur bootstrap
 
 conjur script execute --context conjur.json --as-group security_admin policy/groups.rb
 conjur script execute --context conjur.json --as-group security_admin policy/users.rb

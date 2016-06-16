@@ -1,0 +1,23 @@
+admin:
+  build: .
+  dockerfile: Dockerfile.admin
+  environment:
+    DEMO_NAME:
+    AWS_BASE_AMI:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_KEYPAIR_NAME:
+    SSH_PRIVATE_KEY:
+    TERM: xterm
+  volumes:
+    - ./admin:/mnt
+cli:
+  build: .
+  dockerfile: Dockerfile.cli
+  environment:
+    CONJURRC: /etc/conjur/.conjurrc
+    TERM: xterm
+  volumes:
+    - .:/src
+  volumes_from:
+  - admin

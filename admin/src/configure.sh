@@ -7,7 +7,5 @@ fi
 
 echo Configuring Enterprise Example demo $DEMO_NAME
 
-cd /src
-
-./ec2.py --refresh-cache
+./ec2.py --refresh-cache 2>&1 > /dev/null
 ansible-playbook --key-file /dev/shm/id_rsa -i ec2.py -u ubuntu plays/configure.yml

@@ -7,6 +7,5 @@ fi
 
 echo Terminating Enterprise Example demo $DEMO_NAME
 
-cd /src
-
+./ec2.py --refresh-cache 2>&1 > /dev/null
 ansible-playbook -i ec2.py plays/terminate.yml

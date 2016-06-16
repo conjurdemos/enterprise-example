@@ -8,14 +8,13 @@ RUN apt-get update && \
 
 RUN pip install boto
 
-RUN apt-get update && \
-  apt-add-repository -y ppa:brightbox/ruby-ng && \
-  apt-get update && \
-  apt-get install -y ruby2.2 ruby2.2-dev
-
-RUN gem install -N conjur-cli
-
-ADD admin /src/
+ADD admin/src  /opt/ee/
 ADD admin/root /
 
-WORKDIR /src
+WORKDIR /opt/ee
+
+VOLUME /etc/conjur
+ENV TERM xterm
+
+# Enable a service to keep the container running.
+RUN rm /etc/service/sshd/down
