@@ -9,6 +9,6 @@ fi
 shift
 
 export DEMO_NAME=$demo_name
-summon -f secrets.dev.yml docker-compose up -d
+summon -p summon-conjur-cli -f secrets.dev.yml docker-compose up -d
 
 docker exec -it enterpriseexample_admin_1 ./launch.sh

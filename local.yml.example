@@ -1,2 +1,0 @@
-SSH_KEY_NAME: spudling
-SSH_PRIVATE_KEY_PATH: ~/.ssh/conjur_dev_spudling.pem
