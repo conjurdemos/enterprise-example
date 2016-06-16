@@ -1,45 +1,80 @@
-# Creating a demo
+# Launch a demo environment.
 
-You can use the Vagrantfile in this directory to start an EC2 instance running a Conjur appliance, along with the Conjur UI. The `policy/populate.sh` script will be used to load some sample data. 
+## Prerequisites
 
-Start by making sure you have the `vagrant-berkshelf` and `vagrant-aws` plugins installed.
+1. Docker
+2. CONJURRC file to `conjurops`
+3. Summon + Conjur-CLI provider
 
-You'll need summon installed and the summon-conjurcli provider (conjurcli.sh) in /usr/libexec/summon.
-You should be logged into conjurops with the conjur cli to access the aws account info.
-You'll need access to either the ci or dev account. Use the corresponding secrets YAML file. If you use the dev account, you'll also need to provide a keypair name and a private key file.
-
-You'll need to pick an admin password, e.g.
+Install the base `summon` program: 
 
 ```
-$ export CONJUR_ADMIN_PASSWORD=$(openssl rand -hex 8)
+$ brew tap conjurinc/tools
+$ brew install summon
 ```
 
-Then, to bring up an EC2 instance, you can do
+Install the Conjur-CLI provider (the `conjur` provider is not working with conjurops SSL right now):
 
 ```
-$ summon -f secrets.ci.yml -D CONJUR_ADMIN_PASSWORD=$CONJUR_ADMIN_PASSWORD vagrant up --provider aws
+$ curl -o summon-conjur-cli -sSL https://raw.githubusercontent.com/conjurinc/summon-conjurcli/master/conjurcli.sh
+$ chmod a+x summon-conjur-cli
+$ mv summon-conjur-cli /usr/local/lib/summon
 ```
 
-or
+## Launch
+
+You should be logged into `conjurops` to access the AWS credentials and SSH key.
+
+Next, select a name for your demo environment. This name will be the Conjur account name, and 
+will also be used to name resources such as the EC2 security group.
 
 ```
-$ summon -f secrets.dev.yml \
-  -D AWS_KEYPAIR_NAME=mykey \
-  -D AWS_PRIVATE_KEY_PATH=$HOME/.ssh/id_rsa \
-  -D CONJUR_ADMIN_PASSWORD=$CONJUR_ADMIN_PASSWORD \
-  vagrant up --provider aws
+# Choose a demo name here
+$ demo_name=
+$ ./bin/launch $demo_name
 ```
 
-After the Conjur appliance and Conjur UI setup is complete on the EC2 instance, you will see the hostname of
-the instance near the end of the output included in the URL to use to launch the Conjur UI, e.g.
-
-```INFO interface: info: ==> default: http://ec2-xx-xxx-xxx-xx.compute-1.amazonaws.com/ui```
-
-To ssh into the instance, use summon to pass the correct variables to vagrant ssh, e.g.
+You will see the admin password printed during the launch command output.
 
 ```
-summon -f secrets.dev.yml \
-  -D AWS_KEYPAIR_NAME=$keypair_name \
-  -D AWS_PRIVATE_KEY_PATH=$priv_key_path \
-  vagrant ssh
+Configuring Enterprise Example demo kegtest
+Admin password: d0c1ea706e5bc79a
 ```
+
+## Populate the demo data
+
+Enter a Docker container which has the CLI installed and pre-authenticated to your demo Conjur server.
+Then load the demo data using `./populate.sh`. You should create a new `security_admin` user account
+for yourself.
+
+```
+$ docker exec -it enterpriseexample_cli_1  bash
+root@3b630caf94f9:/src# ./populate.sh
+...
+Create a new security_admin? (answer 'y' or 'yes'):
+yes
+...
+```
+
+```
+
+## Open the UI
+
+You will see the hostname of the server printed during the launch command output.
+
+```
+Configuring Enterprise Example demo kegtest
+Admin password: d0c1ea706e5bc79a
+
+PLAY RECAP *********************************************************************
+ec2-54-163-192-198.compute-1.amazonaws.com : ok=4    changed=1    unreachable=0    failed=0  
+```
+
+Open the UI like this:
+
+```
+$ open https://ec2-54-163-192-198.compute-1.amazonaws.com:8443/ui &
+```
+
+Login using the security admin username and password you selected earlier.
+
