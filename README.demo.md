@@ -31,7 +31,7 @@ will also be used to name resources such as the EC2 security group.
 ```
 # Choose a demo name here
 $ demo_name=
-$ ./bin/launch $demo_name
+$ ./bin/startup $demo_name
 ```
 
 You will see the admin password printed during the launch command output.
