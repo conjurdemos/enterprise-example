@@ -2,7 +2,11 @@
 
 mkdir -p tmp
 
-conjur bootstrap
+if [ -t 1 ]; then
+	conjur bootstrap
+else
+	conjur bootstrap -q
+fi
 
 conjur script execute --context conjur.json --as-group security_admin policy/groups.rb
 conjur script execute --context conjur.json --as-group security_admin policy/users.rb
