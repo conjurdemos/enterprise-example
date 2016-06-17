@@ -10,7 +10,7 @@ shift
 
 export DEMO_NAME=$demo_name
 
-docker exec -it ee_admin_"$DEMO_NAME" ./terminate.sh
+docker exec ee_admin_"$DEMO_NAME" ./terminate.sh
 
 docker-compose stop
 docker-compose rm -f

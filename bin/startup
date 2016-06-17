@@ -14,4 +14,4 @@ SUMMON_PROVIDER=${SUMMON_PROVIDER:-"summon-conjur-cli"}
 export DEMO_NAME=$demo_name
 summon -p "$SUMMON_PROVIDER" -f secrets."$ENVIRONMENT".yml docker-compose up -d
 
-docker exec -it ee_admin_"$DEMO_NAME" ./launch.sh
+docker exec ee_admin_"$DEMO_NAME" ./launch.sh
