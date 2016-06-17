@@ -8,7 +8,10 @@ fi
 
 shift
 
-export DEMO_NAME=$demo_name
-summon -p summon-conjur-cli -f secrets.dev.yml docker-compose up -d
+ENVIRONMENT=${ENVIRONMENT:-"dev"}
+SUMMON_PROVIDER=${SUMMON_PROVIDER:-"summon-conjur-cli"}
 
-docker exec -it enterpriseexample_admin_1 ./launch.sh
+export DEMO_NAME=$demo_name
+summon -p "$SUMMON_PROVIDER" -f secrets."$ENVIRONMENT".yml docker-compose up -d
+
+docker exec -it ee_admin_"$DEMO_NAME" ./launch.sh

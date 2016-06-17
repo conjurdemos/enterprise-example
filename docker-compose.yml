@@ -1,6 +1,7 @@
 admin:
   build: .
   dockerfile: Dockerfile.admin
+  container_name: "ee_admin_${DEMO_NAME}"
   environment:
     DEMO_NAME:
     AWS_BASE_AMI:
@@ -13,6 +14,7 @@ admin:
 cli:
   build: .
   dockerfile: Dockerfile.cli
+  container_name: "ee_cli_${DEMO_NAME}"
   volumes:
     - .:/src
   volumes_from:
