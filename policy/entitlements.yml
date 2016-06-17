@@ -49,71 +49,106 @@
   member: !layer prod/frontend/v1
   
 - !grant
-  role: !group prod/analytics/v1/admins
+  role: !managed-role
+    record: !layer prod/analytics/v1
+    role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !group prod/analytics/v1/users
+  role: !managed-role
+    record: !layer prod/analytics/v1
+    role_name: use_host
   member: !group developers
   
 - !grant
-  role: !group prod/bastion/v1/users
+  role: !managed-role
+    record: !layer prod/bastion/v1
+    role_name: use_host
   members: 
-    - !group prod/analytics/v1/users
-    - !group prod/admin-ui/v1/users
-    - !group prod/postgres/v1/users
-    - !group prod/user-database/v1/users
+  - !managed-role
+    record: !layer prod/analytics/v1
+    role_name: use_host
+  - !managed-role
+    record: !layer prod/admin-ui/v1
+    role_name: use_host
+  - !managed-role
+    record: !layer prod/postgres/v1
+    role_name: use_host
+  - !managed-role
+    record: !layer prod/user-database/v1
+    role_name: use_host
     
 - !grant
-  role: !group prod/admin-ui/v1/admins
+  role: !managed-role
+    record: !layer prod/admin-ui/v1
+    role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !group prod/admin-ui/v1/users
+  role: !managed-role
+    record: !layer prod/admin-ui/v1
+    role_name: use_host
   member:
   - !group developers
   - !group researchers
   
 - !grant
-  role: !group prod/frontend/v1/admins
+  role: !managed-role
+    record: !layer prod/frontend/v1
+    role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !group prod/frontend/v1/users
+  role: !managed-role
+    record: !layer prod/frontend/v1
+    role_name: use_host
   member: 
   - !group developers
   - !group researchers
   
 - !grant
-  role: !group prod/nexus/v1/admins
+  role: !managed-role
+    record: !layer prod/nexus/v1
+    role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !group prod/openvpn/v1/admins
+  role: !managed-role
+    record: !layer prod/openvpn/v1
+    role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !group prod/postgres/v1/admins
+  role: !managed-role
+    record: !layer prod/postgres/v1
+    role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !group prod/salt/v1/admins
+  role: !managed-role
+    record: !layer prod/salt/v1
+    role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !group prod/user-database/v1/admins
+  role: !managed-role
+    record: !layer prod/user-database/v1
+    role_name: admin_host
   member: !group developers-admin
 
 - !grant
-  role: !group prod/user-database/v1/users
+  role: !managed-role
+    record: !layer prod/user-database/v1
+    role_name: use_host
   member: !group developers
 
 - !grant
-  role: !group prod/jenkins-slaves/v1/admins
+  role: !managed-role
+    record: !layer prod/jenkins-slaves/v1
+    role_name: admin_host
   member: !group ci
 
 - !permit
   role: !layer prod/jenkins/v1
   privilege: execute
   resource: !webservice conjur/authn-tv
-...
