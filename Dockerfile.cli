@@ -1,0 +1,18 @@
+FROM phusion/baseimage:0.9.18
+
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  apt-add-repository -y ppa:brightbox/ruby-ng && \
+  apt-get update && \
+  apt-get install -y curl unzip jq vim ruby2.2 ruby2.2-dev
+RUN apt-get install -y build-essential
+
+RUN gem install -N conjur-cli conjur-asset-policy
+
+# Enable a service to keep the container running.
+RUN rm /etc/service/sshd/down
+
+ENV CONJURRC /etc/conjur/conjur.conf
+ENV TERM     xterm
+
+WORKDIR /src

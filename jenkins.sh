@@ -1,39 +1,24 @@
 #!/bin/bash -e
 
-CONJUR_VERSION=${CONJUR_VERSION:-"4.6"}
-DOCKER_IMAGE=${DOCKER_IMAGE:-"registry.tld/conjur-appliance-cuke-master:$CONJUR_VERSION-stable"}
 NOKILL=${NOKILL:-"0"}
-PULL=${PULL:-"1"}
 
-if [ -z "$CONJUR_CONTAINER" ]; then
-	if [ "$PULL" == "1" ]; then
-	    docker pull $DOCKER_IMAGE
-	fi
-	
-	cid=$(docker run -d -v ${PWD}:/src/enterprise-example $DOCKER_IMAGE)
-	function finish {
-    	if [ "$NOKILL" != "1" ]; then
-			docker rm -f ${cid}
-		fi
-	}
-	trap finish EXIT
-	
-	>&2 echo "Container id:"
-	>&2 echo $cid
-else
-	cid=${CONJUR_CONTAINER}
+if [ ! -f ./bin/docker-compose ]; then
+	curl -L https://github.com/docker/compose/releases/download/1.7.1/docker-compose-`uname -s`-`uname -m` > ./bin/docker-compose
+	chmod a+x bin/docker-compose
 fi
 
-docker exec $cid bash -c "echo '127.0.0.1 conjur' >> /etc/hosts"
-docker exec $cid /opt/conjur/evoke/bin/wait_for_conjur
+export PATH=./bin:$PATH
 
-cat << "TEST" | docker exec -i $cid bash
-set -ex
+demo_name=$(openssl rand -hex 8)
 
-export CONJUR_AUTHN_LOGIN=admin CONJUR_AUTHN_API_KEY=secret
+function finish {
+	if [ "$NOKILL" != "1" ]; then
+		./bin/shutdown $demo_name || true
+	fi
+}
 
-cd /src/enterprise-example
-rm -rf features/reports
-bundle
-bundle exec ./populate.sh
-TEST
+trap finish EXIT
+
+CONTAINER_SUFFIX=$demo_name SUMMON_PROVIDER=conjurcli.sh ENVIRONMENT=ci ./bin/startup $demo_name
+
+docker exec ee_cli_$demo_name ./populate.sh

@@ -1,0 +1,21 @@
+---
+- name: Delete EE demo {{ lookup('env','DEMO_NAME') }}
+  hosts: security_group_enterprise_example_{{ lookup('env','DEMO_NAME') }}
+  connection: local
+  gather_facts: False
+  tasks:
+    - name: Terminate instances
+      ec2:
+        instance_ids: '{{ec2_id}}'
+        state: absent
+        region: "us-east-1"
+        wait: yes
+      
+    - name: Delete security group enterprise_example_{{ lookup('env','DEMO_NAME') }}
+      ec2_group:
+        name: enterprise_example_{{ lookup('env','DEMO_NAME') }}
+        description: "Security group for Enterprise Example"
+        state: absent
+        region: "us-east-1"
+      retries: 3
+      delay: 10

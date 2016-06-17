@@ -1,0 +1,21 @@
+FROM phusion/baseimage:0.9.18
+
+RUN apt-get update && \
+  apt-get install -y software-properties-common && \
+  apt-add-repository -y ppa:ansible/ansible && \
+  apt-get update && \
+  apt-get install -y ansible python-pip curl unzip jq vim
+
+RUN pip install boto
+
+ADD admin/src  /opt/ee/
+ADD admin/root /
+
+WORKDIR /opt/ee
+
+VOLUME /etc/conjur
+
+ENV TERM xterm
+
+# Enable a service to keep the container running.
+RUN rm /etc/service/sshd/down

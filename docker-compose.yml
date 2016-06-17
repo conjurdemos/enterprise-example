@@ -1,0 +1,21 @@
+admin:
+  build: .
+  dockerfile: Dockerfile.admin
+  container_name: "ee_admin_${DEMO_NAME}"
+  environment:
+    DEMO_NAME:
+    AWS_BASE_AMI:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_KEYPAIR_NAME:
+    SSH_PRIVATE_KEY:
+  volumes:
+    - ./admin:/mnt
+cli:
+  build: .
+  dockerfile: Dockerfile.cli
+  container_name: "ee_cli_${DEMO_NAME}"
+  volumes:
+    - .:/src
+  volumes_from:
+  - admin
