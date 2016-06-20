@@ -11,28 +11,24 @@
     - !group researchers
 
 - !grant
-  replace: true
   role: !group ci
   member: !member 
     role: !group ci-admin
     admin: true
   
 - !grant
-  replace: true
   role: !group field
   member: !member 
     role: !group field-admin
     admin: true
 
 - !grant
-  replace: true
   role: !group operations
   member: !member 
     role: !group developers-admin
     admin: true
 
 - !grant
-  replace: true
   role: !group qa
   member: !member 
     role: !group qa-admin
@@ -49,43 +45,43 @@
   member: !layer prod/frontend/v1
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/analytics/v1
     role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/analytics/v1
     role_name: use_host
   member: !group developers
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/bastion/v1
     role_name: use_host
   members: 
-  - !managed-role
+  - !automatic-role
     record: !layer prod/analytics/v1
     role_name: use_host
-  - !managed-role
+  - !automatic-role
     record: !layer prod/admin-ui/v1
     role_name: use_host
-  - !managed-role
+  - !automatic-role
     record: !layer prod/postgres/v1
     role_name: use_host
-  - !managed-role
+  - !automatic-role
     record: !layer prod/user-database/v1
     role_name: use_host
     
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/admin-ui/v1
     role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/admin-ui/v1
     role_name: use_host
   member:
@@ -93,13 +89,13 @@
   - !group researchers
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/frontend/v1
     role_name: admin_host
   member: !group developers-admin
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/frontend/v1
     role_name: use_host
   member: 
@@ -107,43 +103,43 @@
   - !group researchers
   
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/nexus/v1
     role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/openvpn/v1
     role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/postgres/v1
     role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/salt/v1
     role_name: admin_host
   member: !group operations
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/user-database/v1
     role_name: admin_host
   member: !group developers-admin
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/user-database/v1
     role_name: use_host
   member: !group developers
 
 - !grant
-  role: !managed-role
+  role: !automatic-role
     record: !layer prod/jenkins-slaves/v1
     role_name: admin_host
   member: !group ci
