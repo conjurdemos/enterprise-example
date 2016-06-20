@@ -1,0 +1,23 @@
+- !policy
+  id: ansible/hosts/%HOST_ID%
+  annotations:
+    host/instance-id: %HOST_ID%
+    host/ip-address: %HOST_IP%
+  body:
+    - &variables
+      - !variable 
+        id: private_key
+        annotations:
+          rotation/ttl: %TIME_TO_LIVE%
+          rotation/rotator: ssh/key_pair
+      - !variable host
+      - !variable login
+
+    - !group secrets-users
+
+    - !permit
+        role: !group secrets-users
+        privilege:
+          - read
+          - execute
+        resource: *variables

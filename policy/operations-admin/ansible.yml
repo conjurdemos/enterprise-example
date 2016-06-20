@@ -1,0 +1,7 @@
+---
+- !policy 
+  id: ansible/v1
+  annotations:
+    description: Manages permissions for the Ansible server
+  body:
+    - !layer

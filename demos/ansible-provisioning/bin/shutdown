@@ -1,0 +1,16 @@
+#!/bin/bash -e
+
+demo_name=$1
+if [ -z "$demo_name" ]; then
+  echo demo_name is not specified
+  exit 1
+fi
+
+shift
+
+export DEMO_NAME=$demo_name
+
+docker exec ee_ansible_"$DEMO_NAME" ansible-playbook ansible/cleanup.yml
+
+docker-compose stop
+docker-compose rm -f
