@@ -1,0 +1,9 @@
+---
+- !policy
+  id: jenkins-slaves/v1
+  annotations:
+    description: Manages permissions within Jenkins slave machines
+  body:
+    - !layer
+      annotations:
+        description: Reserved for Jenkins slave machines

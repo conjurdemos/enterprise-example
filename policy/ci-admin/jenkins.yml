@@ -4,16 +4,6 @@
   annotations:
     description: This policy governs the Conjur layer which holds the Jenkins master
   body:
-    - !group 
-      id: admins
-      annotations:
-        description: Members have privileged SSH access to Jenkins masters
-        
-    - !group 
-      id: users
-      annotations:
-        description: Members have user level SSH access to Jenkins masters
-        
     - !layer
       annotations:
         description: Jenkins masters will be added to this layer
@@ -22,16 +12,3 @@
       annotations:
         description: Host factory to create Jenkins masters
       layers: [ !layer ]
-      
-    - !grant
-      role: !managed-role
-        record: !layer
-        role_name: use_host
-      member: !group users
-      
-    - !grant
-      role: !managed-role
-        record: !layer
-        role_name: admin_host
-      member: !group admins
-...
