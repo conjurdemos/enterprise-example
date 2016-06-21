@@ -10,7 +10,7 @@ shift
 
 export DEMO_NAME=$demo_name
 
-docker exec ee_ansible_"$DEMO_NAME" ansible-playbook ansible/cleanup.yml
+docker exec ee_demos_ansible_"$DEMO_NAME" ansible-playbook ansible/cleanup.yml
 
 docker-compose stop
 docker-compose rm -f

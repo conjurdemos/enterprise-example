@@ -24,12 +24,12 @@
       annotations:
         description: Hosts in this layer can fetch all 'frontend/v1' variables
         
+    - !host-factory
+      layers: [ !layer ]
+
     - !permit
       role: !group secret-managers
-      privilege:
-        - read
-        - execute
-        - update
+      privilege: [ read, execute, update ]
       resource: *variables
 
     - !permit

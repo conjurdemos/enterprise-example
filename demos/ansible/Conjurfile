@@ -1,0 +1,47 @@
+---
+- !policy 
+  id: prod/ansible/v1
+  body:
+    - &variables
+      - !variable
+        id: ec2/bootstrap_private_key
+        kind: SSH key
+        mime_type: application/x-pem-file
+        annotations:
+          description: |
+            The EC2 SSH key which is the initial root credential for created hosts.
+            When a new host is created, this key is stored in a variable that is unique to that host.
+            The SSH key rotator can then be used to periodically rotate the unique root SSH key
+            for that host.
+      - !variable 
+        id: ec2/key_name
+        annotations:
+          description: The name of the EC2 SSH key.
+      - !variable
+        id: host-factory/frontend
+        kind: Host Factory token
+        annotations:
+          description: |
+            Stores a Host Factory token for the prod/frontend/v1 layer. When a new host is created
+            for the frontend, Ansible fetches the host factory token from this variable and passes
+            it to the host. The host uses the token to perform identity bootstrap. By using 
+            host factory tokens, Ansible does not have to have a "master" role which is a superset
+            of all application roles. It just needs access to a set of rotating host factory tokens.
+          rotation/rotator: hostfactory
+          rotation/ttl: P1D
+          rotation/hostfactory/id: prod/frontend/v1
+
+    - !layer
+
+    - !permit
+      role: !layer
+      privilege: [ read, execute ]
+      resource: *variables
+
+- !host ee/ansible
+
+- !user ee-ansible
+
+- !grant
+  role: !layer prod/ansible/v1
+  member: !host ee/ansible

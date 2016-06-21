@@ -1,0 +1,26 @@
+---
+- hosts: created:security_group_ee_demos_ansible_{{ lookup('env','DEMO_NAME') }}
+  gather_facts: true
+  vars:
+    account: "{{ lookup('env','DEMO_NAME') }}"
+  tasks:
+  - name: Install Conjur certificate
+    template:
+      src:  /etc/conjur/conjur-{{ account }}.pem
+      dest: /etc/conjur-{{ account }}.pem
+      mode: 0644
+    
+  - name: Configure conjur
+    template:
+      src: ../templates/conjur.conf.j2
+      dest: /etc/conjur.conf
+      mode: 0644
+  
+  - name: Install Conjurize
+    template:
+      src: ../templates/conjurize.sh.j2
+      dest: /opt/conjurize
+      mode: 0755
+  
+  - name: Conjurize
+    command: /opt/conjurize {{ hostfactory_token }}

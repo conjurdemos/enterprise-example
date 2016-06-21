@@ -1,0 +1,22 @@
+#!/bin/bash -e
+set -o pipefail
+
+hostfactory_token=$1
+
+if [ -z $hostfactory_token ]; then
+	echo hostfactory_token is required
+	exit 1
+fi
+
+shift
+
+# You can skip this step if the Conjur CLI is built in to the image
+curl -L -o /tmp/conjur-cli.deb https://github.com/conjurinc/cli-ruby/releases/download/v5.2.3/conjur_5.2.3-1_amd64.deb
+dpkg -i /tmp/conjur-cli.deb
+rm /tmp/conjur-cli.deb
+
+host_id="ec2/$(curl -s http://169.254.169.254/latest/meta-data/instance-id)"
+conjur hostfactory hosts create $hostfactory_token ec2/$host_id | conjurize --ssh | bash
+
+# Delete myself
+rm /opt/conjurize

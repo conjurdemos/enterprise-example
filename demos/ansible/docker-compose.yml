@@ -1,6 +1,6 @@
 ansible:
   build: .
-  container_name: "ee_ansible_${DEMO_NAME}"
+  container_name: "ee_demos_ansible_${DEMO_NAME}"
   environment:
     DEMO_NAME:
     AWS_ACCESS_KEY_ID:
@@ -8,7 +8,6 @@ ansible:
     AWS_KEYPAIR_NAME:
     SSH_PRIVATE_KEY:
   volumes:
-    - $HOME/.ssh:/root/.ssh
     - .:/src
   volumes_from:
   - "ee_admin_${DEMO_NAME}"
