@@ -9,21 +9,31 @@
         id: ssl/private_key
         annotations:
           description: Private key for communication over SSL
-          
+
       - !variable
         id: ssl/certificate
         annotations:
           description: Certificate that needs to be rotated
-        
+
+      - !variable
+        id: mongo/username
+        annotations:
+          description: Username to authenticate with an external MongoDB
+
+      - !variable
+        id: mongo/password
+        annotations:
+          description: Password to authenticate with an external MongoDB
+
     - !group
       id: secret-managers
       annotations:
         description: Members are able to update the value of all secrets within the policy
-        
+
     - !layer
       annotations:
         description: Hosts in this layer can fetch all 'frontend/v1' variables
-        
+
     - !permit
       role: !group secret-managers
       privilege:
