@@ -48,7 +48,7 @@ Then load the demo data using `./populate.sh`. You should create a new `security
 for yourself.
 
 ```
-$ docker exec -it enterpriseexample_cli_1  bash
+$ docker exec -it ee_cli_kegtest  bash
 root@3b630caf94f9:/src# ./populate.sh
 ...
 Create a new security_admin? (answer 'y' or 'yes'):

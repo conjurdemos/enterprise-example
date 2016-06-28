@@ -1,0 +1,6 @@
+---
+- hosts: created:security_group_ee_demos_ansible_{{ lookup('env','DEMO_NAME') }}
+  gather_facts: true
+  tasks:
+  - name: Load and populate Conjur policy
+    local_action: script /src/ansible/register_host.sh {{ec2_instance_id}} {{ec2_public_dns_name}}

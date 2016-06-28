@@ -1,0 +1,13 @@
+ansible:
+  build: .
+  container_name: "ee_demos_ansible_${DEMO_NAME}"
+  environment:
+    DEMO_NAME:
+    AWS_ACCESS_KEY_ID:
+    AWS_SECRET_ACCESS_KEY:
+    AWS_KEYPAIR_NAME:
+    SSH_PRIVATE_KEY:
+  volumes:
+    - .:/src
+  volumes_from:
+  - "ee_admin_${DEMO_NAME}"
