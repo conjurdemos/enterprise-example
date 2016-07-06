@@ -2,6 +2,8 @@
 
 mkdir -p tmp
 
+gem install -N policy
+
 if [ -t 1 ]; then
 	conjur bootstrap
 else
