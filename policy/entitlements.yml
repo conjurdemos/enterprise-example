@@ -1,14 +1,22 @@
 ---
+
+# All groups belong to "employees"
+
 - !grant
   replace: true
   role: !group employees
   members:
-    - !group ci
-    - !group field
-    - !group operations
-    - !group developers
-    - !group qa
-    - !group researchers
+  - !group ci
+  - !group field
+  - !group operations
+  - !group developers
+  - !group qa
+  - !group researchers
+  - !member
+    role: !group security_admin
+    admin: true
+
+# Set up "admin" relationships for teams
 
 - !grant
   role: !group ci
@@ -43,6 +51,8 @@
 - !grant
   role: !layer prod/analytics/v1/data-producers
   member: !layer prod/frontend/v1
+
+# SSH entitlements
   
 - !grant
   role: !automatic-role
@@ -140,11 +150,22 @@
 
 - !grant
   role: !automatic-role
-    record: !layer prod/jenkins-slaves/v1
+    record: !layer ci/jenkins-slaves/v1
     role_name: admin_host
   member: !group ci
 
+# Permit Jenkins to use the authn-tv webservice
+
 - !permit
-  role: !layer prod/jenkins/v1
+  role: !layer ci/jenkins/v1
   privilege: execute
   resource: !webservice conjur/authn-tv
+
+
+# Ansible host
+
+- !host ansible.ee
+
+- !grant
+  role: !layer prod/ansible/v1
+  member: !host ansible.ee

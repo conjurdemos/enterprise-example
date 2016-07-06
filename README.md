@@ -38,7 +38,7 @@ The rest of the groups follow the same pattern, e.g. `developers` and `developer
 
 ## Policies
 
-The [policy](https://github.com/conjurdemos/enterprise-example/tree/master/policy) folder contains sub-folders, for example `ci-admin`, `developers-admin`. Each of these folders contains Conjur DSL policies that are owned by the group corresponding to the folder name. 
+The [policy](https://github.com/conjurdemos/enterprise-example/tree/master/policy) folder contains sub-folders, for example `ci-admin`, `developers-admin`. Each of these folders contains Conjur policies that are owned by the group corresponding to the folder name. 
 
 For example, the [ci-admin](https://github.com/conjurdemos/enterprise-example/tree/master/policy/ci-admin) folder contains policies which govern the Jenkins system. The [jenkins](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/jenkins.rb) policy governs the Conjur layer which holds the Jenkins master and slave machines. [Jenkins team](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/team-a.rb) policies declare secrets (via Conjur variables) which are available to Jenkins jobs located within the corresponding Jenkins Folder. This integration is performed by the Conjur plugin for Jenkins, which is not part of this repository.
 

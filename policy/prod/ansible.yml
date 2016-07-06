@@ -1,6 +1,8 @@
 ---
 - !policy 
-  id: prod/ansible/v1
+  id: ansible/v1
+  annotations:
+    description: Manages the Ansible server
   body:
     - &variables
       - !variable
@@ -37,11 +39,3 @@
       role: !layer
       privilege: [ read, execute ]
       resource: *variables
-
-- !host ee/ansible
-
-- !user ee-ansible
-
-- !grant
-  role: !layer prod/ansible/v1
-  member: !host ee/ansible

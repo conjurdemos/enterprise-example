@@ -1,0 +1,28 @@
+- !policy
+  id: ci
+  owner: !group ci-admin
+  body:
+  - !include ci/admin_ui.yml
+  - !include ci/analytics.yml
+  - !include ci/front_end.yml
+  - !include ci/jenkins_slaves.yml
+  - !include ci/jenkins.yml
+  - !include ci/user_database.yml
+
+
+- !policy
+  id: prod
+  owner: !group operations-admin
+  body:
+  - !include prod/admin_ui.yml
+  - !include prod/analytics.yml
+  - !include prod/ansible.yml
+  - !include prod/bastion.yml
+  - !include prod/frontend.yml
+  - !include prod/nexus.yml
+  - !include prod/openvpn.yml
+  - !include prod/postgres.yml
+  - !include prod/salt.yml
+  - !include prod/user_database.yml
+
+- !include entitlements.yml

@@ -20,12 +20,6 @@ $ docker exec -it ee_demos_ansible_keg $demo_name
 {"account":"keg","username":"kgilpin"}
 ```
 
-## Load the policy
-
-```
-/src# conjur policy load --context api-keys.json --as-group operations Conjurfile 
-```
-
 ## Populate ec2 credentials
 
 Setup the credentials.
@@ -52,10 +46,10 @@ Variable expired
 ## Login as the `ansible` host
 
 ```
-/src# export CONJUR_AUTHN_API_KEY="$(conjur host rotate_api_key -h ee/ansible)"
-/src# export CONJUR_AUTHN_LOGIN=host/ee/ansible
+/src# export CONJUR_AUTHN_API_KEY="$(conjur host rotate_api_key -h ansible.ee)"
+/src# export CONJUR_AUTHN_LOGIN=host/ansible.ee
 /src# conjur authn whoami 
-{"account":"keg","username":"host/ee/ansible"}
+{"account":"keg","username":"host/ansible.ee"}
 /src# conjur variable list -i
 [
   "keg:variable:prod/ansible/v1/host-factory/frontend",

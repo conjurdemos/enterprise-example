@@ -3,7 +3,7 @@ logins = users.keys
 
 users = logins.map do |login|
   user_data = users[login]
-  user = user login, ownerid: api.group('security_admin').roleid, password: "password"
+  user = user login, ownerid: api.group('security_admin').roleid
   (user_data['groups']||[]).each do |gname|
     api.group(gname).add_member user
   end
