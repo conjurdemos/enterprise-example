@@ -2,7 +2,7 @@
 
 mkdir -p tmp
 
-gem install -N policy
+gem install -N conjur-asset-policy
 
 if [ -t 1 ]; then
 	conjur bootstrap
