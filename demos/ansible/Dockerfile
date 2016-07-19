@@ -14,8 +14,8 @@ RUN curl -o summon.tgz -sSL https://github.com/conjurinc/summon/releases/downloa
 RUN tar -xf summon.tgz
 RUN mv summon /usr/local/bin
 
-RUN curl -o summon-conjur.zip -sSL https://github.com/conjurinc/summon-conjur/releases/download/v0.1.4/summon-conjur_v0.1.4_linux-amd64.zip
-RUN unzip summon-conjur.zip
+RUN curl -o summon-conjur.tgz -sSL https://github.com/conjurinc/summon-conjur/releases/download/v0.1.4/summon-conjur_v0.1.4_linux-amd64.tar.gz
+RUN tar -xf summon-conjur.tgz
 RUN mkdir -p /usr/local/lib/summon
 RUN mv summon-conjur /usr/local/lib/summon
 
