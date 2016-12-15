@@ -6,21 +6,15 @@ YouTube video walkthrough (5 minutes):
 
 [![Video Walkthrough (YouTube)](http://img.youtube.com/vi/vpZQNjns0Ks/0.jpg)](http://www.youtube.com/watch?v=vpZQNjns0Ks)
 
-# Running the demo
-
-* Request a Conjur demo appliance at https://demo-factory-conjur.herokuapp.com/request/secrets
-* Once you receive the email, `ssh` to the demo machine using the information provided
-* Clone the repository and load the data:
+# Loading the demo policies
+To run the demo, clone this repository and load the data using the populate script.
 
 ```sh-session
 $ git clone https://github.com/conjurdemos/enterprise-example.git
 $ cd enterprise-example
 $ ./populate.sh
 ```
-
-If the `./populate.sh` script quits with an error `error: "\xC3" from ASCII-8BIT to UTF-8`, simply run it again.
-
-Once the demo data is loaded, you can open the Conjur UI at `http://ec2-your-machine-name.amazonaws.com/ui/`. Your login credentials are `demo / demo`.
+This assumes you have the Conjur CLI installed on your machine, and you've already run `conjur init -h $HOSTNAME` to point the CLI to your Conjur server. The script will also prompt to create a new security admin in which all demo records will be owned by.
 
 # System Components
 
