@@ -1,15 +1,28 @@
+- name: Bootstrap hosts with Python
+  hosts: security_group_enterprise_example_{{ lookup('env','DEMO_NAME') }}
+  gather_facts: no
+  vars:
+    ansible_python_interpreter: '/home/core/bin/python'
+  roles:
+    - defunctzombie.coreos-bootstrap
+
 - name: Configure hosts
   hosts: security_group_enterprise_example_{{ lookup('env','DEMO_NAME') }}
+  vars:
+    ansible_python_interpreter: '/home/core/bin/python'
   tasks:
   - name: Wait for Conjur to be healthy
-    health_check: url=https://{{ ec2_public_dns_name }}/health delay_between_tries=20 max_retries=30
-  
+    uri:
+      url: https://localhost/health
+      status_code: 200
+      validate_certs: no
+    register: result
+    until: result.status == 200
+    retries: 30
+    delay: 10
+
   - name: Fetch the CA certificate
     fetch: src=/etc/conjur.pem dest=/etc/conjur/conjur-{{ lookup('env','DEMO_NAME') }}.pem flat=yes
 
-  - name: Create the Conjur configuration file
-    connection: local
-    template: src=../templates/conjur.conf.j2 dest=/etc/conjur/conjur.conf
-    vars:
-      account:  "{{ lookup('env','DEMO_NAME') }}"
-      hostname: "{{ ec2_public_dns_name }}"
+  - name: Fetch the Conjur config file
+    fetch: src=/etc/conjur/conjur.conf dest=/etc/conjur/conjur.conf flat=yes

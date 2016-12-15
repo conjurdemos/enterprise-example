@@ -11,6 +11,8 @@ admin:
     SSH_PRIVATE_KEY:
   volumes:
     - ./admin:/mnt
+    - ./admin/src:/opt/ee
+    - ./admin/root/etc/ansible:/etc/ansible
 cli:
   build: .
   dockerfile: Dockerfile.cli
