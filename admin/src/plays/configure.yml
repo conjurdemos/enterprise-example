@@ -19,7 +19,7 @@
     register: result
     until: result.status == 200
     retries: 30
-    delay: 10
+    delay: 20
 
   - name: Fetch the CA certificate
     fetch: src=/etc/conjur.pem dest=/etc/conjur/conjur-{{ lookup('env','DEMO_NAME') }}.pem flat=yes
