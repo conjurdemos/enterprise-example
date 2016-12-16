@@ -21,6 +21,10 @@
     retries: 30
     delay: 20
 
+  - name: Wait for the pem file to be copied from container
+    wait_for:
+      path: /etc/conjur.pem
+
   - name: Fetch the CA certificate to admin container
     fetch:
       src: /etc/conjur.pem
