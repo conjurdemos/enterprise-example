@@ -21,8 +21,9 @@
     retries: 30
     delay: 20
 
-  - name: Fetch the CA certificate
-    fetch: src=/etc/conjur.pem dest=/etc/conjur/conjur-{{ lookup('env','DEMO_NAME') }}.pem flat=yes
-
-  - name: Fetch the Conjur config file
-    fetch: src=/etc/conjur/conjur.conf dest=/etc/conjur/conjur.conf flat=yes
+  - name: Fetch the CA certificate to admin container
+    fetch:
+      src: /etc/conjur.pem
+      dest: "/etc/conjur/conjur-{{ lookup('env','DEMO_NAME') }}.pem"
+      flat: yes
+      fail_on_missing: yes

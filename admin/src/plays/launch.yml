@@ -27,7 +27,7 @@
             to_port: 636
             cidr_ip: 0.0.0.0/0
       register: demo_sg
-      
+
     - name: Launch instance for {{ lookup('env','DEMO_NAME') }}
       ec2:
         key_name: "{{ lookup('env','AWS_KEYPAIR_NAME') }}"
@@ -39,48 +39,17 @@
         group_id: "{{demo_sg.group_id}}"
         user_data: |
           #!/bin/bash -ex
-          
+
           cat << CONFIGURE | docker exec -i conjur-appliance bash
           #!/bin/bash -ex
-          
+
           openssl dhparam 256 > /etc/ssl/dhparam.pem
           evoke configure master -h $(curl -s http://169.254.169.254/latest/meta-data/public-hostname) -p {{ admin_password }} {{ lookup('env','DEMO_NAME') }} 2>&1 > /var/log/evoke.log
           CONFIGURE
-          
+
           docker cp conjur-appliance:/opt/conjur/etc/ssl/ca.pem /etc/conjur.pem
-          
-          cat << CONJUR_UI > /etc/init/conjur-ui.conf
-          description "Conjur UI"
-          author "Conjur, Inc."
-          start on filesystem and started docker
-          stop on runlevel [!2345]
-          respawn
-          
-          pre-start script
-            /usr/bin/docker pull conjurinc/conjur-ui
-            mkdir -p /etc/conjur-ui
-            /usr/bin/openssl dhparam 256 > /etc/conjur-ui/dhparam.pem
-          end script
-          
-          script
-            /usr/bin/docker run \
-              -p 8443:443 \
-              --link conjur-appliance:conjur \
-              -e DH_PARAM_PEM="$(cat /etc/conjur-ui/dhparam.pem)" \
-              -e CONJUR_APPLIANCE_URL=https://conjur \
-              --name conjur-ui \
-              conjurinc/conjur-ui
-          end script
-          
-          post-stop script
-            sleep 2
-            /usr/bin/docker rm conjur-ui
-          end script
-          CONJUR_UI
-          
-          service conjur-ui start
       register: ec2
-      
+
     - name: Wait for SSH to come up
       wait_for: host={{ item.public_dns_name }} port=22 delay=20 timeout=300 state=started
       with_items: "{{ ec2.instances }}"
