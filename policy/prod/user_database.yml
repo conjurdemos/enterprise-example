@@ -2,45 +2,30 @@
 - !policy 
   id: user-database/v1
   annotations:
-    description: Manages permissions within the user database
+    description: A PostgreSQL database which stores user data.
   body:
     - &variables
       - !variable
-        id: postgres/master_user_name
-        annotations:
-          description: Name of the master user for the PostgreSQL database
+        id: url
       - !variable
-        id: postgres/master_user_password
+        id: username
+      - !variable
+        id: password
         annotations:
-          description: Password of the master user for the PostgreSQL database
           expiration: P1D
-      - !variable
-        id: postgres/database_name
-        annotations:
-          description: Name of the database to connect to
-      - !variable
-        id: postgres/database_url
-        annotations:
-          description: URL of the database to connect to
-          
-    - !group
-      id: secret-managers
-      annotations:
-        description: Members are able to update the value of all secrets within the policy
 
     - !layer
       annotations:
-        description: Hosts in this layer can fetch all 'user-database/v1' variables
-        
+        description: Hosts which run the user-database replicated cluster.
+
+    - !group
+      id: secrets-users
+      annotations:
+        description: Members are able to fetch the value of all secrets within the policy
+
     - !permit
-      role: !group secret-managers
+      role: !group secrets-users
       privilege:
         - read
         - execute 
-        - update
-      resource: *variables
-
-    - !permit
-      role: !layer
-      privilege: [ read, execute ]
       resource: *variables

@@ -1,9 +1,0 @@
----
-- !policy 
-  id: nexus/v1
-  annotations:
-    description: Manages permissions within Repository Manager hosts
-  body:
-    - !layer
-      annotations:
-        description: Reserved for Repository Manager hosts

@@ -1,0 +1,35 @@
+- !policy
+  id: analytics-db
+  annotations:
+    description: Manages permissions on the analytics data warehouse.
+  body:
+  - &variables
+    - !variable
+      id: redshift/master_user_name
+      annotations:
+        description: Name of the master user for the Redshift cluster
+    - !variable
+      id: redshift/master_user_password
+      annotations:
+        description: Password of the master user for the Redshift cluster
+    - !variable
+      id: redshift/database_name
+      annotations:
+        description: Name of the database to connect to
+    - !variable
+      id: redshift/database_url
+      annotations:
+        description: URL of the database to connect to
+
+  - !group
+    id: secrets-users
+    annotations:
+      description: Members are able to fetch all secrets in this policy.
+
+  - !permit
+    role: !group secrets-users
+    privilege:
+      - read
+      - execute 
+    resource: *variables
+

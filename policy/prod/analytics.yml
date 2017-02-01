@@ -4,32 +4,9 @@
   annotations:
     description: Manages permissions within the data analysis webservice
   body:
-    - &variables
-      - !variable
-        id: redshift/master_user_name
-        annotations:
-          description: Name of the master user for the Redshift cluster
-      - !variable
-        id: redshift/master_user_password
-        annotations:
-          description: Password of the master user for the Redshift cluster
-      - !variable
-        id: redshift/database_name
-        annotations:
-          description: Name of the database to connect to
-      - !variable
-        id: redshift/database_url
-        annotations:
-          description: URL of the database to connect to
-
     - !webservice
       annotations:
         description: HTTP traffic is controlled from permissions on this webservice
-
-    - !group
-      id: secret-managers
-      annotations:
-        description: Members are able to update the value of all secrets within the policy
 
     - !layer
       annotations:
@@ -39,19 +16,6 @@
       id: data-producers
       annotations:
         description: Hosts which produce analytical data
-
-    - !permit
-      role: !group secret-managers
-      privilege:
-        - read
-        - execute 
-        - update
-      resource: *variables
-
-    - !permit
-      role: !layer
-      privilege: [ read, execute ]
-      resource: *variables
 
     - !permit
       role: !layer

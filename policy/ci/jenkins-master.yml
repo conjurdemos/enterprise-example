@@ -1,0 +1,11 @@
+- !policy
+  id: master
+  body:
+  - !layer
+    annotations:
+      description: Jenkins masters will be added to this layer
+      
+  - !host-factory
+    annotations:
+      description: Host factory to create Jenkins masters
+    layers: [ !layer ]

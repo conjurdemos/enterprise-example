@@ -75,10 +75,13 @@
     record: !layer prod/analytics/v1
     role_name: use_host
   - !automatic-role
-    record: !layer prod/admin-ui/v1
+    record: !layer prod/frontend/v1
     role_name: use_host
   - !automatic-role
-    record: !layer prod/postgres/v1
+    record: !layer prod/inventory/v1
+    role_name: use_host
+  - !automatic-role
+    record: !layer prod/admin-ui/v1
     role_name: use_host
   - !automatic-role
     record: !layer prod/user-database/v1
@@ -114,19 +117,7 @@
   
 - !grant
   role: !automatic-role
-    record: !layer prod/nexus/v1
-    role_name: admin_host
-  member: !group operations
-
-- !grant
-  role: !automatic-role
     record: !layer prod/openvpn/v1
-    role_name: admin_host
-  member: !group operations
-
-- !grant
-  role: !automatic-role
-    record: !layer prod/postgres/v1
     role_name: admin_host
   member: !group operations
 
@@ -150,22 +141,40 @@
 
 - !grant
   role: !automatic-role
-    record: !layer ci/jenkins-slaves/v1
+    record: !layer ci/jenkins/v1/executors
     role_name: admin_host
   member: !group ci
 
-# Permit Jenkins to use the authn-tv webservice
-
-- !permit
-  role: !layer ci/jenkins/v1
-  privilege: execute
-  resource: !webservice conjur/authn-tv
-
-
-# Ansible host
-
-- !host ansible.ee
-
 - !grant
-  role: !layer prod/ansible/v1
-  member: !host ansible.ee
+  role: !automatic-role
+    record: !layer ci/jenkins/v1/master
+    role_name: admin_host
+  member: !group ci
+
+# CI jobs
+- !grant
+  roles:
+  - !group ci/ec2/secrets-users
+  - !group ci/chef/secrets-users
+  members:
+  - !host ci/jenkins/frontend/v1
+
+# Production analytics service
+- !grant
+  roles:
+  - !group prod/analytics-db/secrets-users
+  members:
+  - !layer prod/analytics/v1
+
+# Permit the frontend to consume inventory.
+- !grant
+  role: !group prod/inventory/v1/consumers
+  member: !layer prod/frontend/v1
+
+# Permit the inventory application to access its database.
+- !grant
+  roles:
+  - !group prod/inventory-db/secrets-users
+  members:
+  - !layer prod/inventory/v1
+

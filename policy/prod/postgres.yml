@@ -1,9 +1,0 @@
----
-- !policy 
-  id: postgres/v1
-  annotations:
-    description: Manages permissions within PostgreSQL Database instances
-  body:
-    - !layer
-      annotations:
-        description: Reserved for PostgreSQL Database instances

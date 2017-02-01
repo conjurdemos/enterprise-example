@@ -1,0 +1,24 @@
+---
+- !policy 
+  id: inventory/v1
+  annotations:
+    description: Manages permissions for the inventory web service
+  body:
+    - !layer
+
+    - !group managers
+    - !group consumers
+
+    - !webservice
+      annotations:
+        description: HTTP access is controlled from permissions on this webservice
+
+    - !permit
+      role: !group managers
+      privilege: [ add_item, remove_item ]
+      resource: !webservice
+
+    - !permit
+      role: !group consumers
+      privilege: [ remove_item ]
+      resource: !webservice

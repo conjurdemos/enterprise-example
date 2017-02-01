@@ -1,0 +1,24 @@
+- !policy 
+  id: ec2
+  annotations:
+    description: EC2 resources used by CI
+  body:
+    - &variables
+      - !variable
+        id: access_key_id
+      - !variable
+        id: secret_access_key
+      - !variable
+        id: ssh_key_name
+      - !variable
+        id: ssh_key
+
+    - !group 
+      id: secrets-users
+      annotations:
+        description: Members are able to access the secrets in this policy.
+
+    - !permit
+      role: !group secrets-users
+      privilege: [ read, execute ]
+      resources: *variables

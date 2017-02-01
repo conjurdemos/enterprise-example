@@ -1,0 +1,22 @@
+- !policy 
+  id: inventory-db
+  annotations:
+    description: Manages permissions for the inventory database
+  body:
+    - &variables
+      - !variable url
+      - !variable username
+      - !variable
+        id: password
+        annotations:
+          description: Database authentication password, corresponding to the url and username variables.
+
+    - !group
+      id: secrets-users
+      annotations:
+        description: Members are able to access the secrets in this policy.
+
+    - !permit
+      role: !group secrets-users
+      privilege: [ read, execute ]
+      resources: *variables
