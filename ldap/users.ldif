@@ -656,5 +656,3 @@ homeDirectory: /home/ricky.martin
 objectClass: posixAccount
 objectClass: top
 gidNumber: 10
-
-

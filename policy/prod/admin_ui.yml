@@ -7,8 +7,14 @@
     - &variables
       - !variable
         id: ssl/private_key
+        mime_type: application/x-pem-file
         annotations:
           description: Private key for communication over SSL
+      - !variable
+        id: ssl/certificate
+        mime_type: application/x-x509-ca-cert
+        annotations:
+          description: Certificate for communication over SSL
         
     - !group
       id: secret-managers

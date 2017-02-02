@@ -1,202 +1,449 @@
----
-kyle.wheeler:
-  groups:
-  - field-admin
-marin.dubois:
-  groups:
-  - field-admin
-carol.rodriquez:
-  groups:
-  - field
-karen.wood:
-  groups:
-  - field
-caroline.mccoy:
-  groups:
-  - field
-wayne.walker:
-  groups:
-  - developers-admin
-constance.bourgeois:
-  groups:
-  - developers-admin
-noelie.garnier:
-  groups:
-  - developers-admin
-faiz.rooker:
-  groups:
-  - developers
-soledad.reyes:
-  groups:
-  - developers
-sofia.tikkanen:
-  groups:
-  - developers
-alfredo.coleman:
-  groups:
-  - developers
-gabin.dupont:
-  groups:
-  - developers
-belen.cano:
-  groups:
-  - developers
-emmi.korpela:
-  groups:
-  - developers
-annie.diaz:
-  groups:
-  - developers
-ted.holland:
-  groups:
-  - developers
-jimmy.knight:
-  groups:
-  - developers
-alberto.morgan:
-  groups:
-  - developers
-benjamin.garnier:
-  groups:
-  - developers
-lotta.aho:
-  groups:
-  - developers
-amber.fitzgerald:
-  groups:
-  - researchers-admin
-frederick.curtis:
-  groups:
-  - researchers-admin
-brian.scott:
-  groups:
-  - researchers-admin
-paula.guerrero:
-  groups:
-  - researchers
-jalila.eerland:
-  groups:
-  - researchers
-alicia.montgomery:
-  groups:
-  - researchers
-renatus.broersma:
-  groups:
-  - researchers
-elsa.takala:
-  groups:
-  - researchers
-elena.montero:
-  groups:
-  - researchers
-vicky.johnson:
-  groups:
-  - researchers
-adele.dupuis:
-  groups:
-  - researchers
-maria.pastor:
-  groups:
-  - researchers
-dustin.bailey:
-  groups:
-  - researchers
-steve.peterson:
-  groups:
-  - qa-admin
-rosie.pearson:
-  groups:
-  - qa-admin
-emilia.calvo:
-  groups:
-  - qa
-rafael.pena:
-  groups:
-  - qa
-mia.caldwell:
-  groups:
-  - qa
-encarnacion.lorenzo:
-  groups:
-  - qa
-konsta.lampi:
-  groups:
-  - qa
-jamie.martin:
-  groups:
-  - qa
-manuel.flores:
-  groups:
-  - qa
-alex.mills:
-  groups:
-  - qa
-meline.lopez:
-  groups:
-  - operations-admin
-hector.jackson:
-  groups:
-  - operations-admin
-anton.honkala:
-  groups:
-  - operations-admin
-isabel.hidalgo:
-  groups:
-  - operations
-alvin.bennett:
-  groups:
-  - operations
-calvin.castillo:
-  groups:
-  - operations
-aada.heikkila:
-  groups:
-  - operations
-sam.davies:
-  groups:
-  - operations
-caitlin.nichols:
-  groups:
-  - operations
-sara.tucker:
-  groups:
-  - operations
-travis.owens:
-  groups:
-  - operations
-lis.houwer:
-  groups:
-  - operations
-mike.thomas:
-  groups:
-  - operations
-raquel.caballero:
-  groups:
-  - operations
-ricky.martin:
-  groups:
-  - operations
-rasmus.kauppi:
-  groups:
-  - ci-admin
-katarina.meij:
-  groups:
-  - ci-admin
-mindy.fredricks:
-  groups:
-  - ci
-dave.bartell:
-  groups:
-  - ci
-carlos.vicente:
-  groups:
-  - ci
-jill.blair:
-  groups:
-  - ci
-russ.reed:
-  groups:
-  - ci
-jason.knight:
-  groups:
-  - ci
+- !user
+  id: kyle.wheeler
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: marin.dubois
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: carol.rodriquez
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: karen.wood
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: caroline.mccoy
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: wayne.walker
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: constance.bourgeois
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: noelie.garnier
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: faiz.rooker
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: soledad.reyes
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: sofia.tikkanen
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: alfredo.coleman
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: gabin.dupont
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: belen.cano
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: emmi.korpela
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: annie.diaz
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: ted.holland
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: jimmy.knight
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: alberto.morgan
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: benjamin.garnier
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: lotta.aho
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: amber.fitzgerald
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: frederick.curtis
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: brian.scott
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: paula.guerrero
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: jalila.eerland
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: alicia.montgomery
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: renatus.broersma
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: elsa.takala
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: elena.montero
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: vicky.johnson
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: adele.dupuis
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: maria.pastor
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: dustin.bailey
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: steve.peterson
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: rosie.pearson
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: emilia.calvo
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: rafael.pena
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: mia.caldwell
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: encarnacion.lorenzo
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: konsta.lampi
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: jamie.martin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: manuel.flores
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: alex.mills
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: meline.lopez
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: hector.jackson
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: anton.honkala
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: isabel.hidalgo
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: alvin.bennett
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: calvin.castillo
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: aada.heikkila
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: sam.davies
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: caitlin.nichols
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: sara.tucker
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: travis.owens
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: lis.houwer
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: mike.thomas
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: raquel.caballero
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: ricky.martin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: rasmus.kauppi
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: katarina.meij
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: mindy.fredricks
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: dave.bartell
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: carlos.vicente
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: jill.blair
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: russ.reed
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !user
+  id: jason.knight
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !grant
+  role: !group field-admin
+  members:
+  - !user kyle.wheeler
+  - !user marin.dubois  
+
+- !grant
+  role: !group field
+  members:
+  - !user carol.rodriquez
+  - !user karen.wood
+  - !user caroline.mccoy  
+
+- !grant
+  role: !group developers-admin
+  members:
+  - !user wayne.walker
+  - !user constance.bourgeois
+  - !user noelie.garnier  
+
+- !grant
+  role: !group developers
+  members:
+  - !user faiz.rooker
+  - !user soledad.reyes
+  - !user sofia.tikkanen
+  - !user alfredo.coleman
+  - !user gabin.dupont
+  - !user belen.cano
+  - !user emmi.korpela
+  - !user annie.diaz
+  - !user ted.holland
+  - !user jimmy.knight
+  - !user alberto.morgan
+  - !user benjamin.garnier
+  - !user lotta.aho  
+
+- !grant
+  role: !group researchers-admin
+  members:
+  - !user amber.fitzgerald
+  - !user frederick.curtis
+  - !user brian.scott  
+
+- !grant
+  role: !group researchers
+  members:
+  - !user paula.guerrero
+  - !user jalila.eerland
+  - !user alicia.montgomery
+  - !user renatus.broersma
+  - !user elsa.takala
+  - !user elena.montero
+  - !user vicky.johnson
+  - !user adele.dupuis
+  - !user maria.pastor
+  - !user dustin.bailey  
+
+- !grant
+  role: !group qa-admin
+  members:
+  - !user steve.peterson
+  - !user rosie.pearson  
+
+- !grant
+  role: !group qa
+  members:
+  - !user emilia.calvo
+  - !user rafael.pena
+  - !user mia.caldwell
+  - !user encarnacion.lorenzo
+  - !user konsta.lampi
+  - !user jamie.martin
+  - !user manuel.flores
+  - !user alex.mills  
+
+- !grant
+  role: !group operations-admin
+  members:
+  - !user meline.lopez
+  - !user hector.jackson
+  - !user anton.honkala  
+
+- !grant
+  role: !group operations
+  members:
+  - !user isabel.hidalgo
+  - !user alvin.bennett
+  - !user calvin.castillo
+  - !user aada.heikkila
+  - !user sam.davies
+  - !user caitlin.nichols
+  - !user sara.tucker
+  - !user travis.owens
+  - !user lis.houwer
+  - !user mike.thomas
+  - !user raquel.caballero
+  - !user ricky.martin  
+
+- !grant
+  role: !group ci-admin
+  members:
+  - !user rasmus.kauppi
+  - !user katarina.meij  
+
+- !grant
+  role: !group ci
+  members:
+  - !user mindy.fredricks
+  - !user dave.bartell
+  - !user carlos.vicente
+  - !user jill.blair
+  - !user russ.reed
+  - !user jason.knight  

@@ -1,0 +1,64 @@
+- !group
+  id: employees
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: field-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: field
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: developers-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: developers
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: researchers-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: researchers
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: qa-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: qa
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: operations-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: operations
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: ci-admin
+  annotations:
+    ldap-sync/source: ldaps://active-directory
+
+- !group
+  id: ci
+  annotations:
+    ldap-sync/source: ldaps://active-directory

@@ -1,0 +1,9 @@
+---
+- !policy 
+  id: jenkins/frontend/v1
+  annotations:
+    description: This policy declares secrets (via Conjur variables) which are available to Jenkins jobs located within the frontend Jenkins Folder.
+  body:
+    - !host
+      annotations:
+        description: Host identity for running Jenkins jobs in frontend folder - can access frontend API keys

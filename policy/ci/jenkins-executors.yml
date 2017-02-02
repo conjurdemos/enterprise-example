@@ -1,0 +1,11 @@
+- !policy
+  id: executors
+  body:
+  - !layer
+    annotations:
+      description: Jenkins executors (slaves) will be added to this layer
+      
+  - !host-factory
+    annotations:
+      description: Host factory to create Jenkins executors
+    layers: [ !layer ]

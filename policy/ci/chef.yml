@@ -1,0 +1,18 @@
+- !policy 
+  id: chef
+  annotations:
+    description: Chef resources used by CI
+  body:
+    - &variables
+      - !variable
+        id: private-key
+
+    - !group 
+      id: secrets-users
+      annotations:
+        description: Members are able to access the secrets in this policy.
+
+    - !permit
+      role: !group secrets-users
+      privilege: [ read, execute ]
+      resources: *variables

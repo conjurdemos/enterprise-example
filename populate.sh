@@ -10,11 +10,6 @@ else
 	conjur bootstrap -q
 fi
 
-conjur script execute --context conjur.json --as-group security_admin policy/groups.rb
-conjur script execute --context conjur.json --as-group security_admin policy/users.rb
-
-conjur policy load --context api-keys.json --as-group security_admin policy/Conjurfile
-
-cd generate
-./populate_hosts.rb hosts.json
+cd policy
+conjur policy load --context api-keys.json --as-group security_admin conjur.yml
 cd -

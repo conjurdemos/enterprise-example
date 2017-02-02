@@ -4,7 +4,7 @@
   annotations:
     description: Manages permissions within the front end web application
   body:
-    - &variables
+    - &ssl
       - !variable
         id: ssl/private_key
         mime_type: application/x-pem-file
@@ -17,20 +17,10 @@
         annotations:
           description: Certificate that needs to be rotated
 
-      - !variable
-        id: mongo/username
-        annotations:
-          description: Username to authenticate with an external MongoDB
-
-      - !variable
-        id: mongo/password
-        annotations:
-          description: Password to authenticate with an external MongoDB
-
     - !group
-      id: secret-managers
+      id: certificate-managers
       annotations:
-        description: Members are able to update the value of all secrets within the policy
+        description: Members are able to manage the SSL certificate and key.
 
     - !layer
       annotations:
@@ -40,11 +30,11 @@
       layers: [ !layer ]
 
     - !permit
-      role: !group secret-managers
+      role: !group certificate-managers
       privilege: [ read, execute, update ]
-      resource: *variables
+      resource: *ssl
 
     - !permit
       role: !layer
       privilege: [ read, execute ]
-      resource: *variables
+      resource: *ssl
