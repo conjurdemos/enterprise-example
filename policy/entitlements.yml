@@ -31,7 +31,7 @@
     admin: true
 
 - !grant
-  role: !group operations
+  role: !group developers
   member: !member 
     role: !group developers-admin
     admin: true
