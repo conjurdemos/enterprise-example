@@ -20,7 +20,7 @@ This assumes you have the Conjur CLI installed on your machine, and you've alrea
 
 ## Global organization
 
-The organization groups are loaded from the Conjur DSL script  [groups.rb](https://github.com/conjurdemos/enterprise-example/blob/master/policy/groups.rb). 
+The organization groups are loaded from [policy/groups.yml](./policy/groups.yml). 
 
 Some example groups:
 
@@ -32,19 +32,17 @@ The rest of the groups follow the same pattern, e.g. `developers` and `developer
 
 ## Policies
 
-The [policy](https://github.com/conjurdemos/enterprise-example/tree/master/policy) folder contains sub-folders, for example `ci-admin`, `developers-admin`. Each of these folders contains Conjur policies that are owned by the group corresponding to the folder name. 
+The [policy](./policy) folder contains sub-folders, for example `ci`, `prod`. Each of these folders contains Conjur policies that are applied to the corresponding environment.
 
-For example, the [ci-admin](https://github.com/conjurdemos/enterprise-example/tree/master/policy/ci-admin) folder contains policies which govern the Jenkins system. The [jenkins](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/jenkins.rb) policy governs the Conjur layer which holds the Jenkins master and slave machines. [Jenkins team](https://github.com/conjurdemos/enterprise-example/blob/master/policy/ci-admin/team-a.rb) policies declare secrets (via Conjur variables) which are available to Jenkins jobs located within the corresponding Jenkins Folder. This integration is performed by the Conjur plugin for Jenkins, which is not part of this repository.
+For example, the [policy/ci](./policy/ci) folder contains policies which govern a Jenkins-based CI system. 
 
 ## Entitlements
 
-The entitlements DSL script assigns membership in application policy roles to groups from the global organization.
+The entitlements YAML assigns membership in application policy roles to groups from the global organization.
 
-For example, when a declares a Layer, it typically also declares two user groups: `admins` and `users`. The `admins` have admin SSH access to the machines in the layer. The `users` have non-admin SSH access.
+For example, each Layer automatically defines SSH roles `admin_host` and `use_host`. An "entitlement" grants membership in one of these roles to a group (or user) from the global organization. 
 
-An "entitlement" grants membership in one of these policy-specific groups to a user or group from the global organization. For example, the `hr` group is added to the group `v2/hr/admins`, and as a result the `hr` team can SSH admin the machines in the `v2/hr` layer.
-
-# LDAP
+# LDAP (WIP)
 
 The global organization groups and users can be  provided by an LDAP directory. Conjur can be configured to sync this directory into Conjur Users and Groups. Conjur can also be configured to authenticate users via LDAP password. The combination of these two features makes Conjur an extension of the enterprise IAM system into infrastructure management.
 
