@@ -2,31 +2,22 @@
 - !policy 
   id: analytics/v1
   annotations:
-    description: Manages permissions within the data analysis webservice
+    description: Manages permissions for the data analysis webservice.
   body:
     - !webservice
       annotations:
-        description: HTTP traffic is controlled from permissions on this webservice
+        description: HTTP requests to the analytics service are authorized by permissions on this object.
 
     - !layer
       annotations:
-        description: Hosts in this layer can fetch all 'analytics/v1' variables
+        description: Hosts which run the analytics/v1 service.
 
-    - !layer
+    - !group
       id: data-producers
       annotations:
-        description: Hosts which produce analytical data
+        description: Roles which are allowed to input analytical data
 
     - !permit
-      role: !layer
-      privilege:
-        - post
-        - get
-        - put
-        - delete
-      resource: !webservice
-      
-    - !permit
-      role: !layer data-producers
+      role: !group data-producers
       privilege: put
       resource: !webservice

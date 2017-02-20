@@ -49,7 +49,7 @@
     admin: true
 
 - !grant
-  role: !layer prod/analytics/v1/data-producers
+  role: !group prod/analytics/v1/data-producers
   member: !layer prod/frontend/v1
 
 # SSH entitlements
