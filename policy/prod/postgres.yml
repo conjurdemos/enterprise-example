@@ -1,0 +1,18 @@
+---
+- !policy 
+  id: postgres/v1
+  annotations:
+    description: Manages permissions within PostgreSQL Database instances
+  body:
+    - !variable url
+    - !variable username
+    - !variable
+      id: password
+      annotations:
+        rotation/rotator: postgresql/password
+        rotation/ttl: P1D 
+        rotation/postgresql/password/length: "32"
+
+    - !layer
+      annotations:
+        description: Reserved for PostgreSQL Database instances

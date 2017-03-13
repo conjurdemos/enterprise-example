@@ -1,0 +1,4 @@
+---
+- !grant
+  role: !group developers-admin
+  member: !user wayne.walker

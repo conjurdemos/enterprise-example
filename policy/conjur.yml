@@ -27,6 +27,7 @@
   - !include prod/openvpn.yml
   - !include prod/salt.yml
   - !include prod/user_database.yml
+  - !include prod/postgres.yml
 
 - !include hosts.yml
 - !include entitlements.yml

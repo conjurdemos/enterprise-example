@@ -1,0 +1,31 @@
+---
+
+conjur:
+  image: conjurinc/appliance
+  security_opt:
+    - seccomp:unconfined
+  ports:
+    - 443:443
+    - 636:636
+  links:
+    - postgres
+
+postgres:
+  image: postgres:9.6
+  environment: 
+    - POSTGRES_PASSWORD=secret
+
+bastion:
+  build: .
+  hostname: bastion-itp-myorg-com
+  ports:
+    - 22
+  links:
+    - userdb
+    - conjur
+
+userdb:
+  build: .
+  hostname: userdb-01-itp-myorg-com
+  links:
+    - conjur
